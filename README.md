@@ -1,5 +1,6 @@
-# JalSuraksha: Collaborative Filtering and Latent Topic Analysis for AI-Driven Groundwater Intelligence and Water Resource Decision Support
+# HydroRaksh aka JalSuraksha: Collaborative Filtering and Latent Topic Analysis for AI-Driven Groundwater Intelligence and Water Resource Decision Support
 
+<<<<<<< HEAD
 [![CI Status](https://img.shields.io/badge/CI-Passing%20(69%2F69%20Tests)-248653.svg)](file:///d:/projects/JalSuraksha/tests/unit)
 [![Next.js](https://img.shields.io/badge/Next.js-15.1.7-12345A.svg)](file:///d:/projects/JalSuraksha/apps/web)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.2-245B8F.svg)](file:///d:/projects/JalSuraksha/apps/api)
@@ -24,6 +25,8 @@
 > JalSuraksha is an independent geospatial artificial intelligence, data engineering, and hydrological decision-support platform engineered by Mohd Shami. Inspired by the clean, accessible, and trustworthy aesthetic of open public-information portals (such as India.gov.in), JalSuraksha is an independent research platform and is **not** an official Government of India or state department website. All hydrological telemetry and meteorological observations are compiled from publicly accessible records published by the Central Ground Water Board (CGWB), India Meteorological Department (IMD), India-WRIS, and Central Water Commission (CWC).
 
 ---
+=======
+>>>>>>> 42edfdea855535959f0ef31222d23e99ad12794c
 
 ## Abstract
 
