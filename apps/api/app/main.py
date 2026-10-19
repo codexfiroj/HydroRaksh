@@ -1,5 +1,13 @@
+import sys
+import os
 import logging
 from contextlib import asynccontextmanager
+
+# Ensure repository root is on sys.path for services.ml imports
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
@@ -13,6 +21,7 @@ from app.api.v1.citizen_field import router as citizen_field_router
 from app.api.v1.ai_assistant import router as ai_router
 from app.api.v1.reports_public import router as reports_public_router
 from app.api.v1.jalrakshak import router as jalrakshak_router
+from app.api.v1.pan_india import router as pan_india_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("jalsuraksha")
@@ -49,6 +58,7 @@ app.add_middleware(
 # Mount Routers
 app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(admin_router, prefix=settings.API_V1_STR)
+app.include_router(pan_india_router, prefix=settings.API_V1_STR)
 app.include_router(dashboard_router, prefix=settings.API_V1_STR)
 app.include_router(modules_router, prefix=settings.API_V1_STR)
 app.include_router(ws_router, prefix=settings.API_V1_STR)
@@ -76,6 +86,16 @@ def healthcheck():
         "environment": settings.ENVIRONMENT,
         "feature_simulator_mode": settings.FEATURE_SIMULATOR_MODE,
         "database": "connected",
+        "pan_india_support": {
+            "states_and_uts": 36,
+            "registry": "active",
+            "coverage": "Pan-India"
+        },
+        "ml_services": {
+            "forecaster": "active",
+            "hg_cf_recommendations": "active",
+            "lda_topic_model": "active"
+        },
         "version": "1.0.0"
     }
 

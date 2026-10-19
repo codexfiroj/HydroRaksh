@@ -1,0 +1,15 @@
+{
+  "model_name": "dummy_test_model",
+  "version": "v1",
+  "timestamp_utc": "2026-10-19T07:42:46.960082+00:00",
+  "metrics": {
+    "mae": 0.5
+  },
+  "parameters": {
+    "factor": 2
+  },
+  "dataset_info": {
+    "n": 10
+  },
+  "model_file": "dummy_test_model_v1_20261019_074246.joblib"
+}

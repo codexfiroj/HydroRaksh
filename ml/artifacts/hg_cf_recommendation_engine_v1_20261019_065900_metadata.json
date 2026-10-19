@@ -1,0 +1,24 @@
+{
+  "model_name": "hg_cf_recommendation_engine",
+  "version": "v1",
+  "timestamp_utc": "2026-10-19T06:59:00.111193+00:00",
+  "metrics": {
+    "model": "Hydro-Geological Context-Aware Collaborative Filtering (HG-CF)",
+    "evaluation_type": "Held-Out Geographic Unit Validation",
+    "test_samples": 118,
+    "precision_at_k": 0.197,
+    "ndcg_at_k": 0.437,
+    "mae": 0.123,
+    "k": 5,
+    "beat_baseline": false
+  },
+  "parameters": {
+    "n_factors": 6,
+    "n_iterations": 25,
+    "reg_laplacian": 0.05
+  },
+  "dataset_info": {
+    "districts_count": 116
+  },
+  "model_file": "hg_cf_recommendation_engine_v1_20261019_065900.joblib"
+}

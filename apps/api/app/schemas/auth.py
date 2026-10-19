@@ -30,9 +30,9 @@ class RegisterRequest(UserBase):
 
 class UserResponse(UserBase):
     id: str
-    is_active: bool
-    is_verified: bool
-    created_at: datetime
+    is_active: bool = True
+    is_verified: bool = False
+    created_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
@@ -42,3 +42,12 @@ class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+
+class AuthStatusResponse(BaseModel):
+    auth_enabled: bool
+    auth_storage_mode: str
+    anonymous_allowed: bool = True
+    registration_open: bool = True
+    active_storage: str
+

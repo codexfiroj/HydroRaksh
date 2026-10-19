@@ -2,47 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root,
+[data-theme="light"],
+.light {
+  color-scheme: light;
   --font-inter: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-playfair: "Playfair Display", "Merriweather", "Cinzel", Georgia, serif;
   
-  /* Dark-first defaults (RGB triplet format for Tailwind alpha channel support) */
-  --bg-canvas-rgb: 15 23 42;       /* #0f172a slate-900 */
-  --bg-card-rgb: 30 41 59;         /* #1e293b slate-800 */
-  --bg-elevated-rgb: 39 53 73;     /* #273549 slate-750 */
-  --bg-subtle-rgb: 24 34 52;       /* #182234 */
-  --text-primary-rgb: 248 250 252; /* #f8fafc slate-50 */
-  --text-muted-rgb: 148 163 184;   /* #94a3b8 slate-400 */
-  --text-faint-rgb: 100 116 139;   /* #64748b slate-500 */
-  --border-color-rgb: 51 65 85;    /* #334155 slate-700 */
+  /* India.gov.in-Inspired Light Theme */
+  --color-primary: #12345A;
+  --color-secondary: #245B8F;
+  --color-accent-saffron: #E88B2A;
+  --color-accent-green: #248653;
+  --color-background: #F5F7FA;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F0F4F8;
+  --color-text: #202B38;
+  --color-text-muted: #586779;
+  --color-border: #DCE3EA;
 
-  --bg-canvas: #0f172a;
-  --bg-card: #1e293b;
-  --bg-elevated: #273549;
-  --text-primary: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #334155;
-  --accent-saffron: #f59e0b;
+  --bg-canvas-rgb: 245 247 250;    /* #F5F7FA */
+  --bg-card-rgb: 255 255 255;      /* #FFFFFF pure white surface */
+  --bg-elevated-rgb: 240 244 248;  /* #F0F4F8 */
+  --bg-subtle-rgb: 233 236 239;    /* #E9ECEF */
+  --text-primary-rgb: 32 43 56;    /* #202B38 deep navy-charcoal */
+  --text-muted-rgb: 88 103 121;    /* #586779 */
+  --text-faint-rgb: 131 146 165;   /* #8392A5 */
+  --border-color-rgb: 220 227 234; /* #DCE3EA */
+
+  --bg-canvas: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F0F4F8;
+  --bg-subtle: #E9ECEF;
+  --text-primary: #202B38;
+  --text-muted: #586779;
+  --text-faint: #8392A5;
+  --border-color: #DCE3EA;
+  --accent-saffron: #E88B2A;
+  --accent-green: #248653;
 }
 
-.light {
-  /* Crisp, high-contrast light theme */
-  --bg-canvas-rgb: 248 250 252;    /* #f8fafc slate-50 */
-  --bg-card-rgb: 255 255 255;      /* #ffffff pure white */
-  --bg-elevated-rgb: 241 245 249;  /* #f1f5f9 slate-100 */
-  --bg-subtle-rgb: 226 232 240;    /* #e2e8f0 slate-200 */
-  --text-primary-rgb: 15 23 42;    /* #0f172a slate-900 */
-  --text-muted-rgb: 71 85 105;     /* #475569 slate-600 */
-  --text-faint-rgb: 100 116 139;   /* #64748b slate-500 */
-  --border-color-rgb: 203 213 225; /* #cbd5e1 slate-300 */
+[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+  /* India.gov.in-Inspired Dark Theme */
+  --color-primary: #80B8F0;
+  --color-secondary: #9CCBFA;
+  --color-accent-saffron: #F2A65A;
+  --color-accent-green: #69C58A;
+  --color-background: #111820;
+  --color-surface: #1B2632;
+  --color-surface-elevated: #243342;
+  --color-text: #F0F4F8;
+  --color-text-muted: #B2C0CE;
+  --color-border: #344353;
 
-  --bg-canvas: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-elevated: #f1f5f9;
-  --text-primary: #0f172a;
-  --text-muted: #475569;
-  --border-color: #cbd5e1;
-  --accent-saffron: #d97706;
+  --bg-canvas-rgb: 17 24 32;       /* #111820 deep navy-black canvas */
+  --bg-card-rgb: 27 38 50;         /* #1B2632 card surface */
+  --bg-elevated-rgb: 36 51 66;     /* #243342 elevated surface */
+  --bg-subtle-rgb: 22 32 42;       /* #16202A */
+  --text-primary-rgb: 240 244 248; /* #F0F4F8 */
+  --text-muted-rgb: 178 192 206;   /* #B2C0CE */
+  --text-faint-rgb: 108 125 143;   /* #6C7D8F */
+  --border-color-rgb: 52 67 83;    /* #344353 */
+
+  --bg-canvas: #111820;
+  --bg-card: #1B2632;
+  --bg-elevated: #243342;
+  --bg-subtle: #16202A;
+  --text-primary: #F0F4F8;
+  --text-muted: #B2C0CE;
+  --text-faint: #6C7D8F;
+  --border-color: #344353;
+  --accent-saffron: #F2A65A;
+  --accent-green: #69C58A;
 }
 
 .light .district-shape {

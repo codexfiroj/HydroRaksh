@@ -78,10 +78,34 @@ def train_and_persist_models():
     metrics = forecaster.train_and_evaluate(train_df, test_df)
     logger.info(f"Training completed. Evaluated metrics: {metrics}")
 
-    # Persist model
+    # Persist Forecaster model
     model_path = os.path.abspath("services/ml/models/saved/groundwater_forecaster.joblib")
     forecaster.save(model_path)
     logger.info(f"Model saved to {model_path}")
+
+    # Train and evaluate HG-CF (Hydro-Geological Collaborative Filtering)
+    from app.core.geography_registry import PAN_INDIA_DISTRICTS
+    from services.ml.models.hg_cf import HydroGeologicalCollaborativeFiltering
+    from services.ml.models.topic_model import HydrologicalTopicModel
+    import joblib
+
+    logger.info("Fitting and evaluating Hydro-Geological Collaborative Filtering (HG-CF)...")
+    hg_cf = HydroGeologicalCollaborativeFiltering(n_factors=8, alpha_laplacian=0.15, n_iterations=45)
+    hg_cf.fit(PAN_INDIA_DISTRICTS)
+    hg_cf_eval = hg_cf.evaluate_model(test_ratio=0.25, k=5)
+    logger.info(f"HG-CF Evaluation: {hg_cf_eval}")
+
+    hg_cf_path = os.path.abspath("services/ml/models/saved/hg_cf_model.joblib")
+    joblib.dump(hg_cf, hg_cf_path)
+    logger.info(f"HG-CF model saved to {hg_cf_path}")
+
+    # Fit and evaluate LDA Topic Model
+    logger.info("Fitting Hydrological Topic Model (LDA) on unstructured literature...")
+    lda_model = HydrologicalTopicModel(n_topics=6)
+    lda_model.fit()
+    lda_path = os.path.abspath("services/ml/models/saved/lda_topic_model.joblib")
+    joblib.dump(lda_model, lda_path)
+    logger.info(f"LDA Topic Model saved to {lda_path}")
 
     # Run inference and persist predictions & risk scores in database
     db = SessionLocal()
@@ -113,7 +137,11 @@ def train_and_persist_models():
     db.commit()
     db.close()
     logger.info("Persisted updated ML predictions and composite risk scores into database.")
-    return metrics
+    return {
+        "forecaster_metrics": metrics,
+        "hg_cf_evaluation": hg_cf_eval,
+        "lda_topics_count": lda_model.n_topics
+    }
 
 
 if __name__ == "__main__":

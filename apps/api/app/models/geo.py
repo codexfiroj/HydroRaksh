@@ -11,8 +11,9 @@ class Region(Base, TimestampMixin):
 
     code = Column(String(50), unique=True, index=True, nullable=False)
     name = Column(String(100), index=True, nullable=False)
-    type = Column(String(20), default="District")  # State, District, Block
+    type = Column(String(20), default="District")  # State, District, Block, Tehsil
     state = Column(String(100), index=True, nullable=False)
+    state_code = Column(String(10), index=True, nullable=True)  # e.g. IN-UP, IN-MH
     district = Column(String(100), index=True, nullable=True)
     block = Column(String(100), index=True, nullable=True)
     latitude = Column(Float, nullable=False)
@@ -20,9 +21,18 @@ class Region(Base, TimestampMixin):
     area_km2 = Column(Float, nullable=True)
     population = Column(Integer, nullable=True)
     geom_geojson = Column(Text, nullable=True)  # Store Polygon / MultiPolygon GeoJSON
+    admin_term = Column(String(50), nullable=True)  # Tehsil, Taluka, Mandal, CD Block
+    hydrogeology_terrain = Column(String(100), nullable=True)
+    aquifer_type = Column(String(100), nullable=True)
+    soil_type = Column(String(100), nullable=True)
+    avg_rainfall_mm = Column(Float, nullable=True)
+    stage_extraction_pct = Column(Float, nullable=True)
+    cgwb_category = Column(String(50), nullable=True)  # Safe, Semi-Critical, Critical, Over-Exploited, Saline
+    aliases = Column(Text, nullable=True)  # JSON or comma-separated list of historical aliases
 
     stations = relationship("Station", back_populates="region")
     risk_scores = relationship("RiskScore", back_populates="region")
+    observations = relationship("Observation", back_populates="region")
 
 
 class Station(Base, TimestampMixin):

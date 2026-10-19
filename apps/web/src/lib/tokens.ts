@@ -10,42 +10,42 @@ export const tokens = {
   theme: {
     dark: {
       bg: {
-        canvas: "#0f172a",       // Deep Slate-Navy main background
-        card: "#1e293b",         // Step lighter surface for cards & sidebars
-        elevated: "#273549",     // Tooltips, floating menus, modals
-        overlay: "rgba(15, 23, 42, 0.82)", // Glassmorphism backdrop
-        input: "#09101d",        // Recessed inputs
+        canvas: "#111820",       // India.gov.in-inspired dark navy-black canvas
+        card: "#1B2632",         // Card surface
+        elevated: "#243342",     // Elevated modals & tooltips
+        overlay: "rgba(17, 24, 32, 0.88)",
+        input: "#16202A",
       },
       text: {
-        primary: "#f8fafc",      // Slate 50 (high contrast)
-        secondary: "#cbd5e1",    // Slate 300
-        muted: "#94a3b8",        // Slate 400
-        faint: "#64748b",        // Slate 500
+        primary: "#F0F4F8",      // High contrast primary text
+        secondary: "#B2C0CE",    // Secondary text
+        muted: "#B2C0CE",        // Muted text
+        faint: "#6C7D8F",        // Faint text
       },
       border: {
-        subtle: "#243248",
-        default: "#334155",      // Slate 700
-        active: "#f59e0b",       // Saffron accent ring
+        subtle: "#243342",
+        default: "#344353",      // Slate border
+        active: "#F2A65A",       // Saffron accent
       },
     },
     light: {
       bg: {
-        canvas: "#f8fafc",       // Crisp slate-white
-        card: "#ffffff",         // Pure white surfaces
-        elevated: "#f1f5f9",     // Subdued panels
-        overlay: "rgba(248, 250, 252, 0.85)",
-        input: "#f1f5f9",
+        canvas: "#F5F7FA",       // India.gov.in-inspired light canvas
+        card: "#FFFFFF",         // Pure white surface
+        elevated: "#F0F4F8",     // Elevated panels
+        overlay: "rgba(245, 247, 250, 0.90)",
+        input: "#F0F4F8",
       },
       text: {
-        primary: "#0f172a",      // Slate 900
-        secondary: "#334155",    // Slate 700
-        muted: "#64748b",        // Slate 500
-        faint: "#94a3b8",        // Slate 400
+        primary: "#202B38",      // Deep navy-charcoal primary text
+        secondary: "#586779",    // Secondary text
+        muted: "#586779",        // Muted text
+        faint: "#8392A5",        // Faint text
       },
       border: {
-        subtle: "#f1f5f9",
-        default: "#e2e8f0",      // Slate 200
-        active: "#d97706",       // Deep amber accent
+        subtle: "#E9ECEF",
+        default: "#DCE3EA",      // Crisp border
+        active: "#E88B2A",       // Saffron accent
       },
     },
   },

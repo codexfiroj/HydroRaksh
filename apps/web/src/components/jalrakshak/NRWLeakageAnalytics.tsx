@@ -233,8 +233,9 @@ export function NRWLeakageAnalytics({ district }: NRWLeakageAnalyticsProps) {
 
             {currentDMA.leakRisk.includes("High Alert") ? (
               <div className="space-y-2">
-                <p className="text-[11px] text-rose-500 dark:text-rose-400 leading-relaxed">
-                  ⚠️ Pressure dropped by 55% with a sudden flow surge of +240 m³/h. Acoustic signature matches a main conduit burst!
+                <p className="text-[11px] text-rose-500 dark:text-rose-400 leading-relaxed flex items-start gap-1">
+                  <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-rose-500" />
+                  <span>Pressure dropped by 55% with a sudden flow surge of +240 m³/h. Acoustic signature matches a main conduit burst!</span>
                 </p>
                 <button
                   onClick={handleDispatch}

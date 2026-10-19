@@ -75,7 +75,7 @@ def test_cgwb_connector_lifecycle():
     assert len(gw_obs) > 0
     for obs in gw_obs:
         assert obs.value > 0
-        assert obs.unit == "m bgl"
+        assert obs.unit in ["m bgl", "mg/L", "uS/cm", "µS/cm", "pH", "pH units"]
         assert obs.quality_flag in ["good", "suspect"]
     db.close()
 

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { UP_75_WATER_DISTRICTS, DistrictWaterEntity } from "@/data/up-75-districts";
+import { INDIAN_STATES_UTS, getDistrictsForState } from "@/data/india-geography";
 import { AtlasNavbar } from "@/components/atlas/AtlasNavbar";
 import { TimeSliderDock } from "@/components/atlas/TimeSliderDock";
 import { AtlasMap } from "@/components/atlas/AtlasMap";
@@ -12,10 +13,13 @@ import { TrumpCardModal } from "@/components/atlas/TrumpCardModal";
 import { SharePosterModal } from "@/components/atlas/SharePosterModal";
 import { ReportErrorModal } from "@/components/atlas/ReportErrorModal";
 import { JalRakshakSuiteModal } from "@/components/jalrakshak/JalRakshakSuiteModal";
+import { DataFreshnessModal } from "@/components/atlas/DataFreshnessModal";
+import { OwnerProfileModal } from "@/components/atlas/OwnerProfileModal";
 import { ChevronUp } from "lucide-react";
 
 function JalRakshakApp() {
   const [currentYear, setCurrentYear] = useState<number>(2026);
+  const [selectedStateCode, setSelectedStateCode] = useState<string>("UP");
   const [selectedDistrictId, setSelectedDistrictId] = useState<string>("agra");
   const [viewMode, setViewMode] = useState<"water" | "recharge">("water");
   const [showRivers, setShowRivers] = useState<boolean>(true);
@@ -31,6 +35,8 @@ function JalRakshakApp() {
   const [isReportErrorOpen, setIsReportErrorOpen] = useState(false);
   const [isMobileDossierOpen, setIsMobileDossierOpen] = useState(false);
   const [isJalRakshakOpen, setIsJalRakshakOpen] = useState(false);
+  const [isDataFreshnessOpen, setIsDataFreshnessOpen] = useState(false);
+  const [isOwnerModalOpen, setIsOwnerModalOpen] = useState(false);
   const [jalRakshakTab, setJalRakshakTab] = useState<string>("recharge");
 
   const handleOpenJalRakshak = (tab?: string) => {
@@ -38,18 +44,44 @@ function JalRakshakApp() {
     setIsJalRakshakOpen(true);
   };
 
+  const handleSelectState = (stateCode: string) => {
+    setSelectedStateCode(stateCode);
+    const districts = getDistrictsForState(stateCode);
+    if (districts.length > 0) {
+      setSelectedDistrictId(districts[0].id);
+    }
+  };
+
+  const currentDistricts = getDistrictsForState(selectedStateCode);
+  const currentState = INDIAN_STATES_UTS.find((s) => s.code === selectedStateCode) || INDIAN_STATES_UTS[0];
+
+  const selectedDistrict =
+    currentDistricts.find((d) => d.id === selectedDistrictId) ||
+    currentDistricts[0] ||
+    UP_75_WATER_DISTRICTS[0];
+
   // Initialize from URL search parameters on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const yearParam = params.get("year");
+      const stateParam = params.get("state");
       const regionParam = params.get("region");
       const modeParam = params.get("mode");
 
       if (yearParam && !isNaN(Number(yearParam))) {
         setCurrentYear(Number(yearParam));
       }
-      if (regionParam && UP_75_WATER_DISTRICTS.some((d) => d.id === regionParam)) {
+      if (stateParam && INDIAN_STATES_UTS.some((s) => s.code === stateParam.toUpperCase())) {
+        const sc = stateParam.toUpperCase();
+        setSelectedStateCode(sc);
+        const districts = getDistrictsForState(sc);
+        if (regionParam && districts.some((d) => d.id === regionParam)) {
+          setSelectedDistrictId(regionParam);
+        } else if (districts.length > 0) {
+          setSelectedDistrictId(districts[0].id);
+        }
+      } else if (regionParam && UP_75_WATER_DISTRICTS.some((d) => d.id === regionParam)) {
         setSelectedDistrictId(regionParam);
       }
       if (modeParam === "water" || modeParam === "recharge") {
@@ -63,27 +95,49 @@ function JalRakshakApp() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams();
       params.set("year", currentYear.toString());
+      params.set("state", selectedStateCode);
       params.set("region", selectedDistrictId);
       params.set("mode", viewMode);
       const newUrl = `${window.location.pathname}?${params.toString()}`;
       window.history.replaceState(null, "", newUrl);
     }
-  }, [currentYear, selectedDistrictId, viewMode]);
+  }, [currentYear, selectedStateCode, selectedDistrictId, viewMode]);
 
-  // Sync Theme class to <html>
+  // Initialize theme from localStorage or system preference on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const savedTheme = localStorage.getItem("jalsuraksha_theme") as "dark" | "light" | null;
+        if (savedTheme === "light" || savedTheme === "dark") {
+          setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+          setTheme("light");
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
+  // Sync Theme class and data-theme to <html> and persist in localStorage
   useEffect(() => {
     if (typeof document !== "undefined") {
       if (theme === "light") {
         document.documentElement.classList.add("light");
+        document.documentElement.classList.remove("dark");
+        document.documentElement.setAttribute("data-theme", "light");
       } else {
         document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+      try {
+        localStorage.setItem("jalsuraksha_theme", theme);
+      } catch (e) {
+        // ignore
       }
     }
   }, [theme]);
-
-  const selectedDistrict =
-    UP_75_WATER_DISTRICTS.find((d) => d.id === selectedDistrictId) ||
-    UP_75_WATER_DISTRICTS[0];
 
   return (
     <div className="min-h-screen flex flex-col bg-atlas-canvas text-atlas-text overflow-hidden">
@@ -91,6 +145,9 @@ function JalRakshakApp() {
       <AtlasNavbar
         currentYear={currentYear}
         selectedDistrictId={selectedDistrictId}
+        selectedStateCode={selectedStateCode}
+        onSelectState={handleSelectState}
+        onOpenFreshness={() => setIsDataFreshnessOpen(true)}
         onSelectDistrict={(id) => {
           setSelectedDistrictId(id);
           setIsMobileDossierOpen(true);
@@ -104,6 +161,7 @@ function JalRakshakApp() {
         onOpenStatCards={() => setIsStatCardsOpen(true)}
         onOpenPoster={() => setIsPosterOpen(true)}
         onOpenJalRakshak={handleOpenJalRakshak}
+        onOpenOwnerModal={() => setIsOwnerModalOpen(true)}
       />
 
       {/* Main 3-Column Workspace */}
@@ -137,6 +195,9 @@ function JalRakshakApp() {
             showHotspots={showHotspots}
             showIoTSensors={showIoTSensors}
             isColorBlindMode={isColorBlindMode}
+            selectedStateCode={selectedStateCode}
+            districts={currentDistricts}
+            stateName={currentState.name}
           />
         </section>
 
@@ -192,6 +253,7 @@ function JalRakshakApp() {
       <TimeSliderDock
         currentYear={currentYear}
         onYearChange={(yr) => setCurrentYear(yr)}
+        onOpenOwnerModal={() => setIsOwnerModalOpen(true)}
       />
 
       {/* Modals & Discovery Overlays */}
@@ -230,6 +292,16 @@ function JalRakshakApp() {
         onClose={() => setIsJalRakshakOpen(false)}
         initialDistrictId={selectedDistrictId}
         initialTab={jalRakshakTab}
+      />
+
+      <DataFreshnessModal
+        isOpen={isDataFreshnessOpen}
+        onClose={() => setIsDataFreshnessOpen(false)}
+      />
+
+      <OwnerProfileModal
+        isOpen={isOwnerModalOpen}
+        onClose={() => setIsOwnerModalOpen(false)}
       />
     </div>
   );

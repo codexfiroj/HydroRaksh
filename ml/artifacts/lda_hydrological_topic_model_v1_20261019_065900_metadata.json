@@ -1,0 +1,17 @@
+{
+  "model_name": "lda_hydrological_topic_model",
+  "version": "v1",
+  "timestamp_utc": "2026-10-19T06:59:00.151858+00:00",
+  "metrics": {
+    "num_topics": 6,
+    "vocab_size": 0
+  },
+  "parameters": {
+    "num_topics": 6,
+    "random_state": 42
+  },
+  "dataset_info": {
+    "corpus_type": "CGWB_CWC_reports"
+  },
+  "model_file": "lda_hydrological_topic_model_v1_20261019_065900.joblib"
+}

@@ -1,0 +1,50 @@
+{
+  "rolling_origin_cv": {
+    "Persistence": {
+      "mean_mae": 29.851,
+      "mean_rmse": 30.999,
+      "mean_r2": -5.624537862670607e+30,
+      "n_folds": 4
+    },
+    "Ridge Regression": {
+      "mean_mae": 3.851,
+      "mean_rmse": 4.352,
+      "mean_r2": -5.128296830209764e+28,
+      "n_folds": 4
+    },
+    "Random Forest": {
+      "mean_mae": 4.054,
+      "mean_rmse": 4.575,
+      "mean_r2": -1.5967274974984115e+28,
+      "n_folds": 4
+    },
+    "Gradient Boosting": {
+      "mean_mae": 4.015,
+      "mean_rmse": 4.678,
+      "mean_r2": -1.1569245017392027e+28,
+      "n_folds": 4
+    }
+  },
+  "geographic_holdout": {
+    "train_districts_count": 10,
+    "held_out_districts": [
+      "agra",
+      "patna",
+      "meerut"
+    ],
+    "test_samples_count": 9,
+    "held_out_mae": 5.169,
+    "held_out_rmse": 7.365,
+    "held_out_r2": 0.127
+  },
+  "hg_cf_recommendation_evaluation": {
+    "model": "Hydro-Geological Context-Aware Collaborative Filtering (HG-CF)",
+    "evaluation_type": "Held-Out Geographic Unit Validation",
+    "test_samples": 118,
+    "precision_at_k": 0.197,
+    "ndcg_at_k": 0.437,
+    "mae": 0.123,
+    "k": 5,
+    "beat_baseline": false
+  }
+}

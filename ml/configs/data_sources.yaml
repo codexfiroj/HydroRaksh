@@ -1,0 +1,94 @@
+# JalSuraksha Data Sources Registry and Connector Configuration
+# Covers National (CGWB, India-WRIS, IMD, CWC, data.gov.in) and Open Research Repositories (Hugging Face, Kaggle)
+
+version: "2.0"
+environment: "research"
+local_db_path: "jalsuraksha_local.db"
+cache_dir: "data/cache"
+
+sources:
+  cgwb:
+    name: "Central Ground Water Board (CGWB)"
+    description: "National groundwater monitoring well observations, pre-monsoon and post-monsoon depth to water levels (meters below ground level - mbgl), and GEC-2015 district resource assessments."
+    coverage: "Pan-India (700+ districts, 25,000+ monitoring wells)"
+    license: "Government Open Data License - India (GODL-India)"
+    access_type: "public_portal_and_api"
+    base_url: "https://cgwb.gov.in"
+    refresh_frequency: "quarterly"
+    status: "active"
+    auth_required: false
+
+  india_wris:
+    name: "India Water Resources Information System (India-WRIS / NWIC)"
+    description: "Geospatial river basin, canal, aquifer boundaries, groundwater telemetry, and reservoir levels."
+    coverage: "Pan-India basins and major reservoirs"
+    license: "GODL-India"
+    access_type: "rest_api"
+    base_url: "https://indiawris.gov.in/wris"
+    refresh_frequency: "daily"
+    status: "active"
+    auth_required: false
+    env_token: "INDIA_WRIS_TOKEN"
+
+  data_gov_in:
+    name: "Open Government Data (OGD) Platform India (data.gov.in)"
+    description: "District-level annual rainfall departures, groundwater stage of development, irrigation statistics, and Census drinking water source proportions."
+    coverage: "Pan-India administrative districts"
+    license: "GODL-India"
+    access_type: "ogd_api"
+    base_url: "https://api.data.gov.in"
+    refresh_frequency: "monthly"
+    status: "active"
+    auth_required: false
+    env_api_key: "DATA_GOV_IN_API_KEY"
+
+  cwc:
+    name: "Central Water Commission (CWC)"
+    description: "Weekly reservoir storage bulletins for 150+ live storage monitored reservoirs across India."
+    coverage: "Pan-India major and medium reservoirs"
+    license: "GODL-India"
+    access_type: "bulletin_reports"
+    base_url: "http://cwc.gov.in"
+    refresh_frequency: "weekly"
+    status: "active"
+    auth_required: false
+
+  imd:
+    name: "India Meteorological Department (IMD)"
+    description: "Gridded high-resolution daily rainfall (0.25° x 0.25°) and district-wise monthly precipitation statistics."
+    coverage: "Pan-India"
+    license: "Research & Non-Commercial Open Access"
+    access_type: "ftp_and_gridded_nc"
+    refresh_frequency: "daily"
+    status: "active"
+    auth_required: false
+
+  open_meteo:
+    name: "Open-Meteo Historical Weather API"
+    description: "ERA5-Land reanalysis precipitation, temperature, and evapotranspiration data for global coordinates."
+    coverage: "Global (0.1° spatial resolution, 1940-present)"
+    license: "Open Database License (ODbL) / CC-BY 4.0"
+    access_type: "rest_api"
+    base_url: "https://archive-api.open-meteo.com/v1/archive"
+    refresh_frequency: "daily"
+    status: "active"
+    auth_required: false
+
+  huggingface:
+    name: "Hugging Face Datasets Hub"
+    description: "Hydrological reports, text corpora, and climate time-series datasets hosted on the Hugging Face Hub."
+    coverage: "Open research community datasets"
+    license: "Apache-2.0 / CC-BY-4.0"
+    access_type: "huggingface_hub_python"
+    default_dataset: "climate-data/groundwater-records-sample"
+    auth_required: false
+    status: "optional_supported"
+
+  kaggle:
+    name: "Kaggle Open Datasets"
+    description: "India water quality, groundwater monitoring, and district precipitation tabular datasets."
+    coverage: "Open datasets"
+    license: "CC0 / CC-BY-SA 4.0"
+    access_type: "kaggle_cli_and_api"
+    status: "optional_supported"
+    auth_required: false

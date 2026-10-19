@@ -297,14 +297,15 @@ export type DistrictAtlasEntity = DistrictWaterEntity;
 export const ERA_PRESETS = PLANNING_HORIZONS;
 """
 
-import os
-os.makedirs("apps/web/src/data", exist_ok=True)
-with open("apps/web/src/data/up-75-districts.ts", "w", encoding="utf-8") as f:
-    f.write(ts_code)
+if __name__ == "__main__":
+    import os
+    os.makedirs("apps/web/src/data", exist_ok=True)
+    with open("apps/web/src/data/up-75-districts.ts", "w", encoding="utf-8") as f:
+        f.write(ts_code)
 
-os.makedirs("src/data", exist_ok=True)
-with open("src/data/up-75-districts.ts", "w", encoding="utf-8") as f:
-    f.write(ts_code)
+    os.makedirs("src/data", exist_ok=True)
+    with open("src/data/up-75-districts.ts", "w", encoding="utf-8") as f:
+        f.write(ts_code)
 
-print("Successfully regenerated apps/web/src/data/up-75-districts.ts and src/data/up-75-districts.ts with pure water resource & planning horizons data!")
+    print("Successfully regenerated apps/web/src/data/up-75-districts.ts and src/data/up-75-districts.ts with pure water resource & planning horizons data!")
 

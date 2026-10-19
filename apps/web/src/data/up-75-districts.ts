@@ -71,7 +71,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       119.5,
       111.6
     ],
-    "svgPath": "M 143.2,111.6 L 139.3,128.5 L 119.5,132.6 L 98.9,129.1 L 93.7,111.6 L 103.6,98.1 L 119.5,88.8 L 136.1,97.5 Z",
+    "svgPath": "M 141.2,111.6 L 137.9,127.2 L 119.5,130.9 L 100.4,127.9 L 95.8,111.6 L 99.7,94.7 L 119.5,90.6 L 140.1,94.1 Z",
     "areaKm2": 3689,
     "soilType": "Alluvial Sandy Loam",
     "slopePct": 1.4,
@@ -208,7 +208,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       93.5,
       160.3
     ],
-    "svgPath": "M 107.0,160.3 L 104.8,169.9 L 93.5,172.3 L 84.9,167.6 L 78.9,160.3 L 84.5,152.6 L 93.5,147.4 L 102.9,152.3 Z",
+    "svgPath": "M 107.3,160.3 L 105.0,170.0 L 93.5,172.5 L 84.7,167.8 L 78.6,160.3 L 84.3,152.5 L 93.5,147.1 L 103.1,152.1 Z",
     "areaKm2": 1167,
     "soilType": "Deep Sandy Alluvium",
     "slopePct": 1.1,
@@ -345,7 +345,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       135.7,
       158.4
     ],
-    "svgPath": "M 155.1,158.4 L 152.1,172.4 L 135.7,175.6 L 118.6,172.9 L 114.5,158.4 L 118.0,143.3 L 135.7,139.6 L 154.1,142.8 Z",
+    "svgPath": "M 161.7,158.4 L 152.0,172.2 L 135.7,175.4 L 118.8,172.8 L 114.7,158.4 L 118.1,143.5 L 135.7,139.8 L 153.9,142.9 Z",
     "areaKm2": 2945,
     "soilType": "Alluvial Silt Loam",
     "slopePct": 1.0,
@@ -482,7 +482,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       83.8,
       209.0
     ],
-    "svgPath": "M 100.3,209.0 L 94.1,217.7 L 83.8,223.5 L 73.1,218.1 L 70.7,209.0 L 72.7,199.5 L 83.8,197.3 L 95.3,199.2 Z",
+    "svgPath": "M 99.4,209.0 L 93.4,217.2 L 83.8,222.8 L 73.8,217.5 L 67.0,209.0 L 73.3,200.1 L 83.8,194.2 L 94.7,199.7 Z",
     "areaKm2": 1321,
     "soilType": "Sandy Loam Alluvium",
     "slopePct": 0.9,
@@ -619,7 +619,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       135.7,
       205.2
     ],
-    "svgPath": "M 159.5,205.2 L 150.6,217.8 L 135.7,220.7 L 120.2,218.4 L 116.6,205.2 L 119.6,191.5 L 135.7,188.2 L 152.4,191.0 Z",
+    "svgPath": "M 156.9,205.2 L 148.8,216.3 L 135.7,224.0 L 122.0,216.8 L 112.8,205.2 L 121.4,193.1 L 135.7,185.0 L 150.6,192.6 Z",
     "areaKm2": 2559,
     "soilType": "Fine Alluvial Silt",
     "slopePct": 1.2,
@@ -756,7 +756,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       108.6,
       234.8
     ],
-    "svgPath": "M 118.9,234.8 L 117.3,242.2 L 108.6,244.0 L 99.6,242.5 L 97.4,234.8 L 99.2,226.8 L 108.6,224.8 L 115.8,228.7 Z",
+    "svgPath": "M 121.7,234.8 L 116.8,241.8 L 108.6,243.4 L 100.1,242.0 L 98.1,234.8 L 99.7,227.3 L 108.6,225.4 L 117.8,227.0 Z",
     "areaKm2": 777,
     "soilType": "Deep Sandy Alluvium",
     "slopePct": 0.8,
@@ -893,7 +893,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       144.3,
       229.1
     ],
-    "svgPath": "M 159.2,229.1 L 153.6,237.0 L 144.3,242.3 L 134.6,237.3 L 128.2,229.1 L 134.2,220.6 L 144.3,218.6 L 154.8,220.2 Z",
+    "svgPath": "M 157.8,229.1 L 155.6,238.7 L 144.3,241.1 L 135.6,236.5 L 129.7,229.1 L 135.2,221.4 L 144.3,216.2 L 153.8,221.1 Z",
     "areaKm2": 1124,
     "soilType": "Alluvial Loam",
     "slopePct": 1.1,
@@ -1030,7 +1030,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       119.5,
       265.4
     ],
-    "svgPath": "M 133.7,265.4 L 131.5,275.6 L 119.5,278.0 L 107.1,275.9 L 104.0,265.4 L 106.6,254.5 L 119.5,251.7 L 129.4,257.0 Z",
+    "svgPath": "M 135.6,265.4 L 129.4,273.8 L 119.5,279.6 L 109.1,274.2 L 102.1,265.4 L 108.7,256.2 L 119.5,250.1 L 130.8,255.8 Z",
     "areaKm2": 1442,
     "soilType": "Sandy Alluvium",
     "slopePct": 0.7,
@@ -1167,7 +1167,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       151.9,
       260.6
     ],
-    "svgPath": "M 179.5,260.6 L 168.9,275.0 L 151.9,285.1 L 134.1,275.7 L 122.0,260.6 L 133.3,244.8 L 151.9,234.2 L 171.3,244.2 Z",
+    "svgPath": "M 177.6,260.6 L 173.4,278.9 L 151.9,283.4 L 129.6,279.6 L 124.0,260.6 L 134.7,246.0 L 151.9,235.9 L 169.9,245.3 Z",
     "areaKm2": 4512,
     "soilType": "Alluvial Loam",
     "slopePct": 1.3,
@@ -1304,7 +1304,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       218.9,
       212.8
     ],
-    "svgPath": "M 237.2,212.8 L 234.3,225.8 L 218.9,229.1 L 203.0,226.3 L 199.0,212.8 L 206.6,202.4 L 218.9,195.2 L 231.7,201.9 Z",
+    "svgPath": "M 240.4,212.8 L 232.3,224.2 L 218.9,231.8 L 205.0,224.7 L 201.8,212.8 L 204.4,200.5 L 218.9,197.6 L 234.0,200.0 Z",
     "areaKm2": 2249,
     "soilType": "Silt Loam",
     "slopePct": 1.2,
@@ -1441,7 +1441,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       182.2,
       167.9
     ],
-    "svgPath": "M 207.2,167.9 L 203.3,185.8 L 182.2,190.1 L 160.3,186.5 L 155.0,167.9 L 159.5,148.6 L 182.2,143.8 L 199.6,153.1 Z",
+    "svgPath": "M 208.0,167.9 L 203.9,186.3 L 182.2,190.8 L 159.7,187.0 L 154.1,167.9 L 165.0,153.2 L 182.2,143.1 L 200.3,152.6 Z",
     "areaKm2": 4561,
     "soilType": "Coarse Alluvial Sand",
     "slopePct": 1.6,
@@ -1578,7 +1578,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       252.4,
       219.5
     ],
-    "svgPath": "M 275.4,219.5 L 271.8,236.0 L 252.4,240.0 L 232.3,236.6 L 227.3,219.5 L 237.0,206.4 L 252.4,197.3 L 268.5,205.8 Z",
+    "svgPath": "M 277.0,219.5 L 272.9,236.9 L 252.4,241.3 L 236.6,232.9 L 225.8,219.5 L 235.9,205.5 L 252.4,196.0 L 269.6,204.9 Z",
     "areaKm2": 3718,
     "soilType": "Ramganga Alluvium",
     "slopePct": 1.1,
@@ -1715,7 +1715,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       278.4,
       221.4
     ],
-    "svgPath": "M 300.9,221.4 L 292.4,233.3 L 278.4,241.2 L 263.8,233.8 L 260.4,221.4 L 263.2,208.5 L 278.4,205.4 L 294.1,208.0 Z",
+    "svgPath": "M 297.8,221.4 L 294.6,235.2 L 278.4,238.6 L 266.0,232.0 L 257.4,221.4 L 265.4,210.3 L 278.4,202.8 L 292.0,209.9 Z",
     "areaKm2": 2367,
     "soilType": "Fine Silt",
     "slopePct": 1.0,
@@ -1852,7 +1852,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       229.7,
       243.4
     ],
-    "svgPath": "M 248.8,243.4 L 245.7,257.0 L 229.7,260.4 L 213.1,257.5 L 208.9,243.4 L 216.9,232.5 L 229.7,225.0 L 243.1,232.0 Z",
+    "svgPath": "M 251.3,243.4 L 243.1,254.8 L 229.7,262.5 L 215.7,255.3 L 206.4,243.4 L 215.1,231.0 L 229.7,228.2 L 244.9,230.5 Z",
     "areaKm2": 2453,
     "soilType": "Sandy Loam",
     "slopePct": 1.1,
@@ -1989,7 +1989,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       320.5,
       264.4
     ],
-    "svgPath": "M 346.4,264.4 L 342.0,282.7 L 320.5,287.3 L 303.9,278.5 L 292.5,264.4 L 303.2,249.7 L 320.5,239.7 L 338.6,249.0 Z",
+    "svgPath": "M 350.7,264.4 L 339.4,280.4 L 320.5,284.1 L 300.9,281.1 L 296.2,264.4 L 300.1,247.1 L 320.5,242.9 L 341.7,246.4 Z",
     "areaKm2": 4120,
     "soilType": "Fine Alluvial Silt",
     "slopePct": 1.3,
@@ -2126,7 +2126,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       289.2,
       295.9
     ],
-    "svgPath": "M 316.4,295.9 L 312.0,315.3 L 289.2,320.0 L 265.5,316.0 L 259.6,295.9 L 271.1,280.5 L 289.2,269.7 L 308.2,279.7 Z",
+    "svgPath": "M 320.0,295.9 L 308.2,312.1 L 289.2,323.1 L 269.3,312.8 L 256.0,295.9 L 268.5,278.3 L 289.2,266.6 L 310.8,277.6 Z",
     "areaKm2": 5168,
     "soilType": "Loamy Sand",
     "slopePct": 1.2,
@@ -2400,7 +2400,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       374.6,
       310.3
     ],
-    "svgPath": "M 401.9,310.3 L 391.3,324.5 L 374.6,334.4 L 357.1,325.2 L 345.1,310.3 L 356.3,294.7 L 374.6,284.3 L 393.7,294.1 Z",
+    "svgPath": "M 405.2,310.3 L 393.7,326.5 L 374.6,337.3 L 354.7,327.2 L 350.1,310.3 L 353.9,292.7 L 374.6,288.5 L 396.0,292.1 Z",
     "areaKm2": 4388,
     "soilType": "Clayey Silt",
     "slopePct": 1.0,
@@ -2537,7 +2537,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       176.8,
       309.3
     ],
-    "svgPath": "M 200.3,309.3 L 196.5,326.0 L 176.8,330.1 L 156.4,326.7 L 151.3,309.3 L 161.1,295.9 L 176.8,286.7 L 193.2,295.3 Z",
+    "svgPath": "M 198.5,309.3 L 195.2,325.0 L 176.8,328.6 L 157.7,325.6 L 153.0,309.3 L 156.9,292.4 L 176.8,288.2 L 197.4,291.8 Z",
     "areaKm2": 3700,
     "soilType": "Saline / Silt Loam",
     "slopePct": 1.2,
@@ -2674,7 +2674,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       239.5,
       340.8
     ],
-    "svgPath": "M 258.9,340.8 L 255.7,354.6 L 239.5,358.0 L 222.7,355.1 L 218.5,340.8 L 226.5,329.8 L 239.5,322.2 L 253.0,329.3 Z",
+    "svgPath": "M 257.6,340.8 L 254.8,353.8 L 239.5,356.9 L 223.6,354.3 L 219.7,340.8 L 223.0,326.8 L 239.5,323.3 L 252.2,330.0 Z",
     "areaKm2": 2456,
     "soilType": "Alluvial Loam",
     "slopePct": 1.1,
@@ -2811,7 +2811,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       173.5,
       337.0
     ],
-    "svgPath": "M 190.8,337.0 L 187.9,349.2 L 173.5,352.3 L 162.4,346.4 L 154.8,337.0 L 161.9,327.1 L 173.5,320.5 L 185.6,326.7 Z",
+    "svgPath": "M 189.0,337.0 L 186.6,348.2 L 173.5,350.8 L 159.9,348.6 L 156.6,337.0 L 159.4,325.0 L 173.5,322.0 L 184.3,327.8 Z",
     "areaKm2": 1840,
     "soilType": "Sandy Alluvium",
     "slopePct": 1.0,
@@ -2948,7 +2948,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       237.3,
       317.9
     ],
-    "svgPath": "M 256.2,317.9 L 249.0,327.8 L 237.3,334.6 L 225.1,328.3 L 216.9,317.9 L 224.6,307.1 L 237.3,299.9 L 250.6,306.6 Z",
+    "svgPath": "M 254.6,317.9 L 251.7,330.2 L 237.3,333.2 L 222.3,330.6 L 218.5,317.9 L 225.7,308.1 L 237.3,301.3 L 249.4,307.6 Z",
     "areaKm2": 1955,
     "soilType": "Alluvial Silt",
     "slopePct": 1.1,
@@ -3222,7 +3222,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       210.3,
       380.0
     ],
-    "svgPath": "M 228.4,380.0 L 225.6,393.0 L 210.3,396.1 L 194.4,393.5 L 190.5,380.0 L 193.8,366.0 L 210.3,362.5 L 223.0,369.2 Z",
+    "svgPath": "M 230.1,380.0 L 226.8,394.0 L 210.3,397.5 L 197.6,390.8 L 188.9,380.0 L 197.0,368.7 L 210.3,361.1 L 224.1,368.2 Z",
     "areaKm2": 2407,
     "soilType": "Sandy Silt",
     "slopePct": 1.5,
@@ -3359,7 +3359,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       278.4,
       372.4
     ],
-    "svgPath": "M 303.3,372.4 L 294.0,385.7 L 278.4,388.7 L 262.2,386.2 L 258.3,372.4 L 261.5,358.1 L 278.4,354.6 L 295.9,357.5 Z",
+    "svgPath": "M 297.4,372.4 L 294.5,386.1 L 278.4,389.3 L 261.7,386.6 L 257.7,372.4 L 261.1,357.7 L 278.4,354.0 L 291.7,361.1 Z",
     "areaKm2": 2760,
     "soilType": "Alluvial Loam",
     "slopePct": 1.2,
@@ -3496,7 +3496,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       132.4,
       347.5
     ],
-    "svgPath": "M 155.7,347.5 L 151.8,364.0 L 132.4,368.1 L 117.5,360.2 L 107.2,347.5 L 116.8,334.2 L 132.4,325.3 L 148.7,333.7 Z",
+    "svgPath": "M 154.0,347.5 L 150.6,362.9 L 132.4,366.7 L 113.6,363.5 L 108.9,347.5 L 112.9,330.9 L 132.4,326.7 L 147.5,334.7 Z",
     "areaKm2": 3329,
     "soilType": "Saline Sandy Loam",
     "slopePct": 1.4,
@@ -3633,7 +3633,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       331.4,
       445.9
     ],
-    "svgPath": "M 349.1,445.9 L 346.2,458.5 L 331.4,461.6 L 320.1,455.5 L 312.2,445.9 L 319.5,435.8 L 331.4,428.9 L 343.8,435.4 Z",
+    "svgPath": "M 352.9,445.9 L 344.9,457.3 L 331.4,460.0 L 317.4,457.8 L 314.1,445.9 L 316.9,433.5 L 331.4,430.5 L 346.5,433.1 Z",
     "areaKm2": 2016,
     "soilType": "Ravine Silt Alluvium",
     "slopePct": 2.2,
@@ -3770,7 +3770,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       279.5,
       415.3
     ],
-    "svgPath": "M 299.5,415.3 L 291.8,425.7 L 279.5,433.0 L 266.7,426.2 L 257.9,415.3 L 266.1,403.9 L 279.5,396.3 L 293.5,403.4 Z",
+    "svgPath": "M 297.5,415.3 L 294.6,428.2 L 279.5,431.3 L 263.8,428.6 L 259.9,415.3 L 263.2,401.5 L 279.5,398.0 L 292.1,404.6 Z",
     "areaKm2": 2311,
     "soilType": "Chambal Ravine Silt",
     "slopePct": 2.5,
@@ -3907,7 +3907,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       338.9,
       358.0
     ],
-    "svgPath": "M 361.3,358.0 L 352.9,369.9 L 338.9,372.7 L 324.3,370.4 L 320.8,358.0 L 323.8,345.1 L 338.9,342.0 L 354.6,344.7 Z",
+    "svgPath": "M 360.7,358.0 L 352.5,369.6 L 338.9,372.2 L 324.7,370.0 L 321.4,358.0 L 324.2,345.5 L 338.9,342.5 L 354.2,345.0 Z",
     "areaKm2": 2183,
     "soilType": "Alluvial Fine Sand",
     "slopePct": 1.1,
@@ -4044,7 +4044,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       374.6,
       389.6
     ],
-    "svgPath": "M 392.9,389.6 L 389.8,402.5 L 374.6,405.8 L 362.9,399.5 L 354.8,389.6 L 362.4,379.2 L 374.6,372.1 L 387.4,378.7 Z",
+    "svgPath": "M 395.2,389.6 L 387.4,400.5 L 374.6,407.7 L 361.3,400.9 L 358.3,389.6 L 360.7,377.8 L 374.6,375.1 L 389.0,377.4 Z",
     "areaKm2": 2093,
     "soilType": "Alluvial Loam",
     "slopePct": 1.2,
@@ -4181,7 +4181,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       378.9,
       447.8
     ],
-    "svgPath": "M 399.4,447.8 L 396.2,462.5 L 378.9,466.0 L 360.9,463.1 L 356.5,447.8 L 360.3,432.0 L 378.9,428.0 L 393.3,435.6 Z",
+    "svgPath": "M 399.7,447.8 L 396.4,462.6 L 378.9,466.2 L 360.8,463.2 L 356.3,447.8 L 365.0,436.0 L 378.9,427.8 L 393.4,435.5 Z",
     "areaKm2": 3021,
     "soilType": "Indo-Gangetic Alluvium",
     "slopePct": 1.3,
@@ -4318,7 +4318,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       420.0,
       446.9
     ],
-    "svgPath": "M 444.1,446.9 L 434.8,459.5 L 420.0,468.2 L 404.5,460.1 L 394.0,446.9 L 403.8,433.1 L 420.0,424.0 L 436.8,432.6 Z",
+    "svgPath": "M 440.8,446.9 L 437.5,461.8 L 420.0,465.3 L 401.8,462.4 L 397.4,446.9 L 401.1,430.9 L 420.0,426.8 L 434.5,434.6 Z",
     "areaKm2": 3155,
     "soilType": "Alluvial Heavy Clay",
     "slopePct": 1.1,
@@ -4592,7 +4592,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       467.6,
       304.5
     ],
-    "svgPath": "M 501.5,304.5 L 496.0,328.6 L 467.6,334.5 L 438.2,329.5 L 430.8,304.5 L 445.0,285.3 L 467.6,272.0 L 491.3,284.4 Z",
+    "svgPath": "M 507.7,304.5 L 492.6,325.7 L 467.6,339.9 L 441.6,326.6 L 435.6,304.5 L 440.5,281.5 L 467.6,276.0 L 495.7,280.6 Z",
     "areaKm2": 7680,
     "soilType": "Terai Clayey Loam",
     "slopePct": 0.6,
@@ -4729,7 +4729,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       485.9,
       409.6
     ],
-    "svgPath": "M 505.1,409.6 L 502.0,423.3 L 485.9,426.7 L 469.2,423.8 L 465.0,409.6 L 473.1,398.7 L 485.9,391.1 L 499.3,398.2 Z",
+    "svgPath": "M 510.0,409.6 L 501.0,422.4 L 485.9,425.4 L 470.2,422.9 L 466.5,409.6 L 469.6,395.8 L 485.9,392.4 L 502.8,395.3 Z",
     "areaKm2": 2528,
     "soilType": "Gomti Alluvial Silt",
     "slopePct": 1.1,
@@ -4866,7 +4866,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       518.4,
       468.8
     ],
-    "svgPath": "M 546.6,468.8 L 535.7,483.5 L 518.4,493.8 L 500.3,484.2 L 487.9,468.8 L 499.4,452.7 L 518.4,441.9 L 538.2,452.0 Z",
+    "svgPath": "M 543.8,468.8 L 539.8,487.0 L 518.4,491.3 L 496.2,487.7 L 490.7,468.8 L 495.4,449.3 L 518.4,444.3 L 536.1,453.7 Z",
     "areaKm2": 4609,
     "soilType": "Alluvial Clay Loam",
     "slopePct": 1.2,
@@ -5003,7 +5003,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       457.8,
       340.8
     ],
-    "svgPath": "M 488.4,340.8 L 483.2,362.4 L 457.8,367.9 L 438.2,357.4 L 424.7,340.8 L 437.3,323.4 L 457.8,311.6 L 479.2,322.6 Z",
+    "svgPath": "M 489.0,340.8 L 476.9,357.1 L 457.8,368.4 L 437.8,357.8 L 424.1,340.8 L 436.9,323.0 L 457.8,311.0 L 479.6,322.2 Z",
     "areaKm2": 5743,
     "soilType": "Alluvial Silt",
     "slopePct": 0.9,
@@ -5140,7 +5140,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       437.3,
       438.3
     ],
-    "svgPath": "M 468.2,438.3 L 456.5,454.7 L 437.3,465.5 L 417.2,455.3 L 412.6,438.3 L 416.4,420.6 L 437.3,416.4 L 459.0,419.9 Z",
+    "svgPath": "M 467.4,438.3 L 455.9,454.1 L 437.3,464.8 L 417.9,454.8 L 405.0,438.3 L 417.0,421.1 L 437.3,417.1 L 458.4,420.4 Z",
     "areaKm2": 4558,
     "soilType": "Alluvial Silt Loam",
     "slopePct": 1.1,
@@ -5277,7 +5277,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       580.0,
       475.5
     ],
-    "svgPath": "M 597.8,475.5 L 595.0,488.3 L 580.0,491.4 L 564.4,488.8 L 560.5,475.5 L 563.8,461.7 L 580.0,458.3 L 592.5,464.9 Z",
+    "svgPath": "M 597.2,475.5 L 594.6,487.9 L 580.0,490.8 L 564.8,488.4 L 561.1,475.5 L 564.2,462.1 L 580.0,458.8 L 596.3,461.6 Z",
     "areaKm2": 2329,
     "soilType": "Alluvial Loam",
     "slopePct": 1.1,
@@ -5551,7 +5551,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       511.9,
       402.0
     ],
-    "svgPath": "M 537.8,402.0 L 533.6,420.4 L 511.9,425.0 L 489.4,421.1 L 483.8,402.0 L 494.6,387.3 L 511.9,377.1 L 530.0,386.6 Z",
+    "svgPath": "M 542.0,402.0 L 530.6,417.9 L 511.9,428.5 L 492.4,418.6 L 487.9,402.0 L 491.6,384.7 L 511.9,380.7 L 533.0,384.1 Z",
     "areaKm2": 4402,
     "soilType": "Alluvial Loam",
     "slopePct": 1.0,
@@ -5688,7 +5688,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       608.1,
       465.0
     ],
-    "svgPath": "M 629.2,465.0 L 625.6,479.9 L 608.1,483.6 L 594.6,476.5 L 585.3,465.0 L 594.0,453.0 L 608.1,444.9 L 622.8,452.5 Z",
+    "svgPath": "M 630.2,465.0 L 621.8,476.6 L 608.1,484.6 L 593.8,477.1 L 584.2,465.0 L 593.2,452.3 L 608.1,444.0 L 623.6,451.8 Z",
     "areaKm2": 2673,
     "soilType": "Gomti Alluvium",
     "slopePct": 1.1,
@@ -5825,7 +5825,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       675.1,
       447.8
     ],
-    "svgPath": "M 697.7,447.8 L 689.2,459.8 L 675.1,462.5 L 660.4,460.3 L 657.0,447.8 L 659.8,434.8 L 675.1,431.7 L 690.9,434.3 Z",
+    "svgPath": "M 696.1,447.8 L 688.1,458.8 L 675.1,466.3 L 661.6,459.3 L 652.5,447.8 L 661.0,435.8 L 675.1,433.1 L 689.8,435.3 Z",
     "areaKm2": 2350,
     "soilType": "Alluvial Silt",
     "slopePct": 1.0,
@@ -5962,7 +5962,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       556.2,
       339.9
     ],
-    "svgPath": "M 581.8,339.9 L 577.8,358.2 L 556.2,362.7 L 533.8,358.9 L 528.3,339.9 L 533.0,320.2 L 556.2,315.2 L 574.1,324.7 Z",
+    "svgPath": "M 585.3,339.9 L 574.1,355.1 L 556.2,365.6 L 537.5,355.8 L 524.8,339.9 L 536.7,323.3 L 556.2,312.3 L 576.6,322.6 Z",
     "areaKm2": 4697,
     "soilType": "Terai Silt",
     "slopePct": 0.7,
@@ -6099,7 +6099,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       620.0,
       353.3
     ],
-    "svgPath": "M 646.3,353.3 L 636.3,367.2 L 620.0,376.4 L 603.0,367.8 L 599.1,353.3 L 602.3,338.3 L 620.0,334.7 L 638.4,337.7 Z",
+    "svgPath": "M 646.5,353.3 L 636.5,367.3 L 620.0,376.6 L 602.8,367.9 L 598.9,353.3 L 602.1,338.1 L 620.0,334.5 L 638.6,337.5 Z",
     "areaKm2": 3349,
     "soilType": "Terai Clay",
     "slopePct": 0.8,
@@ -6236,7 +6236,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       596.2,
       381.9
     ],
-    "svgPath": "M 622.7,381.9 L 612.7,395.9 L 596.2,405.2 L 579.0,396.5 L 575.1,381.9 L 578.4,366.7 L 596.2,363.2 L 614.7,366.1 Z",
+    "svgPath": "M 624.1,381.9 L 613.7,396.8 L 596.2,400.2 L 578.0,397.4 L 573.7,381.9 L 577.3,365.8 L 596.2,361.9 L 615.8,365.3 Z",
     "areaKm2": 3404,
     "soilType": "Alluvial Loam",
     "slopePct": 0.9,
@@ -6373,7 +6373,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       603.8,
       346.6
     ],
-    "svgPath": "M 619.1,346.6 L 616.7,357.5 L 603.8,360.2 L 590.5,357.9 L 587.1,346.6 L 593.6,337.9 L 603.8,331.9 L 614.5,337.5 Z",
+    "svgPath": "M 622.8,346.6 L 615.7,356.7 L 603.8,359.0 L 591.4,357.1 L 588.5,346.6 L 590.9,335.7 L 603.8,333.0 L 617.1,335.3 Z",
     "areaKm2": 1640,
     "soilType": "Terai Alluvium",
     "slopePct": 0.8,
@@ -6510,7 +6510,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       682.7,
       413.4
     ],
-    "svgPath": "M 703.4,413.4 L 699.9,428.1 L 682.7,431.7 L 669.5,424.7 L 660.3,413.4 L 668.8,401.6 L 682.7,393.6 L 697.2,401.1 Z",
+    "svgPath": "M 707.5,413.4 L 698.3,426.6 L 682.7,429.7 L 666.5,427.1 L 662.7,413.4 L 665.9,399.1 L 682.7,395.6 L 700.1,398.6 Z",
     "areaKm2": 2688,
     "soilType": "Alluvial Silt",
     "slopePct": 1.0,
@@ -6647,7 +6647,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       711.9,
       416.3
     ],
-    "svgPath": "M 730.6,416.3 L 723.6,426.2 L 711.9,432.8 L 699.7,426.6 L 696.9,416.3 L 699.2,405.5 L 711.9,403.0 L 725.0,405.1 Z",
+    "svgPath": "M 728.8,416.3 L 722.3,425.1 L 711.9,431.2 L 701.1,425.5 L 693.7,416.3 L 700.6,406.7 L 711.9,400.2 L 723.7,406.3 Z",
     "areaKm2": 1646,
     "soilType": "Alluvial Loam",
     "slopePct": 0.9,
@@ -6784,7 +6784,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       688.1,
       366.6
     ],
-    "svgPath": "M 713.2,366.6 L 703.8,379.9 L 688.1,382.9 L 671.8,380.5 L 668.0,366.6 L 671.2,352.2 L 688.1,348.7 L 705.7,351.7 Z",
+    "svgPath": "M 710.7,366.6 L 702.0,378.4 L 688.1,386.6 L 673.6,379.0 L 663.7,366.6 L 672.9,353.7 L 688.1,345.1 L 703.9,353.2 Z",
     "areaKm2": 2895,
     "soilType": "Terai Clay",
     "slopePct": 0.7,
@@ -7058,7 +7058,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       748.6,
       417.3
     ],
-    "svgPath": "M 774.7,417.3 L 764.9,431.1 L 748.6,440.3 L 731.7,431.7 L 727.8,417.3 L 731.0,402.3 L 748.6,398.8 L 766.9,401.7 Z",
+    "svgPath": "M 775.7,417.3 L 765.5,431.7 L 748.6,435.0 L 731.0,432.3 L 726.8,417.3 L 730.3,401.7 L 748.6,398.0 L 767.6,401.2 Z",
     "areaKm2": 3321,
     "soilType": "Rapti Silt Loam",
     "slopePct": 0.8,
@@ -7195,7 +7195,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       804.9,
       419.2
     ],
-    "svgPath": "M 828.9,419.2 L 819.8,431.9 L 804.9,440.4 L 789.4,432.4 L 779.1,419.2 L 788.7,405.5 L 804.9,402.3 L 821.7,404.9 Z",
+    "svgPath": "M 830.0,419.2 L 820.6,432.5 L 804.9,435.6 L 788.6,433.1 L 784.8,419.2 L 787.9,404.8 L 804.9,401.3 L 822.5,404.2 Z",
     "areaKm2": 2905,
     "soilType": "Gandak Alluvium",
     "slopePct": 0.8,
@@ -7332,7 +7332,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       769.2,
       381.0
     ],
-    "svgPath": "M 790.0,381.0 L 786.6,395.8 L 769.2,399.4 L 751.1,396.4 L 746.6,381.0 L 755.3,369.2 L 769.2,361.0 L 783.7,368.7 Z",
+    "svgPath": "M 792.0,381.0 L 783.2,392.9 L 769.2,401.2 L 754.5,393.5 L 744.6,381.0 L 753.9,368.0 L 769.2,359.3 L 785.2,367.4 Z",
     "areaKm2": 2952,
     "soilType": "Terai Alluvium",
     "slopePct": 0.7,
@@ -7469,7 +7469,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       728.1,
       484.1
     ],
-    "svgPath": "M 757.8,484.1 L 746.6,499.9 L 728.1,503.4 L 708.8,500.5 L 704.3,484.1 L 708.1,467.1 L 728.1,463.0 L 748.9,466.4 Z",
+    "svgPath": "M 755.6,484.1 L 745.1,498.6 L 728.1,508.4 L 710.3,499.2 L 698.4,484.1 L 709.6,468.3 L 728.1,464.8 L 747.4,467.7 Z",
     "areaKm2": 4054,
     "soilType": "Alluvial Clay Loam",
     "slopePct": 1.0,
@@ -7606,7 +7606,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       833.0,
       512.8
     ],
-    "svgPath": "M 854.3,512.8 L 850.8,528.0 L 833.0,531.7 L 814.5,528.5 L 809.8,512.8 L 818.7,500.7 L 833.0,492.3 L 847.9,500.1 Z",
+    "svgPath": "M 856.8,512.8 L 847.8,525.3 L 833.0,533.9 L 817.6,525.9 L 807.3,512.8 L 816.9,499.2 L 833.0,496.0 L 849.7,498.6 Z",
     "areaKm2": 2981,
     "soilType": "Floodplain Silt",
     "slopePct": 0.8,
@@ -7743,7 +7743,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       769.2,
       489.9
     ],
-    "svgPath": "M 785.5,489.9 L 782.8,501.5 L 769.2,504.4 L 758.8,498.8 L 751.5,489.9 L 758.3,480.6 L 769.2,474.2 L 780.6,480.2 Z",
+    "svgPath": "M 784.1,489.9 L 781.9,500.7 L 769.2,503.2 L 756.0,501.1 L 752.9,489.9 L 755.6,478.3 L 769.2,475.4 L 779.6,481.0 Z",
     "areaKm2": 1713,
     "soilType": "Alluvial Loam",
     "slopePct": 1.0,
@@ -7880,7 +7880,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       737.8,
       560.5
     ],
-    "svgPath": "M 756.2,560.5 L 753.4,573.7 L 737.8,576.9 L 721.6,574.2 L 717.7,560.5 L 721.0,546.2 L 737.8,542.7 L 750.7,549.6 Z",
+    "svgPath": "M 757.7,560.5 L 754.4,574.6 L 737.8,578.1 L 725.1,571.3 L 716.2,560.5 L 724.5,549.2 L 737.8,541.4 L 751.7,548.7 Z",
     "areaKm2": 2541,
     "soilType": "Rice Bowl Heavy Clay",
     "slopePct": 1.3,
@@ -8017,7 +8017,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       770.3,
       530.0
     ],
-    "svgPath": "M 794.5,530.0 L 785.1,542.6 L 770.3,551.4 L 754.8,543.2 L 744.2,530.0 L 754.1,516.2 L 770.3,507.0 L 787.2,515.6 Z",
+    "svgPath": "M 795.4,530.0 L 785.8,543.2 L 770.3,552.2 L 754.1,543.8 L 743.2,530.0 L 753.4,515.6 L 770.3,512.4 L 787.9,515.0 Z",
     "areaKm2": 3377,
     "soilType": "Ganga Alluvial Silt",
     "slopePct": 1.1,
@@ -8154,7 +8154,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       674.1,
       513.7
     ],
-    "svgPath": "M 697.9,513.7 L 694.1,530.7 L 674.1,534.8 L 653.3,531.3 L 648.2,513.7 L 652.6,495.4 L 674.1,490.8 L 690.7,499.6 Z",
+    "svgPath": "M 699.5,513.7 L 695.2,531.7 L 674.1,536.2 L 657.9,527.5 L 646.6,513.7 L 657.1,499.3 L 674.1,489.4 L 691.8,498.6 Z",
     "areaKm2": 4038,
     "soilType": "Alluvial Silt",
     "slopePct": 1.1,
@@ -8291,7 +8291,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       705.4,
       554.8
     ],
-    "svgPath": "M 723.0,554.8 L 716.3,564.1 L 705.4,570.3 L 694.0,564.5 L 691.4,554.8 L 693.5,544.7 L 705.4,542.4 L 717.7,544.3 Z",
+    "svgPath": "M 720.5,554.8 L 718.1,565.6 L 705.4,568.2 L 692.3,566.0 L 688.9,554.8 L 695.3,546.2 L 705.4,540.3 L 716.0,545.8 Z",
     "areaKm2": 1535,
     "soilType": "Ganga Silt Loam",
     "slopePct": 1.4,
@@ -8428,7 +8428,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       662.2,
       571.0
     ],
-    "svgPath": "M 687.3,571.0 L 683.3,588.9 L 662.2,593.3 L 640.3,589.6 L 634.9,571.0 L 645.4,556.8 L 662.2,546.8 L 679.7,556.1 Z",
+    "svgPath": "M 689.5,571.0 L 679.0,585.2 L 662.2,595.2 L 644.7,585.9 L 632.7,571.0 L 643.9,555.4 L 662.2,544.9 L 681.3,554.7 Z",
     "areaKm2": 4405,
     "soilType": "Vindhyan Red Clay & Rock",
     "slopePct": 3.4,
@@ -8565,7 +8565,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       662.2,
       548.1
     ],
-    "svgPath": "M 675.2,548.1 L 673.0,557.3 L 662.2,559.6 L 653.9,555.2 L 648.2,548.1 L 653.5,540.7 L 662.2,535.7 L 671.3,540.4 Z",
+    "svgPath": "M 676.5,548.1 L 671.1,555.7 L 662.2,560.7 L 652.9,556.0 L 650.8,548.1 L 652.5,539.9 L 662.2,538.0 L 672.2,539.6 Z",
     "areaKm2": 1015,
     "soilType": "Alluvial Silt",
     "slopePct": 1.2,
@@ -8702,7 +8702,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       715.1,
       615.9
     ],
-    "svgPath": "M 746.2,615.9 L 741.3,638.2 L 715.1,643.5 L 687.9,639.0 L 681.2,615.9 L 694.3,598.2 L 715.1,585.9 L 736.9,597.4 Z",
+    "svgPath": "M 754.5,615.9 L 739.8,636.9 L 715.1,641.8 L 689.4,637.7 L 683.3,615.9 L 688.4,593.2 L 715.1,587.7 L 742.7,592.4 Z",
     "areaKm2": 6788,
     "soilType": "Hard Rock Sandstone",
     "slopePct": 4.8,
@@ -8839,7 +8839,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       471.9,
       496.5
     ],
-    "svgPath": "M 498.7,496.5 L 488.4,510.5 L 471.9,520.2 L 454.7,511.1 L 442.9,496.5 L 453.9,481.2 L 471.9,471.0 L 490.7,480.6 Z",
+    "svgPath": "M 495.2,496.5 L 491.6,513.3 L 471.9,517.2 L 451.4,513.9 L 446.5,496.5 L 450.7,478.4 L 471.9,474.0 L 488.2,482.7 Z",
     "areaKm2": 4152,
     "soilType": "Doab Alluvium",
     "slopePct": 1.2,
@@ -8976,7 +8976,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       533.5,
       534.7
     ],
-    "svgPath": "M 550.8,534.7 L 548.0,547.0 L 533.5,550.1 L 518.4,547.5 L 514.7,534.7 L 521.9,524.8 L 533.5,518.0 L 545.6,524.4 Z",
+    "svgPath": "M 554.8,534.7 L 546.8,546.0 L 533.5,548.6 L 519.6,546.5 L 516.4,534.7 L 519.1,522.5 L 533.5,519.5 L 548.4,522.0 Z",
     "areaKm2": 2012,
     "soilType": "Sandy Alluvium",
     "slopePct": 1.3,
@@ -9113,7 +9113,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       599.5,
       499.4
     ],
-    "svgPath": "M 624.6,499.4 L 614.9,512.5 L 599.5,521.6 L 583.4,513.1 L 572.4,499.4 L 582.7,485.1 L 599.5,475.5 L 617.1,484.5 Z",
+    "svgPath": "M 624.9,499.4 L 615.1,512.6 L 599.5,521.8 L 583.2,513.3 L 572.1,499.4 L 582.5,484.9 L 599.5,475.2 L 617.2,484.3 Z",
     "areaKm2": 3717,
     "soilType": "Alluvial Loam",
     "slopePct": 1.1,
@@ -9250,7 +9250,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       583.2,
       544.3
     ],
-    "svgPath": "M 611.2,544.3 L 606.7,564.3 L 583.2,569.1 L 558.8,565.0 L 552.7,544.3 L 564.5,528.4 L 583.2,517.3 L 602.8,527.7 Z",
+    "svgPath": "M 613.7,544.3 L 601.9,560.2 L 583.2,571.3 L 563.6,560.9 L 550.2,544.3 L 562.8,526.9 L 583.2,515.2 L 604.5,526.2 Z",
     "areaKm2": 5482,
     "soilType": "Sangam Silt Alluvium",
     "slopePct": 1.3,
@@ -9387,7 +9387,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       420.0,
       539.5
     ],
-    "svgPath": "M 444.0,539.5 L 440.3,556.8 L 420.0,560.8 L 398.9,557.4 L 393.8,539.5 L 398.1,520.9 L 420.0,516.3 L 436.8,525.3 Z",
+    "svgPath": "M 449.0,539.5 L 437.9,554.8 L 420.0,565.1 L 401.3,555.4 L 388.8,539.5 L 400.5,522.9 L 420.0,519.1 L 440.3,522.2 Z",
     "areaKm2": 4408,
     "soilType": "Mixed Red & Black Soil",
     "slopePct": 3.2,
@@ -9524,7 +9524,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       483.8,
       566.3
     ],
-    "svgPath": "M 504.5,566.3 L 501.3,581.2 L 483.8,584.7 L 465.6,581.8 L 461.2,566.3 L 464.9,550.3 L 483.8,546.3 L 498.3,554.0 Z",
+    "svgPath": "M 506.9,566.3 L 503.0,582.6 L 483.8,586.7 L 469.0,578.9 L 458.8,566.3 L 468.3,553.1 L 483.8,544.2 L 500.0,552.6 Z",
     "areaKm2": 3216,
     "soilType": "Bundelkhand Gneiss / Granite",
     "slopePct": 3.6,
@@ -9661,7 +9661,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       400.5,
       494.6
     ],
-    "svgPath": "M 431.0,494.6 L 419.6,510.8 L 400.5,514.5 L 380.7,511.5 L 376.0,494.6 L 379.9,477.1 L 400.5,472.8 L 421.9,476.5 Z",
+    "svgPath": "M 423.7,494.6 L 420.1,511.3 L 400.5,515.2 L 380.1,511.9 L 375.2,494.6 L 379.3,476.6 L 400.5,472.1 L 416.7,480.8 Z",
     "areaKm2": 4121,
     "soilType": "Black Cotton Soil",
     "slopePct": 2.8,
@@ -9798,7 +9798,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       370.3,
       557.7
     ],
-    "svgPath": "M 395.0,557.7 L 385.6,570.7 L 370.3,579.5 L 354.3,571.3 L 343.7,557.7 L 353.6,543.5 L 370.3,540.3 L 387.6,543.0 Z",
+    "svgPath": "M 394.1,557.7 L 385.0,570.2 L 370.3,578.7 L 355.0,570.7 L 344.6,557.7 L 354.3,544.1 L 370.3,535.1 L 387.0,543.5 Z",
     "areaKm2": 3144,
     "soilType": "Granitic Hard Rock",
     "slopePct": 3.8,
@@ -9935,7 +9935,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       314.1,
       475.5
     ],
-    "svgPath": "M 338.5,475.5 L 334.8,493.1 L 314.1,497.2 L 292.6,493.7 L 287.4,475.5 L 291.8,456.6 L 314.1,451.9 L 331.2,461.0 Z",
+    "svgPath": "M 343.9,475.5 L 332.6,491.2 L 314.1,501.8 L 294.8,491.9 L 282.0,475.5 L 294.0,458.4 L 314.1,454.5 L 335.0,457.8 Z",
     "areaKm2": 4565,
     "soilType": "Mixed Red Soil",
     "slopePct": 2.6,
@@ -10072,7 +10072,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       228.6,
       543.3
     ],
-    "svgPath": "M 261.6,543.3 L 249.2,560.8 L 228.6,564.8 L 207.1,561.6 L 202.1,543.3 L 206.3,524.3 L 228.6,519.8 L 251.8,523.6 Z",
+    "svgPath": "M 256.9,543.3 L 252.2,563.3 L 228.6,568.4 L 210.5,558.7 L 197.9,543.3 L 209.7,527.2 L 228.6,516.2 L 248.4,526.5 Z",
     "areaKm2": 5024,
     "soilType": "Bundelkhand Granitic Complex",
     "slopePct": 4.5,
@@ -10209,7 +10209,7 @@ export const UP_75_WATER_DISTRICTS: DistrictWaterEntity[] = [
       212.4,
       615.0
     ],
-    "svgPath": "M 242.2,615.0 L 230.7,630.6 L 212.4,641.4 L 193.2,631.3 L 180.2,615.0 L 192.4,598.0 L 212.4,586.6 L 233.3,597.3 Z",
+    "svgPath": "M 244.3,615.0 L 232.2,631.8 L 212.4,643.1 L 191.7,632.6 L 187.1,615.0 L 190.9,596.7 L 212.4,592.4 L 234.7,596.0 Z",
     "areaKm2": 5039,
     "soilType": "Hard Rock / Basalt",
     "slopePct": 4.1,

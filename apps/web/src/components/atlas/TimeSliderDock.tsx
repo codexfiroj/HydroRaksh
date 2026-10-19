@@ -7,9 +7,10 @@ import { PLANNING_HORIZONS } from "@/data/up-75-districts";
 interface TimeSliderDockProps {
   currentYear: number;
   onYearChange: (updater: number | ((prev: number) => number)) => void;
+  onOpenOwnerModal?: () => void;
 }
 
-export function TimeSliderDock({ currentYear, onYearChange }: TimeSliderDockProps) {
+export function TimeSliderDock({ currentYear, onYearChange, onOpenOwnerModal }: TimeSliderDockProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
   const playIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -184,6 +185,36 @@ export function TimeSliderDock({ currentYear, onYearChange }: TimeSliderDockProp
               </button>
             );
           })}
+        </div>
+
+        {/* Compact Owner & Academic Attribution Bar */}
+        <div className="flex items-center justify-between pt-1 border-t border-atlas-border/50 text-[10px] text-atlas-muted">
+          <div className="flex items-center gap-2 truncate">
+            <span className="font-semibold text-atlas-text">JalSuraksha</span>
+            <span>•</span>
+            <span className="hidden sm:inline">Pan-India Groundwater Intelligence</span>
+            <span className="hidden sm:inline">•</span>
+            <span>
+              Developed by{" "}
+              <button
+                type="button"
+                onClick={onOpenOwnerModal}
+                className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
+              >
+                Mohd Shami
+              </button>{" "}
+              (B.Tech Data Science)
+            </span>
+          </div>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <a href="mailto:codexshami@gmail.com" className="hover:text-atlas-text transition" title="Email Mohd Shami">codexshami@gmail.com</a>
+            <span className="hidden sm:inline">•</span>
+            <a href="https://mohdshamii.github.io" target="_blank" rel="noopener noreferrer" className="hover:text-atlas-text transition hidden sm:inline" title="Portfolio">Portfolio</a>
+            <span className="hidden sm:inline">•</span>
+            <a href="https://github.com/mohdshamii" target="_blank" rel="noopener noreferrer" className="hover:text-atlas-text transition" title="GitHub">GitHub</a>
+            <span className="hidden sm:inline">•</span>
+            <a href="https://linkedin.com/in/modshamii" target="_blank" rel="noopener noreferrer" className="hover:text-atlas-text transition" title="LinkedIn">LinkedIn</a>
+          </div>
         </div>
       </div>
     </div>

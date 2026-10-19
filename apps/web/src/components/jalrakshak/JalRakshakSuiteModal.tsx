@@ -17,6 +17,8 @@ import {
   Bot,
   Table,
   ShieldAlert,
+  CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
 import { WaterBalanceAudit } from "./WaterBalanceAudit";
 import { NRWLeakageAnalytics } from "./NRWLeakageAnalytics";
@@ -196,7 +198,7 @@ export function JalRakshakSuiteModal({
         <div className="p-3.5 sm:p-5 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 shadow-glow text-white font-bold text-lg">
-              🛡️
+              <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -242,20 +244,20 @@ export function JalRakshakSuiteModal({
         {/* Navigation Tabs Bar */}
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar p-2 bg-atlas-canvas border-b border-atlas-border text-xs">
           {[
-            { id: "recharge", label: "🏗️ Recharge Planner" },
-            { id: "balance", label: "⚖️ Water Balance Audit" },
-            { id: "leakage", label: "🚰 NRW & Leakage" },
-            { id: "budget", label: "💰 Budget Optimizer" },
-            { id: "whatif", label: "🧪 What-If Simulator" },
-            { id: "rwh", label: "🌧️ RWH Calculator" },
-            { id: "forecast", label: "📈 ML Forecasting" },
-            { id: "agri", label: "🌾 Agriculture Advisory" },
-            { id: "quality", label: "🧪 Water Quality" },
-            { id: "iot", label: "📡 IoT Telemetry" },
-            { id: "grievance", label: "📢 Citizen Grievances" },
-            { id: "copilot", label: "🤖 AI Copilot" },
-            { id: "matrix", label: "📊 75-District Matrix" },
-            { id: "report", label: "📋 Project Report" },
+            { id: "recharge", label: "Recharge Planner" },
+            { id: "balance", label: "Water Balance Audit" },
+            { id: "leakage", label: "NRW & Leakage" },
+            { id: "budget", label: "Budget Optimizer" },
+            { id: "whatif", label: "What-If Simulator" },
+            { id: "rwh", label: "RWH Calculator" },
+            { id: "forecast", label: "ML Forecasting" },
+            { id: "agri", label: "Agriculture Advisory" },
+            { id: "quality", label: "Water Quality" },
+            { id: "iot", label: "IoT Telemetry" },
+            { id: "grievance", label: "Citizen Grievances" },
+            { id: "copilot", label: "AI Copilot" },
+            { id: "matrix", label: "75-District Matrix" },
+            { id: "report", label: "Project Report" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -578,11 +580,18 @@ export function JalRakshakSuiteModal({
                   </div>
 
                   <div className="p-3 rounded-lg bg-gradient-to-r from-emerald-500/15 to-transparent border border-emerald-500/30 text-xs">
-                    <div className="font-bold text-atlas-text">Simulation Verdict:</div>
+                    <div className="flex items-center gap-1.5 font-bold text-atlas-text">
+                      {simStress < baseStress ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      ) : (
+                        <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+                      )}
+                      <span>Simulation Verdict:</span>
+                    </div>
                     <p className="text-atlas-muted text-[11px] mt-1 leading-relaxed">
                       {simStress < baseStress
-                        ? `✅ Intervention successful! A combined ${Math.abs(extDelta)}% extraction cut and +${addedStructures} recharge structures recovers the water table by ${Math.abs(simDeltaDepth)} meters.`
-                        : "⚠️ Unfavorable outcome! Increased demand and extraction outstrip recharge, deepening the aquifer stress."}
+                        ? `Intervention successful! A combined ${Math.abs(extDelta)}% extraction cut and +${addedStructures} recharge structures recovers the water table by ${Math.abs(simDeltaDepth)} meters.`
+                        : "Unfavorable outcome! Increased demand and extraction outstrip recharge, deepening the aquifer stress."}
                     </p>
                   </div>
                 </div>
@@ -755,9 +764,12 @@ export function JalRakshakSuiteModal({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
-                  <h5 className="font-bold text-rose-500 dark:text-rose-400 uppercase tracking-wider text-[11px]">
-                    ⚠️ High Water Footprint Crops (Over-Extracting)
-                  </h5>
+                  <div className="flex items-center gap-1.5">
+                    <AlertTriangle className="w-4 h-4 text-rose-500 dark:text-rose-400" />
+                    <h5 className="font-bold text-rose-500 dark:text-rose-400 uppercase tracking-wider text-[11px]">
+                      High Water Footprint Crops (Over-Extracting)
+                    </h5>
+                  </div>
                   <div className="space-y-2">
                     <div className="p-2.5 rounded-lg bg-atlas-card border border-atlas-border flex justify-between">
                       <div>
@@ -777,9 +789,12 @@ export function JalRakshakSuiteModal({
                 </div>
 
                 <div className="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
-                  <h5 className="font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider text-[11px]">
-                    ✅ AI-Recommended Low-Water Crop Shift
-                  </h5>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <h5 className="font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider text-[11px]">
+                      AI-Recommended Low-Water Crop Shift
+                    </h5>
+                  </div>
                   <div className="space-y-2">
                     <div className="p-2.5 rounded-lg bg-atlas-card border border-atlas-border flex justify-between">
                       <div>

@@ -48,6 +48,8 @@ class Settings(BaseSettings):
     FEATURE_LIVE_STREAMING: bool = True
     FEATURE_AI_ASSISTANT: bool = True
     FEATURE_SMS_ALERTS: bool = False
+    AUTH_ENABLED: bool = False
+    AUTH_STORAGE_MODE: str = "json"  # "json" or "database"
 
     # External APIs
     DATA_GOV_IN_API_KEY: str = ""

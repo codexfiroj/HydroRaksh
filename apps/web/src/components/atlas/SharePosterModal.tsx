@@ -119,7 +119,7 @@ export function SharePosterModal({
     ctx.fillStyle = "#64748b";
     ctx.font = "12px monospace";
     ctx.fillText(
-      "💧 JalRakshak AI • Detect • Predict • Locate • Recommend • Optimize • Monitor",
+      "JalRakshak AI • Detect • Predict • Locate • Recommend • Optimize • Monitor",
       canvas.width - 85,
       canvas.height - 75
     );

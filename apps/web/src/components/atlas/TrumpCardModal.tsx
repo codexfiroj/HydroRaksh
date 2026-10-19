@@ -189,11 +189,12 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                   className="p-3 rounded-xl bg-atlas-elevated/30 border border-atlas-border/70 flex items-center justify-between text-xs"
                 >
                   <div
-                    className={`flex-1 text-left font-mono font-bold ${
+                    className={`flex-1 text-left font-mono font-bold flex items-center gap-1.5 ${
                       aWins ? "text-amber-500 dark:text-amber-400 text-sm" : "text-atlas-muted"
                     }`}
                   >
-                    {attr.format(attr.valA)} {aWins && "👑"}
+                    <span>{attr.format(attr.valA)}</span>
+                    {aWins && <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/20 text-amber-600 dark:text-amber-400 font-sans font-semibold">LEAD</span>}
                   </div>
 
                   <div className="flex-1 text-center font-medium text-atlas-text">
@@ -201,11 +202,12 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                   </div>
 
                   <div
-                    className={`flex-1 text-right font-mono font-bold ${
+                    className={`flex-1 text-right font-mono font-bold flex items-center justify-end gap-1.5 ${
                       bWins ? "text-sky-500 dark:text-sky-400 text-sm" : "text-atlas-muted"
                     }`}
                   >
-                    {bWins && "👑 "} {attr.format(attr.valB)}
+                    {bWins && <span className="px-1.5 py-0.5 rounded text-[9px] bg-sky-500/20 text-sky-600 dark:text-sky-400 font-sans font-semibold">LEAD</span>}
+                    <span>{attr.format(attr.valB)}</span>
                   </div>
                 </div>
               );
@@ -215,14 +217,14 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
           {/* Result Banner */}
           <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-500/15 via-transparent to-sky-500/15 border border-atlas-border text-center">
             <div className="text-xs text-atlas-muted uppercase tracking-wider font-semibold">
-              Water Security Duel Verdict
+              Water Security Comparison Verdict
             </div>
-            <div className="text-lg font-serif font-black text-atlas-text mt-1">
+            <div className="text-base font-serif font-bold text-atlas-text mt-1">
               {scoreA > scoreB
-                ? `🏆 ${districtA.name} demonstrates superior water resilience (${scoreA} winning metrics)!`
+                ? `${districtA.name} demonstrates superior water resilience (${scoreA} winning metrics)`
                 : scoreB > scoreA
-                ? `🏆 ${districtB.name} demonstrates superior water resilience (${scoreB} winning metrics)!`
-                : "🤝 Balanced groundwater indicators between both districts!"}
+                ? `${districtB.name} demonstrates superior water resilience (${scoreB} winning metrics)`
+                : "Balanced groundwater indicators between both districts"}
             </div>
           </div>
         </div>

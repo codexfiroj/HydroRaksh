@@ -1,0 +1,33 @@
+{
+  "model_name": "random_forest_forecaster",
+  "version": "v1",
+  "timestamp_utc": "2026-10-19T06:58:56.761999+00:00",
+  "metrics": {
+    "mae": 0.3687,
+    "rmse": 0.47,
+    "median_ae": 0.5991,
+    "mape_pct": 1.12,
+    "r2": -4.37500621202015e+27,
+    "n_samples": 13
+  },
+  "parameters": {
+    "n_estimators": 100,
+    "max_depth": 7,
+    "features": [
+      "month_sin",
+      "month_cos",
+      "doy_sin",
+      "doy_cos",
+      "depth_to_water_mbgl_lag_1",
+      "depth_to_water_mbgl_roll_mean_3",
+      "specific_yield_est",
+      "recharge_potential_index",
+      "stage_of_extraction_pct"
+    ]
+  },
+  "dataset_info": {
+    "train_samples": 56,
+    "test_samples": 13
+  },
+  "model_file": "random_forest_forecaster_v1_20261019_065856.joblib"
+}

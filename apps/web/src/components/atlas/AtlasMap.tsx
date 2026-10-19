@@ -12,6 +12,9 @@ interface AtlasMapProps {
   showHotspots: boolean;
   showIoTSensors: boolean;
   isColorBlindMode: boolean;
+  selectedStateCode?: string;
+  districts?: DistrictWaterEntity[];
+  stateName?: string;
 }
 
 export function AtlasMap({
@@ -23,22 +26,35 @@ export function AtlasMap({
   showHotspots,
   showIoTSensors,
   isColorBlindMode,
+  selectedStateCode = "UP",
+  districts,
+  stateName,
 }: AtlasMapProps) {
   const [hoveredDistrict, setHoveredDistrict] = useState<DistrictWaterEntity | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
+  const displayDistricts = districts && districts.length > 0 ? districts : UP_75_WATER_DISTRICTS;
+
   // Get temporal metrics for a district at currentYear
   const getTemporalMetrics = (d: DistrictWaterEntity) => {
+    if (!d.temporalTrajectory || d.temporalTrajectory.length === 0) {
+      return {
+        year: currentYear,
+        depth_m: d.modernWaterMetrics?.groundwaterDepthM ?? 12.0,
+        stress_score: d.modernWaterMetrics?.waterStressScore ?? 65,
+        category: (d.modernWaterMetrics?.cgwbCategory ?? "Critical") as any,
+        phase: "Observation",
+      };
+    }
     const pt = d.temporalTrajectory.find((t) => t.year === currentYear);
     if (pt) return pt;
-    // interpolate or find closest
     return d.temporalTrajectory.slice().reverse().find((t) => currentYear >= t.year) || d.temporalTrajectory[0];
   };
 
   // Compute fill color based on view mode and current year
   const getDistrictFill = (d: DistrictWaterEntity): string => {
     if (viewMode === "recharge") {
-      const suit = d.rechargeSuitabilityScore;
+      const suit = d.rechargeSuitabilityScore ?? 75;
       if (suit >= 88) return isColorBlindMode ? "#009e73" : "#06b6d4"; // High / Cyan
       if (suit >= 75) return isColorBlindMode ? "#56b4e9" : "#3b82f6"; // Good / Blue
       if (suit >= 60) return isColorBlindMode ? "#f0e442" : "#f59e0b"; // Moderate / Amber
@@ -83,7 +99,8 @@ export function AtlasMap({
         </defs>
 
         {/* Major River Basins (Ganga, Yamuna, Gomti, Ghaghara, Betwa, Ken, Son) */}
-        {showRivers && (
+        {/* Major River Basins (Ganga, Yamuna, Gomti, Ghaghara, Betwa, Ken, Son) - Render for UP */}
+        {showRivers && selectedStateCode === "UP" && (
           <g className="rivers-overlay opacity-75 pointer-events-none">
             {/* Yamuna */}
             <path
@@ -140,46 +157,150 @@ export function AtlasMap({
           </g>
         )}
 
-        {/* 75 Districts Polygons */}
-        <g className="districts-layer">
-          {UP_75_WATER_DISTRICTS.map((d) => {
-            const isSelected = d.id === selectedDistrictId;
-            const isHovered = hoveredDistrict?.id === d.id;
-            const fillColor = getDistrictFill(d);
+        {/* Pan-India Territory Layer: Either UP SVG Polygons or State District Mosaic */}
+        {selectedStateCode && selectedStateCode !== "UP" ? (
+          <g className="pan-india-state-layer">
+            <rect x="50" y="24" width="840" height="42" rx="10" fill="#0f172a" stroke="#334155" strokeWidth="1.5" />
+            <text x="70" y="50" fill="#38bdf8" fontSize="14" fontWeight="bold">
+              {stateName || selectedStateCode} • Hydrological Assessment Units
+            </text>
+            <text x="870" y="50" textAnchor="end" fill="#94a3b8" fontSize="11">
+              {displayDistricts.length} Assessment Districts • Pan-India Telemetry Active
+            </text>
 
-            return (
-              <g key={d.id} className="transition-all duration-200">
-                <path
-                  d={d.svgPath}
-                  fill={fillColor}
-                  className={`district-shape ${isSelected ? "selected" : ""}`}
-                  filter={isSelected ? "url(#districtGlow)" : isHovered ? "url(#hoverGlow)" : undefined}
+            {displayDistricts.map((d, idx) => {
+              const isSelected = d.id === selectedDistrictId;
+              const isHovered = hoveredDistrict?.id === d.id;
+              const fillColor = getDistrictFill(d);
+              
+              const cols = displayDistricts.length <= 4 ? displayDistricts.length : Math.min(4, Math.ceil(Math.sqrt(displayDistricts.length * 1.5)));
+              const col = idx % cols;
+              const row = Math.floor(idx / cols);
+              const cardWidth = Math.min(240, Math.floor((800 / cols) - 16));
+              const cardHeight = 118;
+              const x = 60 + col * (cardWidth + 16);
+              const y = 88 + row * (cardHeight + 16);
+
+              return (
+                <g
+                  key={d.id}
+                  className="cursor-pointer transition-all duration-200"
                   onClick={() => onSelectDistrict(d.id)}
                   onMouseEnter={() => setHoveredDistrict(d)}
                   onMouseLeave={() => setHoveredDistrict(null)}
-                />
-
-                {/* Centroid Text Label */}
-                <text
-                  x={d.projected[0]}
-                  y={d.projected[1] + 3}
-                  textAnchor="middle"
-                  className={`pointer-events-none text-[8.5px] font-sans font-semibold tracking-tight transition-opacity ${
-                    isSelected
-                      ? "fill-slate-900 font-extrabold text-[10px]"
-                      : "fill-white/85"
-                  }`}
-                  style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}
                 >
-                  {d.name}
-                </text>
-              </g>
-            );
-          })}
-        </g>
+                  <rect
+                    x={x}
+                    y={y}
+                    width={cardWidth}
+                    height={cardHeight}
+                    rx="12"
+                    fill={isSelected ? "#1e293b" : isHovered ? "#172033" : "#0f172a"}
+                    stroke={isSelected ? "#10b981" : isHovered ? "#38bdf8" : "#334155"}
+                    strokeWidth={isSelected ? "2.5" : "1.2"}
+                    filter={isSelected ? "url(#districtGlow)" : undefined}
+                  />
+                  <rect
+                    x={x}
+                    y={y}
+                    width="6"
+                    height={cardHeight}
+                    rx="3"
+                    fill={fillColor}
+                  />
+                  <text
+                    x={x + 16}
+                    y={y + 26}
+                    fill="#f8fafc"
+                    fontSize="13"
+                    fontWeight="bold"
+                  >
+                    {d.name}
+                  </text>
+                  <text
+                    x={x + 16}
+                    y={y + 44}
+                    fill="#94a3b8"
+                    fontSize="10"
+                  >
+                    {d.division || d.region || "District"}
+                  </text>
+                  <text
+                    x={x + 16}
+                    y={y + 70}
+                    fill="#cbd5e1"
+                    fontSize="11"
+                  >
+                    Depth: <tspan fontWeight="bold" fill="#38bdf8">{d.modernWaterMetrics?.groundwaterDepthM ?? 12} mbgl</tspan>
+                  </text>
+                  <text
+                    x={x + 16}
+                    y={y + 90}
+                    fill="#cbd5e1"
+                    fontSize="10"
+                  >
+                    Stress: <tspan fontWeight="bold" fill={fillColor}>{d.modernWaterMetrics?.waterStressScore ?? 65}/100</tspan>
+                    {" • "}
+                    <tspan fill="#f59e0b">Stage: {d.modernWaterMetrics?.cgwbStageExtractionPct ?? 85}%</tspan>
+                  </text>
+                  {isSelected && (
+                    <text
+                      x={x + cardWidth - 12}
+                      y={y + 24}
+                      textAnchor="end"
+                      fill="#10b981"
+                      fontSize="9"
+                      fontWeight="bold"
+                    >
+                      SELECTED
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+          </g>
+        ) : (
+          /* 75 Districts Polygons for UP */
+          <g className="districts-layer">
+            {UP_75_WATER_DISTRICTS.map((d) => {
+              const isSelected = d.id === selectedDistrictId;
+              const isHovered = hoveredDistrict?.id === d.id;
+              const fillColor = getDistrictFill(d);
+
+              return (
+                <g key={d.id} className="transition-all duration-200">
+                  <path
+                    d={d.svgPath}
+                    fill={fillColor}
+                    className={`district-shape ${isSelected ? "selected" : ""}`}
+                    filter={isSelected ? "url(#districtGlow)" : isHovered ? "url(#hoverGlow)" : undefined}
+                    onClick={() => onSelectDistrict(d.id)}
+                    onMouseEnter={() => setHoveredDistrict(d)}
+                    onMouseLeave={() => setHoveredDistrict(null)}
+                  />
+
+                  {/* Centroid Text Label */}
+                  <text
+                    x={d.projected[0]}
+                    y={d.projected[1] + 3}
+                    textAnchor="middle"
+                    className={`pointer-events-none text-[8.5px] font-sans font-semibold tracking-tight transition-opacity ${
+                      isSelected
+                        ? "fill-slate-900 font-extrabold text-[10px]"
+                        : "fill-white/85"
+                    }`}
+                    style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}
+                  >
+                    {d.name}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        )}
 
         {/* Critical Over-Extraction Hotspot Markers */}
-        {showHotspots &&
+        {showHotspots && selectedStateCode === "UP" &&
           UP_75_WATER_DISTRICTS.filter((d) => d.modernWaterMetrics.cgwbStageExtractionPct > 100).map(
             (d) => (
               <g
@@ -211,7 +332,7 @@ export function AtlasMap({
           )}
 
         {/* IoT Active Edge Node Markers */}
-        {showIoTSensors &&
+        {showIoTSensors && selectedStateCode === "UP" &&
           UP_75_WATER_DISTRICTS.filter((d) => iotDistricts.includes(d.id)).map((d) => (
             <g
               key={`iot-${d.id}`}
@@ -226,15 +347,12 @@ export function AtlasMap({
                 stroke="#ffffff"
                 strokeWidth="1.2"
               />
-              <text
-                x={d.projected[0] + 12}
-                y={d.projected[1] - 8}
-                textAnchor="middle"
-                fontSize="7"
-                fill="#ffffff"
-              >
-                📡
-              </text>
+              <circle
+                cx={d.projected[0] + 10}
+                cy={d.projected[1] - 8}
+                r="2.5"
+                fill="#38bdf8"
+              />
             </g>
           ))}
       </svg>
@@ -280,14 +398,14 @@ export function AtlasMap({
               <span className="text-atlas-muted">CGWB Stage:</span>
               <span
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                  hoveredDistrict.modernWaterMetrics.cgwbStageExtractionPct > 100
+                  (hoveredDistrict.modernWaterMetrics?.cgwbStageExtractionPct ?? 75) > 100
                     ? "bg-red-500/20 text-red-400"
-                    : hoveredDistrict.modernWaterMetrics.cgwbStageExtractionPct > 70
+                    : (hoveredDistrict.modernWaterMetrics?.cgwbStageExtractionPct ?? 75) > 70
                     ? "bg-amber-500/20 text-amber-400"
                     : "bg-emerald-500/20 text-emerald-400"
                 }`}
               >
-                {hoveredDistrict.modernWaterMetrics.cgwbStageExtractionPct}% ({hoveredDistrict.modernWaterMetrics.cgwbCategory})
+                {hoveredDistrict.modernWaterMetrics?.cgwbStageExtractionPct ?? 75}% ({hoveredDistrict.modernWaterMetrics?.cgwbCategory ?? "Critical"})
               </span>
             </div>
           </div>

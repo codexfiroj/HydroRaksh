@@ -9,17 +9,27 @@ from app.models.base import TimestampMixin
 class Observation(Base, TimestampMixin):
     __tablename__ = "observations"
 
-    station_id = Column(String(36), ForeignKey("stations.id"), nullable=False, index=True)
+    station_id = Column(String(36), ForeignKey("stations.id"), nullable=True, index=True)
+    region_id = Column(String(36), ForeignKey("regions.id"), nullable=True, index=True)
+    state_code = Column(String(10), nullable=True, index=True)
+    district_id = Column(String(100), nullable=True, index=True)
     observed_at = Column(DateTime, nullable=False, index=True)
     metric = Column(String(50), nullable=False, index=True)  # water_depth_m, rainfall_mm, flow_lpm, tds_mg_l, ph, etc.
     value = Column(Float, nullable=False)
     unit = Column(String(20), nullable=False)
     quality_flag = Column(String(20), default="good")  # good, suspect, rejected
+    validation_status = Column(String(30), default="validated")  # validated, raw, inferred
     source_id = Column(String(50), nullable=False, index=True)
+    source_dataset = Column(String(100), nullable=True)
+    source_url = Column(String(255), nullable=True)
+    license = Column(String(100), default="Open Government Data / Public Domain")
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     fetched_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     raw_payload = Column(Text, nullable=True)
 
     station = relationship("Station", back_populates="observations")
+    region = relationship("Region", back_populates="observations")
 
     __table_args__ = (
         Index("ix_obs_station_metric_time", "station_id", "metric", "observed_at"),

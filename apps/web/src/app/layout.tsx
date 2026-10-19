@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "JalSuraksha — AI Water Resource Intelligence",
   description: "Predict • Protect • Preserve. National Real-Time Water Resource Management, ML Forecasting & Citizen Decision Support.",
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23245B8F'><path d='M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z'/></svg>",
   },
 };
 

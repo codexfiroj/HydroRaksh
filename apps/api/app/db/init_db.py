@@ -8,7 +8,55 @@ from app.models.telemetry import Observation, DataSource, IngestionRun, Reservoi
 from app.models.intelligence import RiskScore, Alert, AlertRule, IssueReport
 
 
+def migrate_sqlite_columns(eng):
+    """Gracefully ensure newly added columns exist in SQLite database if tables pre-exist."""
+    try:
+        with eng.connect() as conn:
+            # Check regions table
+            res = conn.exec_driver_sql("PRAGMA table_info(regions)").fetchall()
+            existing_cols = {row[1] for row in res}
+            if existing_cols:
+                region_new_cols = [
+                    ("state_code", "VARCHAR(10)"),
+                    ("admin_term", "VARCHAR(50)"),
+                    ("hydrogeology_terrain", "VARCHAR(100)"),
+                    ("aquifer_type", "VARCHAR(100)"),
+                    ("soil_type", "VARCHAR(100)"),
+                    ("avg_rainfall_mm", "FLOAT"),
+                    ("stage_extraction_pct", "FLOAT"),
+                    ("cgwb_category", "VARCHAR(50)"),
+                    ("aliases", "TEXT"),
+                ]
+                for col_name, col_type in region_new_cols:
+                    if col_name not in existing_cols:
+                        conn.exec_driver_sql(f"ALTER TABLE regions ADD COLUMN {col_name} {col_type}")
+
+            # Check observations table
+            obs_res = conn.exec_driver_sql("PRAGMA table_info(observations)").fetchall()
+            obs_cols = {row[1] for row in obs_res}
+            if obs_cols:
+                obs_new_cols = [
+                    ("region_id", "VARCHAR(36)"),
+                    ("state_code", "VARCHAR(10)"),
+                    ("district_id", "VARCHAR(100)"),
+                    ("validation_status", "VARCHAR(30) DEFAULT 'validated'"),
+                    ("source_dataset", "VARCHAR(100)"),
+                    ("source_url", "VARCHAR(255)"),
+                    ("license", "VARCHAR(100) DEFAULT 'Open Government Data / Public Domain'"),
+                    ("latitude", "FLOAT"),
+                    ("longitude", "FLOAT"),
+                ]
+                for col_name, col_type in obs_new_cols:
+                    if col_name not in obs_cols:
+                        conn.exec_driver_sql(f"ALTER TABLE observations ADD COLUMN {col_name} {col_type}")
+            conn.commit()
+    except Exception as e:
+        # Tables might not exist yet, which is fine as create_all will create them
+        pass
+
+
 def init_db():
+    migrate_sqlite_columns(engine)
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
@@ -93,34 +141,81 @@ def init_db():
         print("Seeded default users successfully.")
 
     # 2. Seed Data Sources
-    if db.query(DataSource).count() == 0:
-        sources_seed = [
-            DataSource(code="open_meteo", name="Open-Meteo Weather & Rainfall API", url="https://api.open-meteo.com/v1/forecast", update_frequency="Hourly", status="healthy", record_count=1420),
-            DataSource(code="india_wris", name="India-WRIS National Informatics", url="https://indiawris.gov.in/wris", update_frequency="Daily", status="healthy", record_count=3840),
-            DataSource(code="cgwb", name="Central Ground Water Board (CGWB)", url="http://cgwb.gov.in", update_frequency="Weekly", status="healthy", record_count=5120),
-            DataSource(code="cwc", name="Central Water Commission Reservoir Bulletins", url="http://cwc.gov.in", update_frequency="Weekly", status="healthy", record_count=150),
-            DataSource(code="cpcb", name="CPCB National Water Quality Network", url="https://cpcb.nic.in", update_frequency="Daily", status="healthy", record_count=890),
-            DataSource(code="data_gov_in", name="Open Government Data Platform India", url="https://data.gov.in", update_frequency="Weekly", status="healthy", record_count=2100),
-        ]
-        db.add_all(sources_seed)
-        db.commit()
-        print("Seeded data sources successfully.")
+    expected_sources = [
+        {"code": "open_meteo", "name": "Open-Meteo Weather & Rainfall API", "url": "https://api.open-meteo.com/v1/forecast", "update_frequency": "Hourly", "status": "healthy", "record_count": 1420},
+        {"code": "india_wris", "name": "India-WRIS National Water Informatics Centre", "url": "https://indiawris.gov.in/wris", "update_frequency": "Daily", "status": "healthy", "record_count": 3840},
+        {"code": "cgwb", "name": "Central Ground Water Board (CGWB)", "url": "http://cgwb.gov.in", "update_frequency": "Weekly", "status": "healthy", "record_count": 5120},
+        {"code": "cwc", "name": "Central Water Commission Reservoir Bulletins", "url": "http://cwc.gov.in", "update_frequency": "Weekly", "status": "healthy", "record_count": 150},
+        {"code": "cpcb", "name": "CPCB National Water Quality Network", "url": "https://cpcb.nic.in", "update_frequency": "Daily", "status": "healthy", "record_count": 890},
+        {"code": "data_gov_in", "name": "Open Government Data Platform India", "url": "https://data.gov.in", "update_frequency": "Weekly", "status": "healthy", "record_count": 2100},
+        {"code": "imd", "name": "India Meteorological Department (IMD) Rainfall", "url": "https://mausam.imd.gov.in", "update_frequency": "Daily", "status": "healthy", "record_count": 780},
+        {"code": "soilgrids", "name": "ISRIC SoilGrids & Agro-Ecological Profiles", "url": "https://soilgrids.org", "update_frequency": "Monthly", "status": "healthy", "record_count": 650},
+        {"code": "icar_agri", "name": "Min of Agriculture & ICAR Crop Water Demand", "url": "https://agricoop.nic.in", "update_frequency": "Seasonal", "status": "healthy", "record_count": 1200},
+        {"code": "census_india", "name": "Census of India Water Demand & Demographics", "url": "https://censusindia.gov.in", "update_frequency": "Annual", "status": "healthy", "record_count": 850},
+    ]
+    for s_info in expected_sources:
+        if not db.query(DataSource).filter(DataSource.code == s_info["code"]).first():
+            db.add(DataSource(**s_info))
+    db.commit()
 
-    # 3. Seed Regions (Districts matching prototype + real attributes)
-    if db.query(Region).count() == 0:
-        districts_seed = [
-            Region(code="UP-MRT", name="Meerut", type="District", state="Uttar Pradesh", district="Meerut", latitude=28.9845, longitude=77.7064, area_km2=2522, population=3443689),
-            Region(code="UP-GZB", name="Ghaziabad", type="District", state="Uttar Pradesh", district="Ghaziabad", latitude=28.6692, longitude=77.4538, area_km2=1179, population=4681645),
-            Region(code="UP-HPR", name="Hapur", type="District", state="Uttar Pradesh", district="Hapur", latitude=28.7306, longitude=77.7759, area_km2=1124, population=1338311),
-            Region(code="UP-NOI", name="Noida", type="District", state="Uttar Pradesh", district="Gautam Buddha Nagar", latitude=28.5355, longitude=77.3910, area_km2=680, population=1648115),
-            Region(code="UP-GNO", name="Greater Noida", type="District", state="Uttar Pradesh", district="Gautam Buddha Nagar", latitude=28.4744, longitude=77.5040, area_km2=580, population=750000),
-            Region(code="UP-BLS", name="Bulandshahr", type="District", state="Uttar Pradesh", district="Bulandshahr", latitude=28.4070, longitude=77.8498, area_km2=4352, population=3499171),
-            Region(code="UP-MTR", name="Mathura", type="District", state="Uttar Pradesh", district="Mathura", latitude=27.4924, longitude=77.6737, area_km2=3340, population=2547184),
-            Region(code="UP-ALG", name="Aligarh", type="District", state="Uttar Pradesh", district="Aligarh", latitude=27.8974, longitude=78.0880, area_km2=3650, population=3673889),
-        ]
-        db.add_all(districts_seed)
-        db.commit()
-        print("Seeded regions successfully.")
+    # 3. Seed Regions (Original UP prototype districts + Pan-India States and Districts)
+    from app.core.geography_registry import INDIAN_STATES_AND_UTS, PAN_INDIA_DISTRICTS
+
+    # Ensure baseline UP districts exist
+    baseline_up_districts = [
+        {"code": "UP-MRT", "name": "Meerut", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Meerut", "latitude": 28.9845, "longitude": 77.7064, "area_km2": 2522, "population": 3443689, "admin_term": "Tehsil", "aquifer_type": "Indo-Gangetic Alluvium", "soil_type": "Fine Alluvial Silt", "stage_extraction_pct": 94.5, "cgwb_category": "Critical"},
+        {"code": "UP-GZB", "name": "Ghaziabad", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Ghaziabad", "latitude": 28.6692, "longitude": 77.4538, "area_km2": 1179, "population": 4681645, "admin_term": "Tehsil", "aquifer_type": "Indo-Gangetic Alluvium", "soil_type": "Deep Sandy Alluvium", "stage_extraction_pct": 126.5, "cgwb_category": "Over-Exploited"},
+        {"code": "UP-HPR", "name": "Hapur", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Hapur", "latitude": 28.7306, "longitude": 77.7759, "area_km2": 1124, "population": 1338311, "admin_term": "Tehsil", "aquifer_type": "Indo-Gangetic Alluvium", "soil_type": "Alluvial Silt Loam", "stage_extraction_pct": 142.1, "cgwb_category": "Over-Exploited"},
+        {"code": "UP-NOI", "name": "Noida", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Gautam Buddha Nagar", "latitude": 28.5355, "longitude": 77.3910, "area_km2": 680, "population": 1648115, "admin_term": "Tehsil", "aquifer_type": "Indo-Gangetic Alluvium", "soil_type": "Alluvial Sandy Silt", "stage_extraction_pct": 110.0, "cgwb_category": "Over-Exploited"},
+        {"code": "UP-GNO", "name": "Greater Noida", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Gautam Buddha Nagar", "latitude": 28.4744, "longitude": 77.5040, "area_km2": 580, "population": 750000, "admin_term": "Tehsil", "aquifer_type": "Indo-Gangetic Alluvium", "soil_type": "Sandy Loam", "stage_extraction_pct": 105.0, "cgwb_category": "Over-Exploited"},
+        {"code": "UP-BLS", "name": "Bulandshahr", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Bulandshahr", "latitude": 28.4070, "longitude": 77.8498, "area_km2": 4352, "population": 3499171, "admin_term": "Tehsil", "aquifer_type": "Older Alluvium", "soil_type": "Alluvial Loam", "stage_extraction_pct": 88.0, "cgwb_category": "Semi-Critical"},
+        {"code": "UP-MTR", "name": "Mathura", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Mathura", "latitude": 27.4924, "longitude": 77.6737, "area_km2": 3340, "population": 2547184, "admin_term": "Tehsil", "aquifer_type": "Alluvium", "soil_type": "Sandy Alluvial", "stage_extraction_pct": 68.0, "cgwb_category": "Safe"},
+        {"code": "UP-ALG", "name": "Aligarh", "type": "District", "state": "Uttar Pradesh", "state_code": "IN-UP", "district": "Aligarh", "latitude": 27.8974, "longitude": 78.0880, "area_km2": 3650, "population": 3673889, "admin_term": "Tehsil", "aquifer_type": "Alluvial Sandstone", "soil_type": "Alluvial Loam", "stage_extraction_pct": 98.2, "cgwb_category": "Critical"},
+    ]
+    for d_seed in baseline_up_districts:
+        if not db.query(Region).filter(Region.code == d_seed["code"]).first():
+            db.add(Region(**d_seed))
+    db.commit()
+
+    # Seed All 36 States/UTs as Region entities (type="State" or "Union Territory")
+    for s_info in INDIAN_STATES_AND_UTS:
+        if not db.query(Region).filter(Region.code == s_info["code"]).first():
+            db.add(Region(
+                code=s_info["code"],
+                name=s_info["name"],
+                type=s_info["type"],
+                state=s_info["name"],
+                state_code=s_info["code"],
+                latitude=s_info["center_lat"],
+                longitude=s_info["center_lon"],
+                admin_term=s_info["subdistrict_term"],
+                hydrogeology_terrain=s_info["primary_terrain"]
+            ))
+    db.commit()
+
+    # Seed Pan-India Districts
+    for p_dist in PAN_INDIA_DISTRICTS:
+        if not db.query(Region).filter(Region.code == p_dist["code"]).first():
+            db.add(Region(
+                code=p_dist["code"],
+                name=p_dist["name"],
+                type="District",
+                state=p_dist["state_name"],
+                state_code=p_dist["state_code"],
+                district=p_dist["name"],
+                latitude=p_dist["lat"],
+                longitude=p_dist["lon"],
+                area_km2=p_dist.get("area_km2"),
+                population=p_dist.get("population"),
+                admin_term=p_dist.get("subdistrict_term", "Tehsil"),
+                soil_type=p_dist.get("soil_type"),
+                aquifer_type=p_dist.get("aquifer_type"),
+                avg_rainfall_mm=p_dist.get("avg_rainfall_mm"),
+                stage_extraction_pct=p_dist.get("stage_extraction_pct"),
+                cgwb_category=p_dist.get("cgwb_category")
+            ))
+    db.commit()
+    print("Seeded Pan-India states, districts, and data sources successfully.")
 
     # 4. Seed Stations and Telemetry
     if db.query(Station).count() == 0:

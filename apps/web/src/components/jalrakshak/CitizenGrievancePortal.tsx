@@ -195,9 +195,9 @@ export function CitizenGrievancePortal({ initialDistrictId }: CitizenGrievancePo
                   onChange={(e) => setSeverity(e.target.value as any)}
                   className="w-full p-2 rounded-lg bg-atlas-card border border-atlas-border text-atlas-text focus:outline-none focus:ring-1 focus:ring-emerald-400 font-semibold"
                 >
-                  <option value="Emergency">🚨 Emergency (No Supply)</option>
-                  <option value="High">⚠️ High Priority</option>
-                  <option value="Normal">ℹ️ Normal Maintenance</option>
+                  <option value="Emergency">[Emergency] Urgent Outage</option>
+                  <option value="High">[High Priority] Significant Deficit</option>
+                  <option value="Normal">[Normal] General Maintenance</option>
                 </select>
               </div>
             </div>

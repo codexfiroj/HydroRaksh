@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { DistrictWaterEntity } from "@/data/up-75-districts";
-import { Scale, ArrowDownRight, ArrowUpRight, Droplet, ShieldAlert, CheckCircle2, RefreshCw } from "lucide-react";
+import { Scale, ArrowDownRight, ArrowUpRight, Droplet, ShieldAlert, CheckCircle2, RefreshCw, AlertTriangle } from "lucide-react";
 
 interface WaterBalanceAuditProps {
   district: DistrictWaterEntity;
@@ -261,9 +261,17 @@ export function WaterBalanceAudit({ district }: WaterBalanceAuditProps) {
                 ? "bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-300"
                 : "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
             }`}>
-              {isDeficit
-                ? `⚠️ Over-Extraction Alert: Aquifer storage is being depleted at ${Math.abs(netAquiferBalanceMcm)} MCM/year! Urgent artificial recharge wells and mandatory micro-irrigation required.`
-                : `✅ Sustainable Inflow: Replenishment exceeds extraction by ${netAquiferBalanceMcm} MCM/year. Continue monitoring seasonal fluctuations.`}
+              {isDeficit ? (
+                <div className="flex items-start gap-1.5">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-500" />
+                  <span>Over-Extraction Alert: Aquifer storage is being depleted at {Math.abs(netAquiferBalanceMcm)} MCM/year! Urgent artificial recharge wells and mandatory micro-irrigation required.</span>
+                </div>
+              ) : (
+                <div className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-500" />
+                  <span>Sustainable Inflow: Replenishment exceeds extraction by {netAquiferBalanceMcm} MCM/year. Continue monitoring seasonal fluctuations.</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

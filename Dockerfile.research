@@ -1,0 +1,37 @@
+# JalSuraksha ML Research & JupyterLab Environment
+FROM python:3.10-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    JUPYTER_ENABLE_LAB=yes
+
+WORKDIR /workspace
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    sqlite3 \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install research requirements
+COPY ml/requirements-research.txt /workspace/ml/requirements-research.txt
+RUN pip install --no-cache-dir -r ml/requirements-research.txt
+
+# Copy repository research files
+COPY ml /workspace/ml
+COPY services /workspace/services
+COPY data /workspace/data
+COPY jalsuraksha_local.db /workspace/jalsuraksha_local.db
+
+# Create non-root research user
+RUN useradd -m -s /bin/bash researcher && \
+    chown -R researcher:researcher /workspace
+USER researcher
+
+EXPOSE 8888
+
+WORKDIR /workspace/ml
+
+# Start JupyterLab on localhost/0.0.0.0 with token authentication
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--ServerApp.token=jalsuraksha-research", "--ServerApp.allow_remote_access=True"]
