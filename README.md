@@ -449,7 +449,7 @@ JalSuraksha enforces an unambiguous data integrity policy:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/mohdshamii/JalSuraksha.git
+git clone https://github.com/mohdshamii/HydroRaksh.git
 cd JalSuraksha
 ```
 
@@ -531,20 +531,6 @@ npm run build
 - `POST /api/v1/jalrakshak/budget/optimize` — Dynamic Knapsack capital budget optimization.
 
 ---
-
-## 13. Academic References and Citation
-
-If you utilize JalSuraksha in your academic research, hydrological planning, or software systems, please cite the project:
-
-```bibtex
-@article{shami2026jalsuraksha,
-  title={JalSuraksha: Collaborative Filtering and Latent Topic Analysis for AI-Driven Groundwater Intelligence and Water Resource Decision Support},
-  author={Shami, Mohd},
-  journal={Department of Computer Science & Engineering (Data Science + AI), JalSuraksha Research Initiative},
-  year={2026},
-  url={https://github.com/mohdshamii/JalSuraksha}
-}
-```
 
 ### Key References
 1. Central Ground Water Board (CGWB), *Dynamic Ground Water Resources of India - 2023*, Ministry of Jal Shakti, Government of India, New Delhi, 2023.
