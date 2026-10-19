@@ -17,11 +17,19 @@ interface ChatMessage {
 }
 
 export function AIWaterAssistant({ district }: AIWaterAssistantProps) {
+  const category = district.modernWaterMetrics?.cgwbCategory ?? "Critical";
+  const depth = district.modernWaterMetrics?.groundwaterDepthM ?? 12.0;
+  const stage = district.modernWaterMetrics?.cgwbStageExtractionPct ?? 75.0;
+  const rain = district.modernWaterMetrics?.avgRainfallMm ?? 850;
+  const demand = district.modernWaterMetrics?.annualDemandMcm ?? 450;
+  const soil = district.soilType || "Alluvial Loam";
+  const suitScore = district.rechargeSuitabilityScore ?? 75;
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "msg-1",
       sender: "ai",
-      text: `Hello! I am JalRakshak Copilot, your AI Groundwater & Water Resource Intelligence Assistant. Currently analyzing **${district.name}** (${district.modernWaterMetrics.cgwbCategory}, ${district.modernWaterMetrics.groundwaterDepthM}m bgl depth, ${district.soilType}). How can I assist your groundwater planning or research today?`,
+      text: `Hello! I am JalRakshak Copilot, your AI Groundwater & Water Resource Intelligence Assistant. Currently analyzing **${district.name}** (${category}, ${depth}m bgl depth, ${soil}). How can I assist your groundwater planning or research today?`,
       timestamp: "Just Now",
     },
   ]);
@@ -30,19 +38,19 @@ export function AIWaterAssistant({ district }: AIWaterAssistantProps) {
 
   const promptChips = [
     `How to stop overdraft in ${district.name}?`,
-    `What recharge structure is best for ${district.soilType}?`,
-    `What is the PMKSY subsidy for drip irrigation in UP?`,
+    `What recharge structure is best for ${soil}?`,
+    `What is the PMKSY subsidy for drip irrigation?`,
     `Explain CGWB BIS 10500 standards for drinking water.`,
     `Calculate RWH potential for a 200 m² rooftop.`,
   ];
 
   const generateAnswer = (query: string): string => {
     const q = query.toLowerCase();
-    const isHardRock = district.soilType.toLowerCase().includes("rock") || district.soilType.toLowerCase().includes("granit");
+    const isHardRock = soil.toLowerCase().includes("rock") || soil.toLowerCase().includes("granit");
 
     if (q.includes("overdraft") || q.includes("stop") || q.includes("deplet")) {
       return `### Action Plan for Groundwater Recovery in ${district.name}:
-1. **Extraction Regulation**: ${district.name} is currently categorized as **${district.modernWaterMetrics.cgwbCategory}** with an extraction stage of **${district.modernWaterMetrics.cgwbStageExtractionPct}%**. Under the *UP Ground Water Act 2020*, non-domestic bulk extraction requires digital flowmeters and mandatory recharge structures.
+1. **Extraction Regulation**: ${district.name} is currently categorized as **${category}** with an extraction stage of **${stage}%**. Under groundwater regulations, non-domestic bulk extraction requires digital flowmeters and mandatory recharge structures.
 2. **Crop Diversification**: Shifting 20% of sugarcane/paddy acreage to pulses (Moong/Urad) and mustard saves ~180 MCM of annual aquifer draft.
 3. **Artificial Recharge**: Implement deep injection wells with silt traps in sandy alluvium, or check dams in high slope runoff corridors.
 4. **Water Footprint Reduction**: Target 100% adoption of micro-irrigation (drip/sprinkler) under PMKSY with state 55% subsidy.`;
@@ -50,13 +58,13 @@ export function AIWaterAssistant({ district }: AIWaterAssistantProps) {
 
     if (q.includes("recharge structure") || q.includes("soil") || q.includes("best")) {
       if (isHardRock) {
-        return `### Recharge Engineering for ${district.soilType}:
-In **hard rock crystalline granitic terrain** (typical of Bundelkhand), groundwater occurs in shallow weathered zones and secondary joint fractures:
+        return `### Recharge Engineering for ${soil}:
+In **hard rock crystalline granitic terrain**, groundwater occurs in shallow weathered zones and secondary joint fractures:
 - **Primary Structure**: Masonry Check Dams & Nala Bunds on 1st/2nd order seasonal streams (Unit Cost: ~₹3.8L, Capacity: ~9,200 m³/yr).
 - **Secondary Structure**: Farm Ponds / Village Amrit Sarovars with silt traps.
 - **Avoid**: Deep tube-well injection without fracture mapping (causes hydraulic bypass).`;
       } else {
-        return `### Recharge Engineering for ${district.soilType}:
+        return `### Recharge Engineering for ${soil}:
 In **deep Indo-Gangetic alluvium** with permeable sand and silt layers:
 - **Primary Structure**: Deep Injection / Recharge Wells penetrating the unconfined aquifer layer (Unit Cost: ~₹85,000, Annual Capacity: ~1,250 m³).
 - **Secondary Structure**: Multi-layer graded sand-gravel filter pits for institutional and residential campuses (Cost: ~₹35,000).
@@ -65,7 +73,7 @@ In **deep Indo-Gangetic alluvium** with permeable sand and silt layers:
     }
 
     if (q.includes("subsidy") || q.includes("pmksy") || q.includes("irrigation") || q.includes("drip")) {
-      return `### Pradhan Mantri Krishi Sinchayee Yojana (PMKSY) in Uttar Pradesh:
+      return `### Pradhan Mantri Krishi Sinchayee Yojana (PMKSY) Guidelines:
 - **Small & Marginal Farmers**: Up to **55% capital subsidy** on drip and micro-sprinkler installations.
 - **Other Farmers**: Up to **45% subsidy**.
 - **Water Savings**: Reduces agricultural tubewell draft by **40% to 60%** compared to traditional flood irrigation.
@@ -83,19 +91,19 @@ In **deep Indo-Gangetic alluvium** with permeable sand and silt layers:
     }
 
     if (q.includes("rwh") || q.includes("rooftop") || q.includes("potential")) {
-      const annualRainfallM = district.modernWaterMetrics.avgRainfallMm / 1000;
+      const annualRainfallM = rain / 1000;
       const sampleHarvestLitres = Math.round(200 * annualRainfallM * 0.85 * 1000);
       return `### Rooftop Rainwater Harvesting Estimation for 200 m² Roof in ${district.name}:
-- **Annual Rainfall**: ${district.modernWaterMetrics.avgRainfallMm} mm
+- **Annual Rainfall**: ${rain} mm
 - **Runoff Coefficient**: 0.85 (Concrete slab)
 - **Annual Harvestable Yield**: **${sampleHarvestLitres.toLocaleString()} Litres / year** (~${(sampleHarvestLitres / 1000).toFixed(1)} m³/yr)
 - **Domestic Offset**: Meets 100% of non-potable flushing & gardening requirements for a family of 5 for 210+ days!
 - **Estimated System Cost**: ₹48,000 to ₹55,000 with multi-stage sand filter and storage sump.`;
     }
 
-    return `Based on hydrological telemetry for **${district.name}** (Aquifer Depth: ${district.modernWaterMetrics.groundwaterDepthM}m bgl, Rainfall: ${district.modernWaterMetrics.avgRainfallMm}mm/yr, CGWB Stage: ${district.modernWaterMetrics.cgwbStageExtractionPct}%):
-1. **Recharge Suitability**: Rated at **${district.rechargeSuitabilityScore}/100** under AI spatial modeling.
-2. **Key Challenge**: High agricultural extraction (${district.modernWaterMetrics.annualDemandMcm} MCM demand).
+    return `Based on hydrological telemetry for **${district.name}** (Aquifer Depth: ${depth}m bgl, Rainfall: ${rain}mm/yr, CGWB Stage: ${stage}%):
+1. **Recharge Suitability**: Rated at **${suitScore}/100** under AI spatial modeling.
+2. **Key Challenge**: High agricultural extraction (${demand} MCM demand).
 3. **Recommendation**: Combine artificial recharge structures with community water budgeting and PMKSY micro-irrigation.
 Feel free to ask for specific budget calculations, crop calendars, or technical CAD parameters!`;
   };

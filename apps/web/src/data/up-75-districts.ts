@@ -33,9 +33,36 @@ export interface ModernWaterMetrics {
   rainfallDeparturePct: number;
 }
 
+export interface WaterQualityMetrics {
+  wqi: number;
+  status: "Safe" | "Moderate" | "Poor" | "Requires Treatment";
+  ph: number;
+  tdsMgL: number;
+  ecUsCm: number;
+  fluorideMgL: number;
+  arsenicMgL: number;
+  nitrateMgL: number;
+  observationDate: string;
+  provenance: "Live" | "Delayed" | "Cached" | "Simulated" | "Unavailable";
+  testingLab: string;
+}
+
+export interface BorewellFailureData {
+  recordedFailures: number;
+  monitoredBorewells: number;
+  failureRatePct: number;
+  casingFailureRiskPct: number;
+  avgFailureDepthM: number;
+  predominantCause: string;
+  verifiedStatus: "Verified Registry" | "Pending Field Survey" | "Simulated Indicator" | "Unavailable";
+  lastAuditDate: string;
+}
+
 export interface DistrictWaterEntity {
   id: string;
   name: string;
+  stateCode?: string;
+  stateName?: string;
   division?: string;
   region?: string;
   coordinates?: { lat: number; lng: number };
@@ -49,6 +76,8 @@ export interface DistrictWaterEntity {
   rechargeSuitabilityScore?: number;
   temporalTrajectory?: TemporalDataPoint[];
   modernWaterMetrics?: ModernWaterMetrics;
+  waterQuality?: WaterQualityMetrics;
+  borewellData?: BorewellFailureData;
   recommendedRechargeStructures?: RecommendedStructureItem[];
 }
 

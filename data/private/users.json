@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-10-19T06:45:22.078094+00:00",
+  "users": [
+    {
+      "id": "usr_d4581132bcf6",
+      "email": "researcher.test@jalsuraksha.org",
+      "full_name": "Dr. Anita Sharma",
+      "role": "Analyst",
+      "department": "Public Citizenry",
+      "jurisdiction_state": "Maharashtra",
+      "jurisdiction_district": "Pune",
+      "hashed_password": "pbkdf2_sha256$100000$07705f60784a9f305d8aee5c8598f057$8b8dcb29ef85722d892ddf9fab727370f290061482089e97198547d1589b0d04",
+      "is_active": true,
+      "created_at": "2026-10-19T06:45:21.993895+00:00",
+      "last_login": "2026-10-19T06:45:22.078094+00:00"
+    }
+  ]
+}

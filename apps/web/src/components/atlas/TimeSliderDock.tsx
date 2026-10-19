@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { Play, Pause, SkipBack, SkipForward, Clock, Calendar } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Clock, Calendar, X } from "lucide-react";
 import { PLANNING_HORIZONS } from "@/data/up-75-districts";
 
 interface TimeSliderDockProps {
   currentYear: number;
   onYearChange: (updater: number | ((prev: number) => number)) => void;
   onOpenOwnerModal?: () => void;
+  onClose?: () => void;
 }
 
-export function TimeSliderDock({ currentYear, onYearChange, onOpenOwnerModal }: TimeSliderDockProps) {
+export function TimeSliderDock({ currentYear, onYearChange, onOpenOwnerModal, onClose }: TimeSliderDockProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
   const playIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -151,6 +152,16 @@ export function TimeSliderDock({ currentYear, onYearChange, onOpenOwnerModal }: 
                 </button>
               ))}
             </div>
+
+            {onClose && (
+              <button
+                onClick={onClose}
+                title="Minimize Time Slider Dock (Reopen via Timeline icon)"
+                className="p-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-atlas-muted hover:text-atlas-text transition ml-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
 

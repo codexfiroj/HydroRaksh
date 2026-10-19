@@ -12,15 +12,15 @@ export function WaterBalanceAudit({ district }: WaterBalanceAuditProps) {
   const [irrigationEfficiencyGain, setIrrigationEfficiencyGain] = useState<number>(0); // 0 to 30% savings
   const [monsoonAdjustmentPct, setMonsoonAdjustmentPct] = useState<number>(0); // -30% to +30%
 
-  const annualDemand = district.modernWaterMetrics.annualDemandMcm;
-  const rainfall = district.modernWaterMetrics.avgRainfallMm;
-  const areaKm2 = district.areaKm2;
-  const baseStage = district.modernWaterMetrics.cgwbStageExtractionPct;
+  const annualDemand = district.modernWaterMetrics?.annualDemandMcm ?? 450;
+  const rainfall = district.modernWaterMetrics?.avgRainfallMm ?? 850;
+  const areaKm2 = district.areaKm2 ?? 3500;
+  const baseStage = district.modernWaterMetrics?.cgwbStageExtractionPct ?? 75;
 
   // Hydrological Infiltration Estimation (CGWB GEC-2015 Methodology)
   const adjustedRainfall = rainfall * (1 + monsoonAdjustmentPct / 100);
   // Rainfall infiltration factor ~16% for alluvial, ~8% for hard rock
-  const isHardRock = district.soilType.toLowerCase().includes("rock") || district.soilType.toLowerCase().includes("granit");
+  const isHardRock = (district.soilType || "").toLowerCase().includes("rock") || (district.soilType || "").toLowerCase().includes("granit");
   const infiltrationFactor = isHardRock ? 0.08 : 0.17;
 
   // Annual Replenishable Groundwater Recharge (MCM)

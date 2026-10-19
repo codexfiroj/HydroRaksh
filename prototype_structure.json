@@ -1,0 +1,198 @@
+{
+  "nav_items": [
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "icon": "layout-dashboard"
+    },
+    {
+      "id": "groundwater",
+      "label": "Groundwater Analysis",
+      "icon": "droplets"
+    },
+    {
+      "id": "risk",
+      "label": "Risk & Forecasting",
+      "icon": "trending-down"
+    },
+    {
+      "id": "gis",
+      "label": "GIS & Mapping",
+      "icon": "map"
+    },
+    {
+      "id": "recharge",
+      "label": "Recharge Planning",
+      "icon": "sprout"
+    },
+    {
+      "id": "harvesting",
+      "label": "Rainwater Harvesting",
+      "icon": "cloud-rain"
+    },
+    {
+      "id": "demand",
+      "label": "Water Demand",
+      "icon": "gauge"
+    },
+    {
+      "id": "crop",
+      "label": "Crop & Irrigation",
+      "icon": "wheat"
+    },
+    {
+      "id": "quality",
+      "label": "Water Quality",
+      "icon": "flask-conical"
+    },
+    {
+      "id": "budget",
+      "label": "Water Budget",
+      "icon": "pie-chart"
+    },
+    {
+      "id": "simulator",
+      "label": "What-If Simulator",
+      "icon": "sliders-horizontal"
+    },
+    {
+      "id": "costbenefit",
+      "label": "Cost-Benefit Analysis",
+      "icon": "calculator"
+    },
+    {
+      "id": "iot",
+      "label": "IoT Monitoring",
+      "icon": "radio"
+    },
+    {
+      "id": "reports",
+      "label": "Reports",
+      "icon": "file-text"
+    },
+    {
+      "id": "citizen",
+      "label": "Citizen Portal",
+      "icon": "users"
+    },
+    {
+      "id": "ai",
+      "label": "AI Assistant",
+      "icon": "bot"
+    },
+    {
+      "id": "users",
+      "label": "User Management",
+      "icon": "user-cog"
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "icon": "settings"
+    }
+  ],
+  "render_functions": [
+    "renderPage",
+    "renderDashboard",
+    "renderKPIs",
+    "renderDistrictMap",
+    "renderTrendChart",
+    "renderDemandChart",
+    "renderBudgetChart",
+    "renderGroundwater",
+    "renderRisk",
+    "renderGIS",
+    "renderRecharge",
+    "renderHarvesting",
+    "renderDemand",
+    "renderCrop",
+    "renderQuality",
+    "renderBudget",
+    "renderSimulator",
+    "renderCostBenefit",
+    "renderIoT",
+    "renderIoTGrid",
+    "renderReports",
+    "renderCitizen",
+    "renderAIPage",
+    "renderUsers",
+    "renderSettings",
+    "renderAIQuickPrompts"
+  ],
+  "all_functions": [
+    "icon",
+    "refreshIcons",
+    "toast",
+    "buildNav",
+    "navigate",
+    "toggleSidebar",
+    "closeMobileSidebar",
+    "updateDateTime",
+    "riskTag",
+    "priorityTag",
+    "sourceNote",
+    "sectionHeader",
+    "openModal",
+    "closeModal",
+    "renderPage",
+    "renderDashboard",
+    "quickActionCard",
+    "alertRow",
+    "renderKPIs",
+    "colorBgSoft",
+    "colorSolid",
+    "trendColor",
+    "animateKPI",
+    "step",
+    "renderDistrictMap",
+    "pathCentroid",
+    "selectDistrictByName",
+    "selectDistrict",
+    "openDistrictDetail",
+    "openLayersModal",
+    "openAllAlertsModal",
+    "openRecommendationModal",
+    "openPredictionModal",
+    "runPrediction",
+    "destroyChart",
+    "renderTrendChart",
+    "setDemandFilter",
+    "renderDemandChart",
+    "renderBudgetChart",
+    "filterBar",
+    "renderGroundwater",
+    "metricTile",
+    "renderRisk",
+    "renderGIS",
+    "renderRecharge",
+    "renderHarvesting",
+    "calcHarvesting",
+    "renderDemand",
+    "renderCrop",
+    "renderQuality",
+    "renderBudget",
+    "renderSimulator",
+    "simSlider",
+    "runSimulation",
+    "outcomeTile",
+    "renderCostBenefit",
+    "renderIoT",
+    "statChip",
+    "renderIoTGrid",
+    "renderReports",
+    "generateReport",
+    "downloadDemoReport",
+    "renderCitizen",
+    "submitCitizenReport",
+    "renderAIPage",
+    "askAIFromPage",
+    "renderUsers",
+    "renderSettings",
+    "settingsRow",
+    "toggleAIChat",
+    "renderAIQuickPrompts",
+    "addAIMessage",
+    "sendAIMessage"
+  ],
+  "renderPage_snippet": "None"
+}

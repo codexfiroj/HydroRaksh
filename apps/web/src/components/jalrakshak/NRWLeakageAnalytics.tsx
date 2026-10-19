@@ -10,13 +10,14 @@ interface NRWLeakageAnalyticsProps {
 
 export function NRWLeakageAnalytics({ district }: NRWLeakageAnalyticsProps) {
   // Municipal parameters (scaled according to district population & demand)
-  const baseBulkSupplyMLD = +(district.modernWaterMetrics.annualDemandMcm * 0.28 * (1000 / 365)).toFixed(1);
+  const demandMcm = district.modernWaterMetrics?.annualDemandMcm ?? 450;
+  const baseBulkSupplyMLD = +(demandMcm * 0.28 * (1000 / 365)).toFixed(1);
   const [targetNRWPct, setTargetNRWPct] = useState<number>(20); // Jal Jeevan Mission target: 15-20%
   const [selectedDMA, setSelectedDMA] = useState<string>("DMA-01-Central");
   const [dispatchAlertSent, setDispatchAlertSent] = useState<boolean>(false);
 
   // Baseline NRW percentage typical for Indian cities (32% to 48%)
-  const isNCRorWest = district.region.includes("Doab") || district.division === "Meerut";
+  const isNCRorWest = (district.region || "").includes("Doab") || district.division === "Meerut";
   const baselineNRWPct = isNCRorWest ? 42.5 : 36.8;
 
   const billedConsumptionMLD = +(baseBulkSupplyMLD * (1 - baselineNRWPct / 100)).toFixed(1);

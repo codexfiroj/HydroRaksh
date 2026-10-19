@@ -15,7 +15,8 @@ import { ReportErrorModal } from "@/components/atlas/ReportErrorModal";
 import { JalRakshakSuiteModal } from "@/components/jalrakshak/JalRakshakSuiteModal";
 import { DataFreshnessModal } from "@/components/atlas/DataFreshnessModal";
 import { OwnerProfileModal } from "@/components/atlas/OwnerProfileModal";
-import { ChevronUp } from "lucide-react";
+import { TimelineForecastModal } from "@/components/atlas/TimelineForecastModal";
+import { ChevronUp, History } from "lucide-react";
 
 function JalRakshakApp() {
   const [currentYear, setCurrentYear] = useState<number>(2026);
@@ -29,6 +30,8 @@ function JalRakshakApp() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   // Modal dialog states
+  const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
+  const [isTimeDockVisible, setIsTimeDockVisible] = useState(true);
   const [isTrumpCardsOpen, setIsTrumpCardsOpen] = useState(false);
   const [isStatCardsOpen, setIsStatCardsOpen] = useState(false);
   const [isPosterOpen, setIsPosterOpen] = useState(false);
@@ -98,23 +101,28 @@ function JalRakshakApp() {
       params.set("state", selectedStateCode);
       params.set("region", selectedDistrictId);
       params.set("mode", viewMode);
-      const newUrl = `${window.location.pathname}?${params.toString()}`;
-      window.history.replaceState(null, "", newUrl);
+      window.history.replaceState(null, "", `?${params.toString()}`);
     }
   }, [currentYear, selectedStateCode, selectedDistrictId, viewMode]);
 
-  // Initialize theme from localStorage or system preference on mount
+  // Synchronize dynamic document head title and metadata
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const displayState = selectedStateCode === "UP" ? "Uttar Pradesh" : currentState.name;
+      document.title = `${selectedDistrict.name} (${displayState}) • ${currentYear} Water Stress ${
+        selectedDistrict.modernWaterMetrics?.waterStressScore ?? 75
+      }/100 • JalSuraksha Pan-India`;
+    }
+  }, [selectedDistrict, selectedStateCode, currentState, currentYear]);
+
+  // Initialize theme from system preference or localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      try {
-        const savedTheme = localStorage.getItem("jalsuraksha_theme") as "dark" | "light" | null;
-        if (savedTheme === "light" || savedTheme === "dark") {
-          setTheme(savedTheme);
-        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-          setTheme("light");
-        }
-      } catch (e) {
-        // ignore
+      const savedTheme = localStorage.getItem("jalsuraksha_theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        setTheme(savedTheme);
+      } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+        setTheme("light");
       }
     }
   }, []);
@@ -141,13 +149,14 @@ function JalRakshakApp() {
 
   return (
     <div className="min-h-screen flex flex-col bg-atlas-canvas text-atlas-text overflow-hidden">
-      {/* Top JalRakshak Navigation Bar */}
+      {/* Top JalSuraksha Navigation Bar */}
       <AtlasNavbar
         currentYear={currentYear}
         selectedDistrictId={selectedDistrictId}
         selectedStateCode={selectedStateCode}
         onSelectState={handleSelectState}
         onOpenFreshness={() => setIsDataFreshnessOpen(true)}
+        onOpenTimeline={() => setIsTimelineModalOpen(true)}
         onSelectDistrict={(id) => {
           setSelectedDistrictId(id);
           setIsMobileDossierOpen(true);
@@ -165,7 +174,7 @@ function JalRakshakApp() {
       />
 
       {/* Main 3-Column Workspace */}
-      <main className="flex-1 flex overflow-hidden relative pb-28">
+      <main className={`flex-1 flex overflow-hidden relative ${isTimeDockVisible ? "pb-28" : "pb-4"}`}>
         {/* Left Filters & Planning Horizons Sidebar (Desktop) */}
         <LayerFilterPanel
           currentYear={currentYear}
@@ -213,7 +222,7 @@ function JalRakshakApp() {
         </div>
 
         {/* Mobile Dossier Drawer Trigger */}
-        <div className="lg:hidden fixed bottom-28 right-4 z-30">
+        <div className={`lg:hidden fixed ${isTimeDockVisible ? "bottom-28" : "bottom-5"} right-4 z-30 transition-all`}>
           <button
             onClick={() => setIsMobileDossierOpen(true)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-glow"
@@ -250,10 +259,33 @@ function JalRakshakApp() {
       </main>
 
       {/* Docked Continuous Time Slider Bar (2000 to 2035) */}
-      <TimeSliderDock
+      {isTimeDockVisible ? (
+        <TimeSliderDock
+          currentYear={currentYear}
+          onYearChange={(yr) => setCurrentYear(yr)}
+          onOpenOwnerModal={() => setIsOwnerModalOpen(true)}
+          onClose={() => setIsTimeDockVisible(false)}
+        />
+      ) : (
+        <button
+          onClick={() => setIsTimeDockVisible(true)}
+          title="Open Continuous Time Slider Dock"
+          className="fixed bottom-4 left-4 z-30 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-atlas-card/95 hover:bg-atlas-elevated border border-atlas-border text-xs font-bold text-atlas-text shadow-2xl backdrop-blur-md transition"
+        >
+          <History className="w-4 h-4 text-saffron" />
+          <span>Timeline Dock ({currentYear})</span>
+        </button>
+      )}
+
+      {/* Unified Timeline & AI Forecast Modal */}
+      <TimelineForecastModal
+        isOpen={isTimelineModalOpen}
+        onClose={() => setIsTimelineModalOpen(false)}
         currentYear={currentYear}
         onYearChange={(yr) => setCurrentYear(yr)}
-        onOpenOwnerModal={() => setIsOwnerModalOpen(true)}
+        district={selectedDistrict}
+        isDockVisible={isTimeDockVisible}
+        onToggleDock={() => setIsTimeDockVisible(!isTimeDockVisible)}
       />
 
       {/* Modals & Discovery Overlays */}
@@ -261,6 +293,7 @@ function JalRakshakApp() {
         isOpen={isTrumpCardsOpen}
         onClose={() => setIsTrumpCardsOpen(false)}
         initialDistrictId={selectedDistrictId}
+        selectedStateCode={selectedStateCode}
       />
 
       <StatCardsGrid
@@ -292,6 +325,8 @@ function JalRakshakApp() {
         onClose={() => setIsJalRakshakOpen(false)}
         initialDistrictId={selectedDistrictId}
         initialTab={jalRakshakTab}
+        selectedStateCode={selectedStateCode}
+        districts={currentDistricts}
       />
 
       <DataFreshnessModal
@@ -309,7 +344,7 @@ function JalRakshakApp() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">Loading JalRakshak AI Decision Platform...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">Loading JalSuraksha Pan-India Platform...</div>}>
       <JalRakshakApp />
     </Suspense>
   );

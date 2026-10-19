@@ -1,83 +1,171 @@
 "use client";
 
-import React, { useState } from "react";
-import { UP_75_WATER_DISTRICTS, DistrictWaterEntity } from "@/data/up-75-districts";
-import { X, Trophy, Droplets, CheckCircle2, Shield } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { DistrictWaterEntity } from "@/data/up-75-districts";
+import { INDIAN_STATES_UTS, getDistrictsForState, getDistrictById, getAllPanIndiaDistricts } from "@/data/india-geography";
+import { X, Trophy, Droplets, CheckCircle2, Shield, Activity, Layers, AlertCircle } from "lucide-react";
 
 interface TrumpCardModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialDistrictId?: string;
+  selectedStateCode?: string;
 }
 
-export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCardModalProps) {
+export function TrumpCardModal({ isOpen, onClose, initialDistrictId, selectedStateCode = "UP" }: TrumpCardModalProps) {
+  // Determine initial state & district for side A
+  const initialDistA = useMemo(() => {
+    return (initialDistrictId && getDistrictById(initialDistrictId)) || undefined;
+  }, [initialDistrictId]);
+
+  const [stateCodeA, setStateCodeA] = useState<string>(initialDistA?.stateCode || selectedStateCode || "UP");
   const [districtAId, setDistrictAId] = useState<string>(initialDistrictId || "agra");
+
+  const [stateCodeB, setStateCodeB] = useState<string>("UP");
   const [districtBId, setDistrictBId] = useState<string>(
-    initialDistrictId === "ghaziabad" ? "meerut" : "ghaziabad"
+    initialDistrictId === "ghaziabad" ? "varanasi" : "ghaziabad"
   );
+
+  // Sync when initialDistrictId changes
+  React.useEffect(() => {
+    if (initialDistrictId) {
+      const found = getDistrictById(initialDistrictId);
+      if (found) {
+        if (found.stateCode) setStateCodeA(found.stateCode);
+        setDistrictAId(found.id);
+      } else {
+        setDistrictAId(initialDistrictId);
+      }
+    }
+  }, [initialDistrictId]);
+
+  const districtsOfStateA = useMemo(() => getDistrictsForState(stateCodeA), [stateCodeA]);
+  const districtsOfStateB = useMemo(() => getDistrictsForState(stateCodeB), [stateCodeB]);
+
+  const districtA: DistrictWaterEntity =
+    districtsOfStateA.find((d) => d.id === districtAId) ||
+    getDistrictById(districtAId) ||
+    districtsOfStateA[0] ||
+    getAllPanIndiaDistricts()[0];
+
+  const districtB: DistrictWaterEntity =
+    districtsOfStateB.find((d) => d.id === districtBId) ||
+    getDistrictById(districtBId) ||
+    districtsOfStateB[1] ||
+    districtsOfStateB[0] ||
+    getAllPanIndiaDistricts()[1];
 
   if (!isOpen) return null;
 
-  const districtA =
-    UP_75_WATER_DISTRICTS.find((d) => d.id === districtAId) || UP_75_WATER_DISTRICTS[0];
-  const districtB =
-    UP_75_WATER_DISTRICTS.find((d) => d.id === districtBId) || UP_75_WATER_DISTRICTS[1];
+  const depthA = districtA.modernWaterMetrics?.groundwaterDepthM ?? 12.0;
+  const depthB = districtB.modernWaterMetrics?.groundwaterDepthM ?? 12.0;
+
+  const trendA = Math.abs(districtA.modernWaterMetrics?.groundwaterTrendAnnualCm ?? 20);
+  const trendB = Math.abs(districtB.modernWaterMetrics?.groundwaterTrendAnnualCm ?? 20);
+
+  const stageA = districtA.modernWaterMetrics?.cgwbStageExtractionPct ?? 75;
+  const stageB = districtB.modernWaterMetrics?.cgwbStageExtractionPct ?? 75;
+
+  const rainA = districtA.modernWaterMetrics?.avgRainfallMm ?? 850;
+  const rainB = districtB.modernWaterMetrics?.avgRainfallMm ?? 850;
+
+  const stressA = districtA.modernWaterMetrics?.waterStressScore ?? 65;
+  const stressB = districtB.modernWaterMetrics?.waterStressScore ?? 65;
+
+  const suitA = districtA.rechargeSuitabilityScore ?? 75;
+  const suitB = districtB.rechargeSuitabilityScore ?? 75;
+
+  const slopeA = districtA.slopePct ?? 1.5;
+  const slopeB = districtB.slopePct ?? 1.5;
+
+  const demandA = districtA.modernWaterMetrics?.annualDemandMcm ?? 450;
+  const demandB = districtB.modernWaterMetrics?.annualDemandMcm ?? 450;
+
+  const wqiA = districtA.waterQuality?.wqi ?? 72;
+  const wqiB = districtB.waterQuality?.wqi ?? 72;
+
+  const failureRateA = districtA.borewellData?.failureRatePct ?? 6.0;
+  const failureRateB = districtB.borewellData?.failureRatePct ?? 6.0;
+
+  const casingRiskA = districtA.borewellData?.casingFailureRiskPct ?? 8.0;
+  const casingRiskB = districtB.borewellData?.casingFailureRiskPct ?? 8.0;
 
   const attributes = [
     {
       label: "Water Table Depth (Shallower = Better)",
-      valA: districtA.modernWaterMetrics.groundwaterDepthM,
-      valB: districtB.modernWaterMetrics.groundwaterDepthM,
-      format: (v: number) => `${v} m bgl`,
+      valA: depthA,
+      valB: depthB,
+      format: (v: number) => `${v.toFixed(1)} mbgl`,
       higherIsBetter: false,
     },
     {
       label: "Annual Fall Rate (Lower = Better)",
-      valA: Math.abs(districtA.modernWaterMetrics.groundwaterTrendAnnualCm),
-      valB: Math.abs(districtB.modernWaterMetrics.groundwaterTrendAnnualCm),
-      format: (v: number) => `${v} cm/yr`,
+      valA: trendA,
+      valB: trendB,
+      format: (v: number) => `${v.toFixed(1)} cm/yr`,
       higherIsBetter: false,
     },
     {
       label: "CGWB Extraction Stage (Lower = Safer)",
-      valA: districtA.modernWaterMetrics.cgwbStageExtractionPct,
-      valB: districtB.modernWaterMetrics.cgwbStageExtractionPct,
-      format: (v: number) => `${v}%`,
+      valA: stageA,
+      valB: stageB,
+      format: (v: number) => `${v.toFixed(1)}%`,
       higherIsBetter: false,
     },
     {
-      label: "Annual Rainfall",
-      valA: districtA.modernWaterMetrics.avgRainfallMm,
-      valB: districtB.modernWaterMetrics.avgRainfallMm,
-      format: (v: number) => `${v} mm`,
+      label: "Annual Normal Rainfall",
+      valA: rainA,
+      valB: rainB,
+      format: (v: number) => `${Math.round(v)} mm`,
       higherIsBetter: true,
     },
     {
-      label: "Water Security (Lower Stress = Safer)",
-      valA: districtA.modernWaterMetrics.waterStressScore,
-      valB: districtB.modernWaterMetrics.waterStressScore,
-      format: (v: number) => `${v} / 100`,
+      label: "Water Stress Score (Lower = Safer)",
+      valA: stressA,
+      valB: stressB,
+      format: (v: number) => `${Math.round(v)} / 100`,
       higherIsBetter: false,
     },
     {
       label: "AI Recharge Suitability",
-      valA: districtA.rechargeSuitabilityScore,
-      valB: districtB.rechargeSuitabilityScore,
-      format: (v: number) => `${v} / 100`,
+      valA: suitA,
+      valB: suitB,
+      format: (v: number) => `${Math.round(v)} / 100`,
       higherIsBetter: true,
     },
     {
       label: "Terrain Slope (Flatter = Better Recharge)",
-      valA: districtA.slopePct,
-      valB: districtB.slopePct,
-      format: (v: number) => `${v}%`,
+      valA: slopeA,
+      valB: slopeB,
+      format: (v: number) => `${v.toFixed(1)}%`,
       higherIsBetter: false,
     },
     {
       label: "Annual Demand Burden (Lower = Better)",
-      valA: districtA.modernWaterMetrics.annualDemandMcm,
-      valB: districtB.modernWaterMetrics.annualDemandMcm,
-      format: (v: number) => `${v} MCM`,
+      valA: demandA,
+      valB: demandB,
+      format: (v: number) => `${Math.round(v)} MCM`,
+      higherIsBetter: false,
+    },
+    {
+      label: "Water Quality Index (BIS 10500)",
+      valA: wqiA,
+      valB: wqiB,
+      format: (v: number) => `${Math.round(v)} / 100`,
+      higherIsBetter: true,
+    },
+    {
+      label: "Borewell Failure Rate (Lower = Safer)",
+      valA: failureRateA,
+      valB: failureRateB,
+      format: (v: number) => `${v.toFixed(1)}%`,
+      higherIsBetter: false,
+    },
+    {
+      label: "Casing Collapse Risk (Lower = Safer)",
+      valA: casingRiskA,
+      valB: casingRiskB,
+      format: (v: number) => `${v.toFixed(1)}%`,
       higherIsBetter: false,
     },
   ];
@@ -93,26 +181,26 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
       <div className="relative w-full max-w-4xl max-h-[92vh] bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-atlas-text">
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
-              <Trophy className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-glow">
+              <Trophy className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-serif font-black tracking-wide text-atlas-text">
-                District Hydrological Duel Arena
+              <h2 className="text-lg sm:text-xl font-serif font-black tracking-wide text-atlas-text">
+                Pan-India District Duel Arena
               </h2>
               <p className="text-xs text-atlas-muted">
-                Side-by-side comparison across 8 groundwater, rainfall, extraction & recharge metrics
+                Compare any two districts across India on calibrated groundwater, rainfall, dual water quality, and borewell metrics
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition"
+            className="p-1.5 sm:p-2 rounded-xl text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -121,9 +209,10 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
         {/* Content */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1">
           {/* Selectors */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-atlas-elevated/50 border border-atlas-border">
-              <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* District 1 Selector */}
+            <div className="p-4 rounded-xl bg-atlas-elevated/50 border border-atlas-border space-y-2">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
                   District 1
                 </span>
@@ -131,24 +220,44 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                   {scoreA} Wins
                 </span>
               </div>
-              <select
-                value={districtAId}
-                onChange={(e) => setDistrictAId(e.target.value)}
-                className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-sm font-serif font-bold text-atlas-text focus:outline-none focus:ring-1 focus:ring-emerald-400 cursor-pointer"
-              >
-                {UP_75_WATER_DISTRICTS.map((d) => (
-                  <option key={d.id} value={d.id} className="bg-atlas-card text-atlas-text">
-                    {d.name} ({d.division})
-                  </option>
-                ))}
-              </select>
-              <div className="text-xs text-atlas-muted mt-2">
-                CGWB: {districtA.modernWaterMetrics.cgwbCategory} • {districtA.soilType}
+              <div className="grid grid-cols-1 gap-2">
+                <select
+                  value={stateCodeA}
+                  onChange={(e) => {
+                    const newSc = e.target.value;
+                    setStateCodeA(newSc);
+                    const newDists = getDistrictsForState(newSc);
+                    if (newDists.length > 0) setDistrictAId(newDists[0].id);
+                  }}
+                  className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-xs font-semibold text-atlas-text focus:outline-none focus:ring-1 focus:ring-emerald-400 cursor-pointer"
+                >
+                  {INDIAN_STATES_UTS.map((s) => (
+                    <option key={s.code} value={s.code}>
+                      {s.name} ({s.districtCount})
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={districtAId}
+                  onChange={(e) => setDistrictAId(e.target.value)}
+                  className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-sm font-serif font-bold text-atlas-text focus:outline-none focus:ring-1 focus:ring-emerald-400 cursor-pointer"
+                >
+                  {districtsOfStateA.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name} {d.division ? `(${d.division})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="text-xs text-atlas-muted flex justify-between items-center pt-1">
+                <span>CGWB: <strong className="text-atlas-text">{districtA.modernWaterMetrics?.cgwbCategory || "Critical"}</strong></span>
+                <span className="truncate max-w-[150px]">{districtA.soilType || "Alluvial Soil"}</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-atlas-elevated/50 border border-atlas-border">
-              <div className="flex items-center justify-between gap-2 mb-2">
+            {/* District 2 Selector */}
+            <div className="p-4 rounded-xl bg-atlas-elevated/50 border border-atlas-border space-y-2">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-sky-400">
                   District 2
                 </span>
@@ -156,19 +265,38 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                   {scoreB} Wins
                 </span>
               </div>
-              <select
-                value={districtBId}
-                onChange={(e) => setDistrictBId(e.target.value)}
-                className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-sm font-serif font-bold text-atlas-text focus:outline-none focus:ring-1 focus:ring-sky-400 cursor-pointer"
-              >
-                {UP_75_WATER_DISTRICTS.map((d) => (
-                  <option key={d.id} value={d.id} className="bg-atlas-card text-atlas-text">
-                    {d.name} ({d.division})
-                  </option>
-                ))}
-              </select>
-              <div className="text-xs text-atlas-muted mt-2">
-                CGWB: {districtB.modernWaterMetrics.cgwbCategory} • {districtB.soilType}
+              <div className="grid grid-cols-1 gap-2">
+                <select
+                  value={stateCodeB}
+                  onChange={(e) => {
+                    const newSc = e.target.value;
+                    setStateCodeB(newSc);
+                    const newDists = getDistrictsForState(newSc);
+                    if (newDists.length > 0) setDistrictBId(newDists[0].id);
+                  }}
+                  className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-xs font-semibold text-atlas-text focus:outline-none focus:ring-1 focus:ring-sky-400 cursor-pointer"
+                >
+                  {INDIAN_STATES_UTS.map((s) => (
+                    <option key={s.code} value={s.code}>
+                      {s.name} ({s.districtCount})
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={districtBId}
+                  onChange={(e) => setDistrictBId(e.target.value)}
+                  className="w-full py-1.5 px-2 rounded-lg bg-atlas-card border border-atlas-border text-sm font-serif font-bold text-atlas-text focus:outline-none focus:ring-1 focus:ring-sky-400 cursor-pointer"
+                >
+                  {districtsOfStateB.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name} {d.division ? `(${d.division})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="text-xs text-atlas-muted flex justify-between items-center pt-1">
+                <span>CGWB: <strong className="text-atlas-text">{districtB.modernWaterMetrics?.cgwbCategory || "Critical"}</strong></span>
+                <span className="truncate max-w-[150px]">{districtB.soilType || "Alluvial Soil"}</span>
               </div>
             </div>
           </div>
@@ -194,10 +322,14 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                     }`}
                   >
                     <span>{attr.format(attr.valA)}</span>
-                    {aWins && <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/20 text-amber-600 dark:text-amber-400 font-sans font-semibold">LEAD</span>}
+                    {aWins && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/20 text-amber-600 dark:text-amber-400 font-sans font-semibold">
+                        LEAD
+                      </span>
+                    )}
                   </div>
 
-                  <div className="flex-1 text-center font-medium text-atlas-text">
+                  <div className="flex-1 text-center font-medium text-atlas-text px-2">
                     {attr.label}
                   </div>
 
@@ -206,7 +338,11 @@ export function TrumpCardModal({ isOpen, onClose, initialDistrictId }: TrumpCard
                       bWins ? "text-sky-500 dark:text-sky-400 text-sm" : "text-atlas-muted"
                     }`}
                   >
-                    {bWins && <span className="px-1.5 py-0.5 rounded text-[9px] bg-sky-500/20 text-sky-600 dark:text-sky-400 font-sans font-semibold">LEAD</span>}
+                    {bWins && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] bg-sky-500/20 text-sky-600 dark:text-sky-400 font-sans font-semibold">
+                        LEAD
+                      </span>
+                    )}
                     <span>{attr.format(attr.valB)}</span>
                   </div>
                 </div>

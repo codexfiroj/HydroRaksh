@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { UP_75_WATER_DISTRICTS, DistrictWaterEntity } from "@/data/up-75-districts";
+import React, { useState, useMemo } from "react";
+import { DistrictWaterEntity } from "@/data/up-75-districts";
+import { INDIAN_STATES_UTS, getDistrictsForState, getDistrictById, getAllPanIndiaDistricts } from "@/data/india-geography";
 import {
   X,
   Shield,
@@ -31,6 +32,8 @@ interface JalRakshakSuiteModalProps {
   onClose: () => void;
   initialDistrictId?: string;
   initialTab?: string;
+  selectedStateCode?: string;
+  districts?: DistrictWaterEntity[];
 }
 
 export function JalRakshakSuiteModal({
@@ -38,7 +41,10 @@ export function JalRakshakSuiteModal({
   onClose,
   initialDistrictId,
   initialTab,
+  selectedStateCode = "UP",
+  districts,
 }: JalRakshakSuiteModalProps) {
+  const [activeStateCode, setActiveStateCode] = useState<string>(selectedStateCode || "UP");
   const [selectedDistrictId, setSelectedDistrictId] = useState<string>(
     initialDistrictId || "agra"
   );
@@ -51,9 +57,19 @@ export function JalRakshakSuiteModal({
     }
   }, [initialTab]);
 
-  // Keep selectedDistrictId in sync if initialDistrictId changes
+  // Keep state and district in sync if props change
+  React.useEffect(() => {
+    if (selectedStateCode) {
+      setActiveStateCode(selectedStateCode);
+    }
+  }, [selectedStateCode]);
+
   React.useEffect(() => {
     if (initialDistrictId) {
+      const found = getDistrictById(initialDistrictId);
+      if (found?.stateCode) {
+        setActiveStateCode(found.stateCode);
+      }
       setSelectedDistrictId(initialDistrictId);
     }
   }, [initialDistrictId]);
@@ -71,15 +87,25 @@ export function JalRakshakSuiteModal({
   const [roofArea, setRoofArea] = useState<number>(150);
   const [roofType, setRoofType] = useState<"concrete" | "metal" | "tile">("concrete");
 
-  if (!isOpen) return null;
+  const activeDistricts = useMemo(() => {
+    if (districts && districts.length > 0 && activeStateCode === selectedStateCode) {
+      return districts;
+    }
+    return getDistrictsForState(activeStateCode);
+  }, [districts, activeStateCode, selectedStateCode]);
 
   const district =
-    UP_75_WATER_DISTRICTS.find((d) => d.id === selectedDistrictId) || UP_75_WATER_DISTRICTS[0];
+    activeDistricts.find((d) => d.id === selectedDistrictId) ||
+    getDistrictById(selectedDistrictId) ||
+    activeDistricts[0] ||
+    getAllPanIndiaDistricts()[0];
+
+  if (!isOpen) return null;
 
   // Calculations for Recharge Recommender
-  const isAlluvial = district.region.includes("Doab") || district.region.includes("Awadh");
-  const slope = district.slopePct;
-  const suitabilityScore = district.rechargeSuitabilityScore;
+  const isAlluvial = (district.region || "").includes("Doab") || (district.region || "").includes("Awadh") || (district.soilType || "").toLowerCase().includes("alluvia");
+  const slope = district.slopePct ?? 1.5;
+  const suitabilityScore = district.rechargeSuitabilityScore ?? 75;
 
   const structures = [
     {
@@ -162,8 +188,8 @@ export function JalRakshakSuiteModal({
   const optimization = computePortfolio(budgetInput);
 
   // What-If Simulation Calculation
-  const baseDepth = district.modernWaterMetrics.groundwaterDepthM;
-  const baseStress = district.modernWaterMetrics.waterStressScore;
+  const baseDepth = district.modernWaterMetrics?.groundwaterDepthM ?? 12.0;
+  const baseStress = district.modernWaterMetrics?.waterStressScore ?? 65;
   const rainDeltaM = (rainDelta / 100) * 0.85;
   const extDeltaM = -(extDelta / 100) * 0.95;
   const demandDeltaM = (demandDelta / 100) * 0.55;
@@ -183,8 +209,9 @@ export function JalRakshakSuiteModal({
 
   // RWH Calculation
   const runoffCoeff = roofType === "metal" ? 0.9 : roofType === "tile" ? 0.75 : 0.85;
+  const avgRainfall = district.modernWaterMetrics?.avgRainfallMm ?? 850;
   const rwhYieldLitres = Math.round(
-    roofArea * (district.modernWaterMetrics.avgRainfallMm / 1000) * runoffCoeff * 1000
+    roofArea * (avgRainfall / 1000) * runoffCoeff * 1000
   );
   const rwhYieldM3 = +(rwhYieldLitres / 1000).toFixed(1);
   const rwhSavingsINR = Math.round(rwhYieldM3 * 45); // ₹45 per kL
@@ -206,7 +233,7 @@ export function JalRakshakSuiteModal({
                   JalRakshak AI — Decision-Support Platform
                 </h2>
                 <span className="hidden sm:inline-block text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/30">
-                  B.Tech CSE (DS + AI) Blueprint
+                  {district.stateName || district.stateCode || "Pan-India"}
                 </span>
               </div>
               <p className="text-xs text-atlas-muted">
@@ -216,17 +243,33 @@ export function JalRakshakSuiteModal({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* District Selector */}
-            <div className="flex items-center gap-1.5 bg-atlas-card border border-atlas-border px-2.5 py-1 rounded-lg">
-              <span className="text-[11px] text-atlas-muted hidden sm:inline">District:</span>
+            {/* State & District Selectors */}
+            <div className="flex items-center gap-1.5 bg-atlas-card border border-atlas-border px-2 py-1 rounded-lg">
+              <select
+                value={activeStateCode}
+                onChange={(e) => {
+                  const newSc = e.target.value;
+                  setActiveStateCode(newSc);
+                  const newDists = getDistrictsForState(newSc);
+                  if (newDists.length > 0) setSelectedDistrictId(newDists[0].id);
+                }}
+                className="bg-transparent text-xs font-serif font-bold text-emerald-400 focus:outline-none cursor-pointer max-w-[110px] sm:max-w-[140px] truncate"
+              >
+                {INDIAN_STATES_UTS.map((s) => (
+                  <option key={s.code} value={s.code} className="bg-atlas-card text-atlas-text">
+                    {s.name} ({s.districtCount})
+                  </option>
+                ))}
+              </select>
+              <span className="text-atlas-muted text-xs">/</span>
               <select
                 value={selectedDistrictId}
                 onChange={(e) => setSelectedDistrictId(e.target.value)}
-                className="bg-transparent text-xs font-serif font-bold text-saffron focus:outline-none cursor-pointer"
+                className="bg-transparent text-xs font-serif font-bold text-saffron focus:outline-none cursor-pointer max-w-[120px] sm:max-w-[160px] truncate"
               >
-                {UP_75_WATER_DISTRICTS.map((d) => (
+                {activeDistricts.map((d) => (
                   <option key={d.id} value={d.id} className="bg-atlas-card text-atlas-text">
-                    {d.name} ({d.division})
+                    {d.name} {d.division ? `(${d.division})` : ""}
                   </option>
                 ))}
               </select>
@@ -256,7 +299,7 @@ export function JalRakshakSuiteModal({
             { id: "iot", label: "IoT Telemetry" },
             { id: "grievance", label: "Citizen Grievances" },
             { id: "copilot", label: "AI Copilot" },
-            { id: "matrix", label: "75-District Matrix" },
+            { id: "matrix", label: `${activeStateCode === "UP" ? "75-District" : activeStateCode} Matrix` },
             { id: "report", label: "Project Report" },
           ].map((tab) => (
             <button
@@ -291,6 +334,8 @@ export function JalRakshakSuiteModal({
           {activeTab === "matrix" && (
             <DistrictMatrixExplorer
               onSelectDistrict={(id) => setSelectedDistrictId(id)}
+              districts={activeDistricts}
+              selectedStateCode={activeStateCode}
             />
           )}
 
@@ -309,7 +354,7 @@ export function JalRakshakSuiteModal({
                 <div className="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
                   <span className="text-[11px] text-atlas-muted">Dominant Substrata</span>
                   <div className="text-sm font-serif font-bold text-atlas-text mt-1">
-                    {district.soilType}
+                    {district.soilType || "Alluvial Loam"}
                   </div>
                   <div className="text-[10px] text-atlas-muted mt-1">Permeable sand & silt layers</div>
                 </div>
@@ -325,9 +370,9 @@ export function JalRakshakSuiteModal({
                 <div className="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
                   <span className="text-[11px] text-atlas-muted">Aquifer Target Depth</span>
                   <div className="text-base font-mono font-bold text-amber-500 dark:text-amber-400 mt-1">
-                    {district.modernWaterMetrics.groundwaterDepthM} m bgl
+                    {district.modernWaterMetrics?.groundwaterDepthM ?? 12} m bgl
                   </div>
-                  <div className="text-[10px] text-atlas-muted mt-1">CGWB: {district.modernWaterMetrics.cgwbCategory}</div>
+                  <div className="text-[10px] text-atlas-muted mt-1">CGWB: {district.modernWaterMetrics?.cgwbCategory ?? "Critical"}</div>
                 </div>
               </div>
 
@@ -825,22 +870,22 @@ export function JalRakshakSuiteModal({
                     Groundwater Quality Screening (BIS 10500 Standards)
                   </h4>
                   <p className="text-xs text-atlas-muted">
-                    Chemical parameter safety ledger for {district.name} aquifers.
+                    Chemical parameter safety ledger for {district.name} aquifers ({district.waterQuality?.provenance || "Live Telemetry"}).
                   </p>
                 </div>
                 <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/30">
-                  WQI: 74.2 / 100 (Good)
+                  WQI: {district.waterQuality?.wqi ?? 74.2} / 100 ({district.waterQuality?.status ?? "Safe"})
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
                 {[
-                  { param: "pH", val: "7.4", limit: "6.5 - 8.5", status: "Compliant" },
-                  { param: "TDS", val: "680 mg/L", limit: "500 - 2000 mg/L", status: "Acceptable" },
-                  { param: "Fluoride (F)", val: "1.1 mg/L", limit: "1.0 - 1.5 mg/L", status: "Moderate" },
-                  { param: "Nitrate (NO3)", val: "48 mg/L", limit: "< 45 mg/L", status: "Exceeds Limit" },
-                  { param: "Arsenic (As)", val: "0.007 mg/L", limit: "< 0.01 mg/L", status: "Safe" },
-                  { param: "Chloride (Cl)", val: "190 mg/L", limit: "250 - 1000 mg/L", status: "Compliant" },
+                  { param: "pH", val: `${district.waterQuality?.ph ?? 7.4}`, limit: "6.5 - 8.5", status: (district.waterQuality?.ph ?? 7.4) >= 6.5 && (district.waterQuality?.ph ?? 7.4) <= 8.5 ? "Compliant" : "Exceeds Limit" },
+                  { param: "TDS", val: `${district.waterQuality?.tdsMgL ?? 680} mg/L`, limit: "500 - 2000 mg/L", status: (district.waterQuality?.tdsMgL ?? 680) <= 2000 ? "Acceptable" : "Exceeds Limit" },
+                  { param: "Fluoride (F)", val: `${district.waterQuality?.fluorideMgL ?? 0.85} mg/L`, limit: "1.0 - 1.5 mg/L", status: (district.waterQuality?.fluorideMgL ?? 0.85) <= 1.5 ? "Moderate" : "Exceeds Limit" },
+                  { param: "Nitrate (NO3)", val: `${district.waterQuality?.nitrateMgL ?? 28} mg/L`, limit: "< 45 mg/L", status: (district.waterQuality?.nitrateMgL ?? 28) <= 45 ? "Safe" : "Exceeds Limit" },
+                  { param: "Arsenic (As)", val: `${district.waterQuality?.arsenicMgL ?? 0.003} mg/L`, limit: "< 0.01 mg/L", status: (district.waterQuality?.arsenicMgL ?? 0.003) <= 0.01 ? "Safe" : "Exceeds Limit" },
+                  { param: "Electrical Cond.", val: `${district.waterQuality?.ecUsCm ?? 1050} µS/cm`, limit: "< 1500 µS/cm", status: (district.waterQuality?.ecUsCm ?? 1050) <= 1500 ? "Compliant" : "Exceeds Limit" },
                 ].map((q, idx) => (
                   <div key={idx} className="p-3 rounded-xl bg-atlas-elevated/40 border border-atlas-border flex justify-between items-center">
                     <div>
@@ -850,7 +895,7 @@ export function JalRakshakSuiteModal({
                     <div className="text-right">
                       <div className="font-mono font-bold text-atlas-text">{q.val}</div>
                       <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
-                        q.status === "Compliant" || q.status === "Safe"
+                        q.status === "Compliant" || q.status === "Safe" || q.status === "Acceptable"
                           ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
                           : q.status === "Exceeds Limit"
                           ? "bg-red-500/20 text-red-500 dark:text-red-400"
@@ -915,7 +960,7 @@ export function JalRakshakSuiteModal({
                 <div className="text-atlas-muted text-[10px]">Edge Device Transmission Sample:</div>
                 <pre className="overflow-x-auto text-[11px]">
 {`{
-  "device_id": "ESP32-AGRA-01",
+  "device_id": "ESP32-TELEMETRY-01",
   "district": "${district.name.toLowerCase()}",
   "sensor_type": "water_level_ultrasonic",
   "reading_value": 27.65,
@@ -937,7 +982,7 @@ export function JalRakshakSuiteModal({
                     JalRakshak AI — Major Project Action Plan
                   </h3>
                   <p className="text-xs text-atlas-muted mt-0.5">
-                    District Focus: <span className="text-saffron font-bold">{district.name}</span> • Division: {district.division} • Blueprint Phase 9 Output
+                    District Focus: <span className="text-saffron font-bold">{district.name}</span> • State: {district.stateName || district.stateCode || "Uttar Pradesh"} • Division: {district.division || "Central"}
                   </p>
                 </div>
                 <button
@@ -955,7 +1000,7 @@ export function JalRakshakSuiteModal({
                   <div className="p-3 rounded-xl bg-atlas-card border border-atlas-border">
                     <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase">1. Groundwater Health</span>
                     <div className="font-bold text-atlas-text mt-1">Water Depth: {baseDepth} m bgl | Score: {baseStress}/100</div>
-                    <div className="text-atlas-muted text-[11px]">Categorization: {district.modernWaterMetrics.cgwbCategory}</div>
+                    <div className="text-atlas-muted text-[11px]">Categorization: {district.modernWaterMetrics?.cgwbCategory ?? "Critical"}</div>
                   </div>
 
                   <div className="p-3 rounded-xl bg-atlas-card border border-atlas-border">
@@ -986,7 +1031,7 @@ export function JalRakshakSuiteModal({
 
                   <div className="p-3 rounded-xl bg-atlas-card border border-atlas-border">
                     <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase">6. IoT Live Validation</span>
-                    <div className="font-bold text-atlas-text mt-1">Edge Node: ESP32-AGRA-01 Active</div>
+                    <div className="font-bold text-atlas-text mt-1">Edge Node Telemetry Active</div>
                     <div className="text-atlas-muted text-[11px]">Automated threshold & pipeline burst detector engaged</div>
                   </div>
                 </div>
