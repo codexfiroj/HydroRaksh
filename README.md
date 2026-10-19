@@ -46,7 +46,6 @@ This repository implements **JalSuraksha**, an enterprise-grade geospatial artif
    - 2.1 [Geospatial Map Layers & Multi-State Exploration](#21-geospatial-map-layers--multi-state-exploration)
    - 2.2 [Telemetry Ingestion, Temporal Horizons & Hydrological Benchmarks](#22-telemetry-ingestion-temporal-horizons--hydrological-benchmarks)
    - 2.3 [JalRakshak AI Prescriptive Decision-Support Suite](#23-jalrakshak-ai-prescriptive-decision-support-suite)
-   - 2.4 [Complete Visual Assets Inventory](#24-complete-visual-assets-inventory)
 3. [Visual Design and Theme System](#3-visual-design-and-theme-system)
 4. [System Architecture and Monorepo Structure](#4-system-architecture-and-monorepo-structure)
 5. [Pan-India Dynamic Geography](#5-pan-india-dynamic-geography)
@@ -179,34 +178,6 @@ All 21 visual figures below are captured directly from the live JalSuraksha appl
 #### Figure 21: Citizen Water Grievance & Borewell Failure Incident Dispatch Board
 ![Citizen Water Grievance & Borewell Failure Incident Dispatch Board](img/Borewell_Failure_Portal.png)
 *Figure 21: Public incident logging and municipal triage dispatch board tracking dry borewell failures, unauthorized tanker extraction, damaged check dams, and pipeline street bursts with live status tracking.*
-
----
-
-### 2.4 Complete Visual Assets Inventory
-
-| Figure | Image File | System Dimension / View | Resolution | Primary Capabilities Demonstrated |
-| :---: | :--- | :--- | :---: | :--- |
-| **Fig. 1** | [`img/dashboard.png`](file:///d:/projects/JalSuraksha/img/dashboard.png) | Executive Core Dashboard | 1919 × 942 | 75 UP districts vector map, river basins, choropleth risk, timeline dock, district dossier |
-| **Fig. 2** | [`img/UttarPradesh_Dashboard.png`](file:///d:/projects/JalSuraksha/img/UttarPradesh_Dashboard.png) | UP State Critical Filter | 1919 × 941 | Critical stress grid filter, dark theme, Saharanpur BIS 10500 chemical quality assays |
-| **Fig. 3** | [`img/AndhraPradesh.png`](file:///d:/projects/JalSuraksha/img/AndhraPradesh.png) | Pan-India Multi-State Hub | 1917 × 943 | Instant state switching, 26 Andhra Pradesh districts, 2035 Climate Horizon, WQI dossier |
-| **Fig. 4** | [`img/safe_states_dashboard.png`](file:///d:/projects/JalSuraksha/img/safe_states_dashboard.png) | Safe Assessment Units | 1919 × 935 | Safe assessment units filter, 2030 decadal horizon, ranked engineering interventions |
-| **Fig. 5** | [`img/puducherry.png`](file:///d:/projects/JalSuraksha/img/puducherry.png) | Union Territory Hydrology | 1664 × 869 | 4 UT districts (Karaikal, Yanam, Mahe, Puducherry), borewell casing failure diagnostics |
-| **Fig. 6** | [`img/Atlas.png`](file:///d:/projects/JalSuraksha/img/Atlas.png) | Spatio-Temporal Resource Atlas | 1342 × 708 | Cartographic vector atlas of 75 districts, 2026 planning horizon, high-res poster download |
-| **Fig. 7** | [`img/PAN_India.png`](file:///d:/projects/JalSuraksha/img/PAN_India.png) | Open Data Telemetry & Provenance | 886 × 845 | 8 live scientific ingestion connectors, 766 districts, 36 States/UTs, 5,346 validated records |
-| **Fig. 8** | [`img/TimeLine.png`](file:///d:/projects/JalSuraksha/img/TimeLine.png) | Timeline & AI Forecast Hub | 748 × 828 | Continuous temporal playback (2000–2035), Bi-LSTM neural forecast, Saharanpur footprint |
-| **Fig. 9** | [`img/LivePresent.png`](file:///d:/projects/JalSuraksha/img/LivePresent.png) | 2026 Live Observation Horizon | 745 × 739 | Verified real-time telemetry mode, time-lapse playback speeds, Agra hydrological baseline |
-| **Fig. 10** | [`img/GroundWater_Intelligence.png`](file:///d:/projects/JalSuraksha/img/GroundWater_Intelligence.png) | Groundwater Superlatives | 995 × 819 | State-wide extreme metrics: deepest overdraft, shallowest table, drop rates, extraction peaks |
-| **Fig. 11** | [`img/Facts.png`](file:///d:/projects/JalSuraksha/img/Facts.png) | Hydrological Benchmark Cards | 975 × 712 | Key district fact cards: rainfall departures, Bundelkhand rock aquifers, urban deficits |
-| **Fig. 12** | [`img/Decision_Support_Plateform.png`](file:///d:/projects/JalSuraksha/img/Decision_Support_Plateform.png) | JalRakshak Decision Suite | 1124 × 823 | Multi-tab prescriptive suite hub, rapid district selector, operational capability index |
-| **Fig. 13** | [`img/JalRakshakAi.png`](file:///d:/projects/JalSuraksha/img/JalRakshakAi.png) | Domain Intelligence Copilot | 1125 × 733 | Conversational AI assistant trained on CGWB & Atal Bhujal corpora, contextual prompt chips |
-| **Fig. 14** | [`img/ML_Forcasting.png`](file:///d:/projects/JalSuraksha/img/ML_Forcasting.png) | ML Groundwater Forecaster | 1125 × 573 | XGBoost + LSTM 12-month depth forecast, 95% confidence intervals, SHAP feature drivers |
-| **Fig. 15** | [`img/Matrix.png`](file:///d:/projects/JalSuraksha/img/Matrix.png) | Multi-Metric Ranking Matrix | 1126 × 737 | Comparative matrix with depth, trend, extraction, WQI, borewell failure rate, and CSV export |
-| **Fig. 16** | [`img/Recharge_Sustainiblity.png`](file:///d:/projects/JalSuraksha/img/Recharge_Sustainiblity.png) | AI Recharge Suitability Layer | 1647 × 743 | Aquifer geomorphological recharge mapping, soil permeability, civil structure cost-matching |
-| **Fig. 17** | [`img/NRW_Leakage.png`](file:///d:/projects/JalSuraksha/img/NRW_Leakage.png) | Non-Revenue Water Analytics | 1135 × 730 | Water loss audit, pipe bursts, commercial theft, meter under-registration, DMA sensors |
-| **Fig. 18** | [`img/Budget_Optimiser.png`](file:///d:/projects/JalSuraksha/img/Budget_Optimiser.png) | Knapsack Budget Optimizer | 1715 × 591 | Dynamic programming resource allocation, capital ceiling slider, annual recharge yield |
-| **Fig. 19** | [`img/RWH_Calculator.png`](file:///d:/projects/JalSuraksha/img/RWH_Calculator.png) | Rainwater Harvesting Calculator | 1129 × 430 | Rooftop runoff yields, concrete/metal coefficients, sump storage sizing, tariff payback |
-| **Fig. 20** | [`img/Agriculture_Advisory.png`](file:///d:/projects/JalSuraksha/img/Agriculture_Advisory.png) | Agricultural Crop Advisory | 1124 × 438 | Cash crop water footprints (Sugarcane/Paddy) vs. high-saving alternatives (Mustard/Gram) |
-| **Fig. 21** | [`img/Borewell_Failure_Portal.png`](file:///d:/projects/JalSuraksha/img/Borewell_Failure_Portal.png) | Citizen Grievance Dispatch | 1689 × 690 | Public incident reporting, priority classification, real-time grievance dispatch board |
 
 ---
 
