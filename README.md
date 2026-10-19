@@ -1,516 +1,366 @@
-# HydroRaksh aka JalSuraksha: Collaborative Filtering and Latent Topic Analysis for AI-Driven Groundwater Intelligence and Water Resource Decision Support
+# HydroRaksh aka JalSuraksha
 
-[![CI Status](https://img.shields.io/badge/CI-Passing%20(69%2F69%20Tests)-248653.svg)](tests/unit)
+**AI-driven groundwater intelligence and water resource decision support for India.**
+
+[![Tests](https://img.shields.io/badge/tests-69%20passing-248653.svg)](tests/unit)
 [![Next.js](https://img.shields.io/badge/Next.js-15.1.7-12345A.svg)](apps/web)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.2-245B8F.svg)](apps/api)
-[![ML Research](https://img.shields.io/badge/Jupyter-16%20Notebooks-E88B2A.svg)](ml/notebooks)
-[![Docker](https://img.shields.io/badge/Docker-Ready-80B8F0.svg)](docker-compose.yml)
-[![Theme](https://img.shields.io/badge/Theme-India.gov.in%20Tokens-12345A.svg)](apps/web/src/app/globals.css)
+[![Notebooks](https://img.shields.io/badge/Jupyter-16%20notebooks-E88B2A.svg)](ml/notebooks)
+[![Docker](https://img.shields.io/badge/Docker-ready-80B8F0.svg)](docker-compose.yml)
+
+JalSuraksha is an independent research project and is **not** an official Government of India or state department website. All hydrological and meteorological data is compiled from publicly available records published by CGWB, IMD, India-WRIS, and CWC.
+
+**Author:** Mohd Shami, B.Tech Data Science
+[Email](mailto:codexshami@gmail.com) · [Portfolio](https://mohdshamii.github.io) · [GitHub](https://github.com/mohdshamii) · [LinkedIn](https://linkedin.com/in/modshamii)
 
 ---
 
-## Project Ownership and Attribution
+## Contents
 
-| Field | Details |
-| :--- | :--- |
-| **Project Owner & Lead** | **Mohd Shami** |
-| **Academic Program** | **B.Tech Data Science** |
-| **Official Email** | [codexshami@gmail.com](mailto:codexshami@gmail.com) |
-| **Personal Portfolio** | [https://mohdshamii.github.io](https://mohdshamii.github.io) |
-| **GitHub Profile** | [https://github.com/mohdshamii](https://github.com/mohdshamii) |
-| **LinkedIn Profile** | [https://linkedin.com/in/modshamii](https://linkedin.com/in/modshamii) |
-
-> **Independent Project Notice:**  
-> JalSuraksha is an independent geospatial artificial intelligence, data engineering, and hydrological decision-support platform engineered by Mohd Shami. Inspired by the clean, accessible, and trustworthy aesthetic of open public-information portals (such as India.gov.in), JalSuraksha is an independent research platform and is **not** an official Government of India or state department website. All hydrological telemetry and meteorological observations are compiled from publicly accessible records published by the Central Ground Water Board (CGWB), India Meteorological Department (IMD), India-WRIS, and Central Water Commission (CWC).
-
----
-
-## Abstract
-
-Groundwater depletion represents an existential challenge to agricultural sustainability, urban water security, and socio-economic resilience across India, where over 63% of irrigated cropland and 85% of rural drinking supplies depend on unconfined and semi-confined aquifers. Conventional monitoring systems rely predominantly on centralized numerical simulations (e.g., MODFLOW) and quarterly manual piezometer measurements that exhibit significant latency, sparse observation frequency, and an inability to provide localized, cost-optimized engineering prescriptions.
-
-This repository implements **JalSuraksha**, an enterprise-grade geospatial artificial intelligence and decision-support platform designed to transform groundwater governance from retrospective manual reporting to real-time, prescriptive intelligence. The platform delivers:
-- **Pan-India Dynamic Geography:** Seamless dynamic navigation across all **36 States and Union Territories and 700+ administrative districts**, with **Uttar Pradesh** serving as the reference implementation. Selecting any state updates district boundaries, maps, water table observations, rainfall, and predictive analytics.
-- **Hydro-Geological Context-Aware Collaborative Filtering (HG-CF):** Solves the cold-start recommendation problem for newly instrumented or data-sparse blocks by embedding physical aquifer attributes (hydraulic conductivity, slope, monsoon rainfall departure, extraction stage) into a graph Laplacian regularization kernel.
-- **Hydrological Document Topic Modeling (LDA):** Synthesizes unstructured hydrogeological brochures, ground water reports, and citizen grievance reports into qualitative distress signals.
-- **Dual Water Metrics & Integrity Architecture:** Simultaneously displays groundwater depth (m bgl) and multi-parameter water quality (pH, electrical conductivity, TDS, fluoride, arsenic, nitrate) with explicit timestamped provenance labels (`Live`, `Delayed`, `Cached`, `Simulated`, `Unavailable`).
-- **India.gov.in-Inspired Interface:** Clean, high-contrast, accessible public data portal aesthetic featuring Navy (`#12345A`), Secondary Blue (`#245B8F`), Saffron (`#E88B2A`), and Green (`#248653`) tokens, with a functional persistent Light/Dark theme toggle and zero emojis.
-- **Reproducible Machine Learning Workspace:** 16 self-contained Jupyter notebooks (`00_` to `15_`), serialized production models, unified data pipelines, and a dedicated research Docker container.
+1. [Overview](#overview)
+2. [Screenshots](#screenshots)
+3. [Pan-India Geography](#pan-india-geography)
+4. [Architecture](#architecture)
+5. [Machine Learning](#machine-learning)
+6. [Platform Modules](#platform-modules)
+7. [Design System](#design-system)
+8. [Data Sources and Integrity](#data-sources-and-integrity)
+9. [Getting Started](#getting-started)
+10. [Testing](#testing)
+11. [API Reference](#api-reference)
+12. [References](#references)
 
 ---
 
-## Table of Contents
+## Overview
 
-1. [Executive Summary and Platform Overview](#1-executive-summary-and-platform-overview)
-2. [Verified Application Screenshots and Visual Interface Showcase](#2-verified-application-screenshots-and-visual-interface-showcase)
-   - 2.1 [Geospatial Map Layers & Multi-State Exploration](#21-geospatial-map-layers--multi-state-exploration)
-   - 2.2 [Telemetry Ingestion, Temporal Horizons & Hydrological Benchmarks](#22-telemetry-ingestion-temporal-horizons--hydrological-benchmarks)
-   - 2.3 [JalRakshak AI Prescriptive Decision-Support Suite](#23-jalrakshak-ai-prescriptive-decision-support-suite)
-3. [Visual Design and Theme System](#3-visual-design-and-theme-system)
-4. [System Architecture and Monorepo Structure](#4-system-architecture-and-monorepo-structure)
-5. [Pan-India Dynamic Geography](#5-pan-india-dynamic-geography)
-6. [Machine Learning and Research Infrastructure](#6-machine-learning-and-research-infrastructure)
-   - 6.1 [16 Jupyter Research Notebooks Catalogue](#61-16-jupyter-research-notebooks-catalogue)
-   - 6.2 [Empirical Evaluation Benchmarks](#62-empirical-evaluation-benchmarks)
-   - 6.3 [Mathematical Formulations](#63-mathematical-formulations)
-7. [Platform Modules and Operational Capabilities](#7-platform-modules-and-operational-capabilities)
-   - 7.1 [Dynamic Water Balance Audit](#71-dynamic-water-balance-audit)
-   - 7.2 [AI Recharge Suitability & Sizing](#72-ai-recharge-suitability--sizing)
-   - 7.3 [Non-Revenue Water (NRW) Leakage Engine](#73-non-revenue-water-nrw-leakage-engine)
-   - 7.4 [Borewell Failure Portal](#74-borewell-failure-portal)
-   - 7.5 [District Comparison Matrix & Duel Arena](#75-district-comparison-matrix--duel-arena)
-   - 7.6 [Historical Continuous Playback (2000–2035)](#76-historical-continuous-playback-20002035)
-8. [Data Sources, Provenance and Integrity](#8-data-sources-provenance-and-integrity)
-9. [Installation and Local Execution](#9-installation-and-local-execution)
-10. [Docker Containerization](#10-docker-containerization)
-11. [Testing and Verification](#11-testing-and-verification)
-12. [API Reference and Data Contracts](#12-api-reference-and-data-contracts)
-13. [Academic References and Citation](#13-academic-references-and-citation)
+Over 63% of India's irrigated cropland and 85% of rural drinking water supplies depend on aquifers. India withdraws roughly 245 billion cubic meters of groundwater each year, and over 17% of assessment units are classified as Over-Exploited. Conventional monitoring relies on numerical simulation and quarterly manual measurements, which are slow, sparse, and rarely produce localized engineering recommendations.
+
+JalSuraksha turns public groundwater observations into near-real-time, actionable intelligence.
+
+- **Pan-India coverage:** 36 States and Union Territories and 700+ districts, with Uttar Pradesh (75 districts across 18 divisions) as the reference implementation.
+- **Hydro-Geological Collaborative Filtering (HG-CF):** Recommends interventions for data-sparse blocks by embedding physical aquifer attributes in a graph Laplacian regularization kernel.
+- **Topic modeling (LDA):** Extracts distress signals from hydrogeological reports and citizen grievances.
+- **Dual water metrics:** Groundwater depth (m bgl) and quality parameters (pH, EC, TDS, fluoride, arsenic, nitrate), each labeled with data provenance.
+- **Prescriptive decision suite:** Recharge sizing, water balance audit, knapsack budget optimization, leakage analysis, crop-shift advice, and what-if stress testing.
+- **Reproducible ML workspace:** 16 Jupyter notebooks, serialized models, and a dedicated research Docker container.
 
 ---
 
-## 1. Executive Summary and Platform Overview
+## Screenshots
 
-India withdraws approximately 245 billion cubic meters (BCM) of groundwater annually, surpassing the combined withdrawals of the United States and China. Over 17% of administrative assessment units are classified as **Over-Exploited**, with extraction surpassing replenishable recharge.
+All figures are captured from the running application and stored in [`img/`](img).
 
-JalSuraksha bridges the gap between raw hydrological observations and administrative policy interventions:
-- **36 States and Union Territories Covered:** Fully dynamic geography allows instant exploration of any state/UT and district across India.
-- **Uttar Pradesh Reference Baseline:** Features all 75 districts across 18 administrative divisions with calibrated vector maps, 35-year temporal trajectories (2000–2035), telemetry endpoints, and dual water quality metrics.
-- **Prescriptive Decision Suite:** Knapsack capital budget optimization, crop-shift diversification recommendations, rooftop rainwater harvesting (RWH) financial payback calculations, and What-If aquifer stress-testing.
-- **Enterprise-Grade Stack:** Next.js 15 App Router frontend with Tailwind CSS tokens; FastAPI asynchronous backend with SQLAlchemy ORM, TimescaleDB telemetry tables, and JSON user authentication fallback.
+### Map Layers and Multi-State Exploration
 
----
+**1. Core map canvas and intelligence dashboard** — Uttar Pradesh 75-district choropleth, river basin vectors, risk classes, timeline dock, and district dossier.
+![Core map canvas and dashboard](img/dashboard.png)
 
-## 2. Verified Application Screenshots and Visual Interface Showcase
+**2. Uttar Pradesh dashboard, Critical stress filter** — Dark theme view of Critical-risk districts with water quality assays.
+![Uttar Pradesh dashboard](img/UttarPradesh_Dashboard.png)
 
-All 21 visual figures below are captured directly from the live JalSuraksha application environment (`img/`), providing high-fidelity visual documentation of every core interface, map layer, decision suite module, and analytical tool:
+**3. Dynamic multi-state geography, Andhra Pradesh** — All 26 districts loaded under the 2035 climate horizon, with a BIS 10500 chemical compliance dossier.
+![Andhra Pradesh](img/AndhraPradesh.png)
 
-### 2.1 Geospatial Map Layers & Multi-State Exploration
+**4. Safe assessment units and decadal horizon** — Safe units under the 2030 target, with top recharge structures highlighted.
+![Safe units dashboard](img/safe_states_dashboard.png)
 
-#### Figure 1: Core Geospatial Map Canvas & Real-Time Intelligence Dashboard
-![Core Geospatial Map Canvas & Real-Time Intelligence Dashboard](img/dashboard.png)
-*Figure 1: Core JalSuraksha desktop interface showing the interactive Uttar Pradesh 75-district vector choropleth map, regional river basin vectors (Ganga, Yamuna), over-extraction risk classifications, continuous 2030 +4Y decadal timeline dock, and Saharanpur district intelligence dossier.*
+**5. Coastal aquifer and Union Territory monitoring, Puducherry** — All four districts, with borewell failure telemetry and provenance labels.
+![Puducherry](img/puducherry.png)
 
-#### Figure 2: Uttar Pradesh State-Level Dashboard (Critical Stress Filter)
-![Uttar Pradesh State-Level Dashboard (Critical Stress Filter)](img/UttarPradesh_Dashboard.png)
-*Figure 2: Dark theme state-level dashboard displaying the 75-district grid filtered by Critical risk units (Banda, Hamirpur, Hapur, Jhansi, Kanpur Nagar, Lucknow, Mahoba, Mathura, Meerut, Prayagraj, Sambhal, Varanasi) with Saharanpur multi-parameter water quality laboratory assays.*
+**6. Groundwater intelligence and resource atlas** — Printable cartographic map of aquifer stress across all 75 Uttar Pradesh districts for the 2026 horizon.
+![Resource atlas](img/Atlas.png)
 
-#### Figure 3: Pan-India Dynamic Multi-State Geography (Andhra Pradesh — 26 Districts)
-![Pan-India Dynamic Multi-State Geography (Andhra Pradesh — 26 Districts)](img/AndhraPradesh.png)
-*Figure 3: Pan-India state navigation demonstrating dynamic loading for Andhra Pradesh across all 26 districts (Eluru, Krishna, Annamayya, Guntur, NTR, Tirupati, Kurnool, Palnadu, Godavari basins) under the 2035 Climate Horizon, with Alluri Sitharama Raju BIS 10500 chemical compliance dossier.*
+### Telemetry, Timeline, and Benchmarks
 
-#### Figure 4: AI Recharge Suitability & Decadal Horizon (Safe Assessment Units)
-![AI Recharge Suitability & Decadal Horizon (Safe Assessment Units)](img/safe_states_dashboard.png)
-*Figure 4: Interface filtered to Safe groundwater units (Kasganj, Kannauj, Farrukhabad, Amethi, Jaunpur, Pratapgarh, Sultanpur, Bareilly) under the 2030 Decadal Target, highlighting top engineering recharge structures (Deep Injection Wells, Filter Pits, Amrit Sarovars).*
+**7. Open data telemetry and provenance hub** — Eight active connectors (CGWB, IMD, CWC, Open-Meteo, data.gov.in, SoilGrids) covering 766 districts.
+![Telemetry hub](img/PAN_India.png)
 
-#### Figure 5: Coastal Aquifer & Union Territory Monitoring (Puducherry)
-![Coastal Aquifer & Union Territory Monitoring (Puducherry)](img/puducherry.png)
-*Figure 5: Union Territory hydrology monitoring across all 4 administrative districts (Yanam, Mahe, Karaikal, Puducherry), featuring Karaikal borehole failure telemetry (11.4% failure rate, 35.8 mbgl desaturation depth) and strict data provenance assurance.*
+**8. Spatio-temporal timeline and forecasting hub (2000–2035)** — Milestones from the 2000 baseline through NWP, Atal Bhujal, and JJM to the 2030 target and 2035 projections.
+![Timeline](img/TimeLine.png)
 
-#### Figure 6: Spatio-Temporal Groundwater Intelligence & Resource Atlas
-![Spatio-Temporal Groundwater Intelligence & Resource Atlas](img/Atlas.png)
-*Figure 6: High-resolution cartographic vector map and printable resource poster displaying aquifer stress distribution across all 75 districts of Uttar Pradesh for the 2026 planning horizon.*
+**9. Live present observation horizon** — 2026 real-time ingestion mode with variable-speed time-lapse controls.
+![Live present](img/LivePresent.png)
 
----
+**10. Groundwater intelligence superlatives** — Auto-computed state-wide extremes: deepest overdraft, shallowest water table, and fastest annual decline.
+![Superlatives](img/GroundWater_Intelligence.png)
 
-### 2.2 Telemetry Ingestion, Temporal Horizons & Hydrological Benchmarks
+**11. District hydrological benchmark fact cards** — Extraction stage extremes, monsoon rainfall contrasts, hard-rock aquifers, and urban infiltration deficits.
+![Fact cards](img/Facts.png)
 
-#### Figure 7: Pan-India Open Data Telemetry & Provenance Hub (8 Live Connectors)
-![Pan-India Open Data Telemetry & Provenance Hub](img/PAN_India.png)
-*Figure 7: Centralized telemetry ingest and provenance modal tracking 8 active scientific and government connectors (CGWB, IMD, CWC, Open-Meteo, data.gov.in, SoilGrids) covering 766 districts across all 36 States & UTs with 5,346 verified BIS 10500 telemetry records.*
+### JalRakshak AI Decision-Support Suite
 
-#### Figure 8: Spatio-Temporal Timeline & AI Forecasting Hub (2000–2035)
-![Spatio-Temporal Timeline & AI Forecasting Hub](img/TimeLine.png)
-*Figure 8: Decadal timeline and AI forecasting hub showing continuous temporal transition from 2000 Baseline, 2012 NWP inception, 2017 Atal Bhujal, 2022 JJM Phase, to 2030 decadal target and 2035 climate stress projections for Saharanpur.*
+**12. Decision-support platform hub** — Unified workspace with 14 specialized tabs.
+![Decision-support hub](img/Decision_Support_Plateform.png)
 
-#### Figure 9: Real-Time Observation Horizon & Live Present Footprint
-![Real-Time Observation Horizon & Live Present Footprint](img/LivePresent.png)
-*Figure 9: 2026 Live Present verified real-time ingestion mode displaying active sensor nodes, variable-speed time-lapse controls (1x, 2x, 4x), and Agra's 2026 hydrological footprint (27.8 m bgl depth, 134.5% extraction stage).*
+**13. Domain intelligence copilot** — Conversational assistant grounded in CGWB monographs, Atal Bhujal Yojana, and BIS 10500, with contextual prompt chips.
+![Copilot](img/JalRakshakAi.png)
 
-#### Figure 10: JalRakshak AI — Groundwater Intelligence Superlatives
-![JalRakshak AI — Groundwater Intelligence Superlatives](img/GroundWater_Intelligence.png)
-*Figure 10: Auto-computed state-wide superlatives across all 75 districts of Uttar Pradesh, identifying the deepest aquifer overdraft (Ghaziabad: 29.2 m bgl), shallowest water table (Siddharthnagar: 5.9 m bgl), and fastest annual decline (-48 cm/yr).*
+**14. Multi-horizon groundwater forecaster** — 12-month depth projections with confidence bands and SHAP drivers.
+![Forecaster](img/ML_Forcasting.png)
 
-#### Figure 11: District Hydrological Benchmark Fact Cards
-![District Hydrological Benchmark Fact Cards](img/Facts.png)
-*Figure 11: Curated analytical fact cards detailing highest extraction stages, monsoon rainfall extremes (Mathura 610 mm vs Maharajganj 1390 mm), Bundelkhand hard-rock aquifers, and NCR urban infiltration deficits.*
+**15. Hydrological matrix and comparative ranking** — Multi-metric district ranking with CSV export.
+![Comparison matrix](img/Matrix.png)
 
----
+**16. AI recharge suitability and geomorphological mapping** — Suitability scores with ranked engineering interventions, costs, and annual recharge yields.
+![Recharge suitability](img/Recharge_Sustainiblity.png)
 
-### 2.3 JalRakshak AI Prescriptive Decision-Support Suite
+**17. Non-revenue water and distribution loss analytics** — Physical leakage, unauthorized extraction, and meter under-registration, with DMA pressure and acoustic burst indicators.
+![NRW leakage](img/NRW_Leakage.png)
 
-#### Figure 12: JalRakshak AI — Decision-Support Platform Hub
-![JalRakshak AI — Decision-Support Platform Hub](img/Decision_Support_Plateform.png)
-*Figure 12: Unified JalRakshak AI decision-support platform hub providing seamless switching across 14 specialized tabs, including Recharge Planning, Water Balance Audit, NRW Leakage, Budget Optimization, and Citizen Grievances.*
+**18. Knapsack capital budget optimizer** — Maximizes annual recharge volume under capital ceilings, reporting cost efficiency.
+![Budget optimizer](img/Budget_Optimiser.png)
 
-#### Figure 13: JalRakshak AI — Domain Intelligence Copilot
-![JalRakshak AI — Domain Intelligence Copilot](img/JalRakshakAi.png)
-*Figure 13: Conversational domain intelligence copilot trained on CGWB monographs, Atal Bhujal Yojana, and BIS 10500 standards, featuring contextual prompt chips for instant policy and hydrological inquiries.*
+**19. Rooftop rainwater harvesting calculator** — Capturable precipitation, recommended sump capacity, installation cost, and tariff payback.
+![RWH calculator](img/RWH_Calculator.png)
 
-#### Figure 14: Multi-Horizon Machine Learning Groundwater Forecaster
-![Multi-Horizon Machine Learning Groundwater Forecaster](img/ML_Forcasting.png)
-*Figure 14: Predictive ML forecasting module displaying 12-month depth projections with 95% confidence bands (R²: 0.912, RMSE: 0.42m) and SHAP explainability drivers quantifying tubewell overdraft, rainfall deficit, and soil resistance.*
+**20. Crop water demand and low-water crop advisory** — Compares high-water crops with drought-resistant alternatives and estimated savings.
+![Crop advisory](img/Agriculture_Advisory.png)
 
-#### Figure 15: Pan-India Hydrological Matrix & Comparative Ranking
-![Pan-India Hydrological Matrix & Comparative Ranking](img/Matrix.png)
-*Figure 15: Comprehensive multi-metric ranking table comparing districts by water depth, annual fall rate, extraction percentage, WQI health, borewell failure rates, and AI recharge suitability with CSV dataset export.*
-
-#### Figure 16: AI Recharge Suitability & Geomorphological Mapping
-![AI Recharge Suitability & Geomorphological Mapping](img/Recharge_Sustainiblity.png)
-*Figure 16: Geospatial artificial recharge suitability layer mapping aquifer recharge scores across UP (Saharanpur 91.8/100 suitability) with ranked civil engineering intervention costs, matches, and annual recharge yields.*
-
-#### Figure 17: Non-Revenue Water (NRW) & Distribution Loss Analytics
-![Non-Revenue Water (NRW) & Distribution Loss Analytics](img/NRW_Leakage.png)
-*Figure 17: Municipal distribution audit quantifying physical pipe leakage, commercial unauthorized extraction, and customer meter under-registration alongside real-time DMA pressure sensors and acoustic pipe burst detectors.*
-
-#### Figure 18: Knapsack Capital Budget Optimization Engine
-![Knapsack Capital Budget Optimization Engine](img/Budget_Optimiser.png)
-*Figure 18: Dynamic programming knapsack algorithm maximizing cumulative annual groundwater recharge (m³) under bounded municipal capital ceilings with cost-efficiency metrics (₹66.2 / m³).*
-
-#### Figure 19: Rooftop Rainwater Harvesting (RWH) Sizing & Payback Calculator
-![Rooftop Rainwater Harvesting (RWH) Sizing & Payback Calculator](img/RWH_Calculator.png)
-*Figure 19: Civil engineering sizing tool calculating annual capturable precipitation (124,950 L/yr), recommended 15-day peak sump capacity (8,330 L), installation costs, and municipal tariff payback period (8.5 years).*
-
-#### Figure 20: Agricultural Crop Water Demand & Low-Water Crop Shift Advisory
-![Agricultural Crop Water Demand & Low-Water Crop Shift Advisory](img/Agriculture_Advisory.png)
-*Figure 20: Agro-hydrological advisory comparing high-water cash crops (Sugarcane 2,200 mm/yr, Paddy 1,800 mm/yr) against AI-recommended drought-resistant alternatives (Mustard 350 mm/yr with 82% water savings, Chickpea 300 mm/yr).*
-
-#### Figure 21: Citizen Water Grievance & Borewell Failure Incident Dispatch Board
-![Citizen Water Grievance & Borewell Failure Incident Dispatch Board](img/Borewell_Failure_Portal.png)
-*Figure 21: Public incident logging and municipal triage dispatch board tracking dry borewell failures, unauthorized tanker extraction, damaged check dams, and pipeline street bursts with live status tracking.*
+**21. Citizen grievance and borewell failure dispatch board** — Incident logging and triage for dry borewells, tanker extraction, damaged check dams, and pipeline bursts.
+![Grievance board](img/Borewell_Failure_Portal.png)
 
 ---
 
-## 3. Visual Design and Theme System
+## Pan-India Geography
 
-JalSuraksha implements a design system inspired by the public-interest information architecture of India.gov.in.
+JalSuraksha extends a single-state prototype to a full national platform. Selecting a state updates, in one step:
 
-### Color Tokens
+1. The district dropdown and search index.
+2. Boundary visualization on the map.
+3. Groundwater level observations and depth trends.
+4. IMD rainfall departure and monsoon status.
+5. Water stress index and recharge suitability scores.
+6. All dependent analytical panels and decision tools.
 
-| Token | Light Theme | Dark Theme | Purpose |
-| :--- | :--- | :--- | :--- |
-| `--color-primary` | `#12345A` | `#80B8F0` | Primary brand navy, key headers, focus outlines |
-| `--color-secondary` | `#245B8F` | `#9CCBFA` | Interactive controls, secondary actions, badges |
-| `--color-accent-saffron` | `#E88B2A` | `#F2A65A` | Highlights, active timeline horizon, warning indicators |
-| `--color-accent-green` | `#248653` | `#69C58A` | Safe recharge zones, verified telemetry, success states |
-| `--color-background` | `#F5F7FA` | `#111820` | Root application canvas |
-| `--color-surface` | `#FFFFFF` | `#1B2632` | Standard card surfaces, modals, dropdowns |
-| `--color-surface-elevated`| `#F0F4F8` | `#243342` | Elevated toolbars, headers, hover overlays |
-| `--color-text` | `#202B38` | `#F0F4F8` | High-contrast body and title typography |
-| `--color-text-muted` | `#586779` | `#B2C0CE` | Secondary labels, captions, measurement units |
-| `--color-border` | `#DCE3EA` | `#344353` | Component dividers, table borders, panel outlines |
-
-### Zero Emoji Policy
-- Emojis are strictly prohibited throughout the interface, code, and documentation.
-- All interface actions utilize minimal, clean SVG icons from `lucide-react` with `currentColor` styling.
-- Interactive controls include visible keyboard focus outlines, ARIA attributes, and accessible labels.
-
-### Functional Theme Toggle
-- The theme toggle in the navigation bar dynamically alternates between light and dark modes without reloading.
-- User preference is automatically saved to `localStorage` under the key `jalsuraksha_theme` and synchronized to `<html data-theme="...">` and `<html class="...">`.
-- System preference (`prefers-color-scheme`) is respected on first launch.
+Uttar Pradesh serves as the reference standard, with full vector boundaries, 35-year trajectories (2000–2035), water quality assays, and borewell failure registries for all 75 districts. Where live telemetry is unavailable for a district, the interface shows an explicit `Simulated` or `Unavailable` badge instead of an unlabeled estimate.
 
 ---
 
-## 4. System Architecture and Monorepo Structure
+## Architecture
 
 ```mermaid
 graph TD
-    A[Public Hydrological Sources<br>CGWB, IMD, India-WRIS, CWC] --> B[Data Ingestion Pipelines<br>ml/pipelines/ingest_data.py]
-    B --> C[Feature Engineering & Validation<br>ml/src/feature_engineering.py]
-    C --> D[ML Research & Training<br>ml/pipelines/train_models.py]
-    D --> E[Serialized Artifacts<br>ml/artifacts/]
-    E --> F[FastAPI Backend Services<br>apps/api/app/main.py]
-    F --> G[Next.js 15 Presentation Layer<br>apps/web/src/app/page.tsx]
-    H[Edge IoT Telemetry<br>ESP32 Ultrasonic Sensors] --> F
-    I[User Authentication<br>data/private/users.json] --> F
+    A[Public Sources<br>CGWB, IMD, India-WRIS, CWC] --> B[Ingestion Pipelines]
+    B --> C[Feature Engineering & Validation]
+    C --> D[Model Training]
+    D --> E[Serialized Artifacts]
+    E --> F[FastAPI Backend]
+    F --> G[Next.js Frontend]
+    H[Edge IoT Telemetry<br>ESP32 sensors] --> F
+    I[JSON User Store] --> F
 ```
 
-### Directory Organization
+**Stack:** Next.js 15 (App Router, Tailwind CSS), FastAPI (async), SQLAlchemy, TimescaleDB, scikit-learn, gensim, SHAP.
 
 ```
 JalSuraksha/
 ├── apps/
-│   ├── api/                    # FastAPI asynchronous backend application
-│   │   ├── app/
-│   │   │   ├── api/v1/         # Endpoints: auth, telemetry, analytics, pan_india
-│   │   │   ├── core/           # Security, config, json_user_store.py
-│   │   │   ├── db/             # Database connection and session management
-│   │   │   ├── models/         # SQLAlchemy ORM models (regions, stations, observations)
-│   │   │   └── services/       # Business logic (forecasting, recharge, balance)
-│   │   └── requirements.txt
-│   └── web/                    # Next.js 15 React application
-│       ├── src/
-│       │   ├── app/            # App router, globals.css (India.gov.in tokens), page.tsx
-│       │   ├── components/
-│       │   │   ├── atlas/      # Navbar, map, context panel, time slider, modals
-│       │   │   └── jalrakshak/ # Decision suite: recharge, balance, leakage, whatif
-│       │   └── data/           # india-geography.ts, up-75-districts.ts
-│       └── package.json
-├── data/
-│   ├── raw/                    # Raw telemetry and brochure records
-│   ├── processed/              # Aggregated hydrological time-series
-│   └── private/                # JSON user store (atomic writes, PBKDF2 hashing)
-├── docs/                       # Research papers, system runbooks, and launch specifications
-├── img/                        # 21 high-resolution application screenshots and operational captures
-├── ml/                         # Machine learning research workspace
-│   ├── artifacts/              # Trained models and evaluation_report.json
-│   ├── configs/                # experiments.yaml, data_sources.yaml
-│   ├── notebooks/              # 16 executable Jupyter research notebooks (00 to 15)
-│   ├── pipelines/              # End-to-end ingestion, preprocessing, training, eval
-│   ├── src/                    # Reusable research modules
-│   ├── tests/                  # Unit tests for ML modules
-│   └── README.md
-├── scripts/                    # Automation scripts (screenshots, validation)
-├── tests/
-│   └── unit/                   # 62 backend unit tests
-├── Dockerfile                  # Production API container
-├── Dockerfile.research         # JupyterLab research container
-├── docker-compose.yml          # Multi-service deployment definition
-└── README.md                   # Authoritative platform documentation
+│   ├── api/          # FastAPI backend (endpoints, core, db, models, services)
+│   └── web/          # Next.js frontend (atlas and decision suite components)
+├── data/             # raw, processed, and private (user store) data
+├── docs/             # Research papers and runbooks
+├── img/              # Application screenshots
+├── ml/               # Notebooks, pipelines, artifacts, configs, tests
+├── scripts/          # Automation scripts
+├── tests/unit/       # Backend unit tests
+├── Dockerfile
+├── Dockerfile.research
+└── docker-compose.yml
 ```
 
 ---
 
-## 5. Pan-India Dynamic Geography
+## Machine Learning
 
-JalSuraksha transitions from a single-state prototype to a full Pan-India intelligence platform:
-- **36 States and Union Territories:** Complete coverage including Andhra Pradesh, Assam, Bihar, Gujarat, Karnataka, Maharashtra, Punjab, Rajasthan, Tamil Nadu, Uttar Pradesh, West Bengal, and all Union Territories.
-- **Hierarchical Dynamic State/District Selection:** Selecting any state dynamically updates:
-  1. The district dropdown and search index.
-  2. Geographic boundary visualization on the map.
-  3. Ground water level observations and depth trends.
-  4. IMD rainfall departure figures and monsoon status.
-  5. Water stress index and recharge suitability scores.
-  6. Dependent analytical panels and decision-support tools.
-- **Uttar Pradesh Reference Standard:** All 75 districts of UP feature full vector boundaries, 35-year temporal trajectories (2000–2035), groundwater quality assays, and borewell failure registries.
-- **Graceful Fallback:** If live telemetry is unavailable for a remote district, the platform displays an explicit `Simulated` or `Unavailable` provenance badge.
+The research workspace in `ml/` contains 16 executable notebooks (`00` to `15`) covering the full workflow:
 
----
+| Stage | Notebooks |
+| :--- | :--- |
+| Setup and data | `00` environment, `01` ingestion, `02` EDA, `03` validation, `04` feature engineering |
+| Analysis | `05` depletion clustering, `06` rainfall-recharge dynamics, `07` water quality (BIS 10500) |
+| Forecasting | `08` baselines, `09` tree-based models, `10` sequence model specifications |
+| Recommendation and text | `11` HG-CF recommender, `12` LDA topic modeling |
+| Evaluation and deployment | `13` benchmarks, `14` SHAP explainability, `15` model registry |
 
-## 6. Machine Learning and Research Infrastructure
+### Evaluation
 
-JalSuraksha includes a research-grade machine learning workspace under `ml/` with end-to-end pipelines, reproducible benchmarks, and 16 documented Jupyter notebooks.
+Metrics are logged in `ml/artifacts/evaluation_report.json`.
 
-### 6.1 16 Jupyter Research Notebooks Catalogue
+**Water table forecasting (rolling-origin cross-validation, 4 folds)**
 
-All notebooks in `ml/notebooks/` are validated and executable:
+| Model | MAE (m) | RMSE (m) |
+| :--- | :---: | :---: |
+| Naive persistence | 29.851 | 30.999 |
+| Ridge regression | 3.851 | 4.352 |
+| Gradient boosting | 4.015 | 4.678 |
+| Random forest | 4.054 | 4.575 |
 
-| Notebook | Title | Core Purpose | Artifact Generated |
-| :--- | :--- | :--- | :--- |
-| `00_environment_setup.ipynb` | Environment Setup & Verification | Verifies dependencies, hardware, seeds, and paths | `env_check.json` |
-| `01_data_ingestion.ipynb` | Data Ingestion Pipeline | Ingests CGWB, IMD, WRIS, and telemetry records | `ingested_metadata.json` |
-| `02_exploratory_data_analysis.ipynb` | Exploratory Data Analysis | Analyzes water table distributions, rainfall trends, and correlation matrices | `eda_summary.json` |
-| `03_data_validation_quality.ipynb` | Data Validation & Quality Checks | Schema compliance, null rates, and outlier detection | `validation_report.json` |
-| `04_feature_engineering.ipynb` | Feature Engineering & Temporal Lags | Lag features, rolling statistics, monsoon departures | `feature_manifest.json` |
-| `05_groundwater_depletion_clustering.ipynb`| Aquifer Depletion Clustering | K-Means & Hierarchical clustering by depletion rate | `cluster_metrics.json` |
-| `06_rainfall_groundwater_correlation.ipynb`| Rainfall-Recharge Dynamics | Cross-correlation, lag response times, recharge coefficients | `recharge_dynamics.json` |
-| `07_water_quality_analysis.ipynb` | Water Quality Index (WQI) Screening | BIS 10500 compliance, heavy metals, fluoride, arsenic | `water_quality_index.json` |
-| `08_forecasting_baselines.ipynb` | Forecasting Baseline Benchmarks | Persistence and linear regression benchmark models | `baseline_metrics.json` |
-| `09_tree_based_forecasting.ipynb` | Random Forest & Gradient Boosting | Multi-horizon water table depth forecasting models | `tree_models.json` |
-| `10_deep_learning_forecasting.ipynb` | Sequence Modeling Architecture | LSTM/GRU temporal sequence architecture specifications | `deep_learning_spec.json` |
-| `11_hg_cf_recommendation_engine.ipynb` | HG-CF Recommender Engine | Graph Laplacian regularized collaborative filtering | `hg_cf_recommender.json` |
-| `12_document_topic_modeling.ipynb` | Hydrological Literature Mining | LDA topic modeling on CGWB monographs & grievances | `lda_topic_model.json` |
-| `13_model_evaluation_benchmarks.ipynb` | Cross-Validation & Benchmark Suite | Rolling-origin CV and held-out geographic testing | `evaluation_report.json` |
-| `14_model_explainability_shap.ipynb` | Model Interpretability & SHAP | Feature importance and partial dependence analysis | `shap_explainability.json` |
-| `15_production_model_registry.ipynb` | Production Model Registry | Artifact serialization, versioning, and deployment manifests | `model_registry.json` |
+**Held-out geographic validation** (Agra, Patna, Meerut; 9 samples): MAE 5.169 m, RMSE 7.365 m, R² 0.127.
 
-### 6.2 Empirical Evaluation Benchmarks
+**HG-CF recommender** (118 held-out unit-intervention pairs): Precision@5 0.197, NDCG@5 0.437, MAE 0.123.
 
-All metrics below are drawn from reproducible experiments logged in `ml/artifacts/evaluation_report.json`:
+### HG-CF Formulation
 
-#### Multi-Horizon Time-Series Forecasters (Rolling-Origin Cross-Validation)
+For assessment units $u$ and interventions $i$, predicted performance is $\hat{r}_{ui} = \mu + b_u + b_i + \mathbf{p}_u^T \mathbf{q}_i$. Training adds a graph Laplacian penalty weighted by hydro-geological similarity:
 
-| Model Architecture | Mean Absolute Error (MAE) | Root Mean Squared Error (RMSE) | Folds Evaluated |
-| :--- | :---: | :---: | :---: |
-| **Naive Persistence Baseline** | 29.851 m | 30.999 m | 4 |
-| **Ridge Regression** | 3.851 m | 4.352 m | 4 |
-| **Gradient Boosting Regressor** | **4.015 m** | **4.678 m** | 4 |
-| **Random Forest Regressor** | **4.054 m** | **4.575 m** | 4 |
+$$\min \frac{1}{2} \sum_{u,i} I_{ui}(r_{ui} - \hat{r}_{ui})^2 + \frac{\lambda_P}{2}\sum_u \|\mathbf{p}_u\|^2 + \frac{\lambda_Q}{2}\sum_i \|\mathbf{q}_i\|^2 + \frac{\alpha}{2}\sum_{u,v} S_{uv}^H \|\mathbf{p}_u - \mathbf{p}_v\|^2$$
 
-#### Held-Out Geographic Unit Validation
-- **Held-Out Test Districts:** Agra, Patna, Meerut
-- **Held-Out Test Samples:** 9
-- **Held-Out MAE:** 5.169 meters
-- **Held-Out RMSE:** 7.365 meters
-- **Held-Out $R^2$:** 0.127
-
-#### Hydro-Geological Collaborative Filtering (HG-CF Recommender)
-- **Validation Scheme:** Held-Out Geographic Unit Validation
-- **Evaluation Samples:** 118 unit-intervention pairs
-- **Precision@5:** 0.197
-- **NDCG@5:** 0.437
-- **Mean Absolute Error:** 0.123
-
-### 6.3 Mathematical Formulations
-
-#### Hydro-Geological Regularized Collaborative Filtering (HG-CF)
-Let assessment units be $U = \{u_1, \dots, u_M\}$ and candidate interventions be $I = \{i_1, \dots, i_N\}$. Predicted performance $\hat{r}_{ui}$ is modeled as:
-
-$$\hat{r}_{ui} = \mu + b_u + b_i + \mathbf{p}_u^T \mathbf{q}_i$$
-
-The objective incorporates a graph Laplacian penalty regularized by physical hydro-geological similarity $S_{uv}^H$:
-
-$$\min_{\mathbf{P}, \mathbf{Q}, \mathbf{b}} \frac{1}{2} \sum_{u, i} I_{ui} (r_{ui} - \hat{r}_{ui})^2 + \frac{\lambda_P}{2} \sum_u \|\mathbf{p}_u\|_2^2 + \frac{\lambda_Q}{2} \sum_i \|\mathbf{q}_i\|_2^2 + \frac{\alpha}{2} \sum_{u, v} S_{uv}^H \|\mathbf{p}_u - \mathbf{p}_v\|_2^2$$
-
-where physical attribute vector $\mathbf{x}_u = [k_u, s_u, \Delta R_u, E_u, D_u]^T$ defines the Gaussian RBF kernel:
-
-$$S_{uv}^H = \exp\left(-\frac{\|\mathbf{x}_u - \mathbf{x}_v\|_2^2}{2\sigma_h^2}\right)$$
-
-#### Latent Dirichlet Allocation (LDA) Topic Formulation
-Unstructured hydrological literature is parsed across vocabulary $V$ and $K$ latent topics:
-
-$$p(\mathbf{w}, \mathbf{z}, \boldsymbol{\theta}, \boldsymbol{\Phi} \mid \boldsymbol{\alpha}_{\text{dir}}, \boldsymbol{\beta}) = \prod_{k=1}^K p(\boldsymbol{\phi}_k \mid \boldsymbol{\beta}) \prod_{d=1}^W p(\boldsymbol{\theta}_d \mid \boldsymbol{\alpha}_{\text{dir}}) \prod_{n=1}^{N_d} p(z_{dn} \mid \boldsymbol{\theta}_d) p(w_{dn} \mid \boldsymbol{\phi}_{z_{dn}})$$
+where $S_{uv}^H = \exp\left(-\|\mathbf{x}_u - \mathbf{x}_v\|^2 / 2\sigma_h^2\right)$ and $\mathbf{x}_u = [k_u, s_u, \Delta R_u, E_u, D_u]^T$ encodes hydraulic conductivity, slope, monsoon rainfall departure, extraction stage, and depth.
 
 ---
 
-## 7. Platform Modules and Operational Capabilities
+## Platform Modules
 
-| Module | Operational Capability | Implementation Status |
+| Module | Capability | Status |
 | :--- | :--- | :---: |
-| **Dynamic Atlas** | 36 States/UTs, 700+ districts, UP vector boundaries, continuous time playback | **Fully Implemented** |
-| **Dual Water Metrics** | Water depth (m bgl) and BIS 10500 quality parameters with timestamps | **Fully Implemented** |
-| **ML Forecaster** | Multi-horizon water table forecasting with Random Forest and Gradient Boosting | **Fully Implemented** |
-| **HG-CF Recommender** | Graph Laplacian hydro-geological intervention recommendations | **Fully Implemented** |
-| **LDA Literature Miner** | Topic extraction from CGWB brochures and citizen grievance reports | **Fully Implemented** |
-| **Water Balance Audit** | GEC-2015 annual recharge, extraction, and net deficit calculations | **Fully Implemented** |
-| **Recharge Sizing** | Check dams, percolation ponds, injection wells, and recharge shafts sizing | **Fully Implemented** |
-| **NRW Leakage Engine** | Acoustic leak detection simulation, non-revenue water financial loss audit | **Fully Implemented** |
-| **Budget Optimizer** | Dynamic Knapsack allocation under capital expenditure ceilings | **Fully Implemented** |
-| **What-If Simulator** | Interactive slider-driven extraction, precipitation, and recharge stress-testing | **Fully Implemented** |
-| **RWH Sizing Engine** | Catchment area yield and payback calculator | **Fully Implemented** |
-| **Crop Shift Advisory** | Water-saving crop substitutions (e.g., Mustard vs. Sugarcane) | **Fully Implemented** |
-| **Borewell Failure Portal** | Verified failure records, depth profiles, and casing collapse diagnostics | **Fully Implemented** |
-| **District Comparison Matrix** | Head-to-head duel arena and 75-district tabular matrix with CSV export | **Fully Implemented** |
-| **Authentication System** | Default anonymous access; optional JSON store with PBKDF2-HMAC-SHA256 | **Fully Implemented** |
-| **Theme Toggle** | India.gov.in light/dark theme tokens, persistent state, zero emojis | **Fully Implemented** |
-| **Physical Sensor Ingestion** | ESP32 hardware bridge via `/api/v1/jalrakshak/iot/telemetry` | **Partially Implemented (Endpoint active, edge simulated)** |
-| **MODFLOW Integration** | Distributed numerical 3D finite-difference physics coupling | **Planned** |
+| Dynamic Atlas | 36 States/UTs, UP vector boundaries, 2000–2035 timeline playback | Implemented |
+| Dual Water Metrics | Depth and BIS 10500 quality parameters with timestamps | Implemented |
+| ML Forecaster | Multi-horizon forecasting (random forest, gradient boosting) | Implemented |
+| HG-CF Recommender | Hydro-geological intervention recommendations | Implemented |
+| LDA Literature Miner | Topics from CGWB reports and grievances | Implemented |
+| Water Balance Audit | GEC-2015 recharge, extraction, and net deficit | Implemented |
+| Recharge Sizing | Check dams, percolation ponds, injection wells, recharge shafts | Implemented |
+| NRW Leakage Engine | Non-revenue water loss audit with simulated acoustic detection | Implemented |
+| Budget Optimizer | Knapsack allocation under capital ceilings | Implemented |
+| What-If Simulator | Extraction, rainfall, and recharge stress testing | Implemented |
+| RWH Sizing | Rooftop harvesting yield and payback | Implemented |
+| Crop Shift Advisory | Low-water crop substitutions | Implemented |
+| Borewell Failure Portal | Failure records and diagnostics | Implemented |
+| District Comparison | Head-to-head comparison and 75-district matrix with CSV export | Implemented |
+| Authentication | Anonymous by default; optional JSON store (PBKDF2-HMAC-SHA256) | Implemented |
+| IoT Ingestion | ESP32 bridge via `/api/v1/jalrakshak/iot/telemetry` | Partial (endpoint active, edge simulated) |
+| MODFLOW Integration | 3D finite-difference numerical coupling | Planned |
 
 ---
 
-## 8. Data Sources, Provenance and Integrity
+## Design System
 
-JalSuraksha enforces an unambiguous data integrity policy:
-- **No Fabricated Records:** The platform never fabricates piezometer readings, borewell failure rates, or model metrics.
-- **Missing Data Distinction:** Missing data is explicitly displayed as `Unavailable` or `—` rather than zero.
-- **Data Provenance Badges:**
-  - `Live`: Telemetry ingested within the past 24 hours.
-  - `Delayed`: Observations from scheduled quarterly monitoring rounds (e.g., pre/post monsoon).
-  - `Cached`: Archived historical database records.
-  - `Simulated`: What-If scenario projections and algorithmic forecasts.
-  - `Unavailable`: Districts or parameters where verified ground data has not yet been collected.
+The interface follows the clean, high-contrast, accessible style of public-information portals such as India.gov.in, with light and dark themes and no emojis. Icons are SVG from `lucide-react`.
 
-### Primary Data Sources
+| Token | Light | Dark | Use |
+| :--- | :---: | :---: | :--- |
+| `--color-primary` | `#12345A` | `#80B8F0` | Headers, focus outlines |
+| `--color-secondary` | `#245B8F` | `#9CCBFA` | Controls, badges |
+| `--color-accent-saffron` | `#E88B2A` | `#F2A65A` | Active timeline, warnings |
+| `--color-accent-green` | `#248653` | `#69C58A` | Safe zones, verified data |
+| `--color-background` | `#F5F7FA` | `#111820` | Application canvas |
+| `--color-surface` | `#FFFFFF` | `#1B2632` | Cards, modals |
+| `--color-text` | `#202B38` | `#F0F4F8` | Body text |
+| `--color-border` | `#DCE3EA` | `#344353` | Dividers, outlines |
 
-1. **Central Ground Water Board (CGWB):** Pre-monsoon and post-monsoon water table depths from the National Ground Water Monitoring Network (NGWMN).
-2. **India Meteorological Department (IMD):** District gridded rainfall observations and normal departure indices.
-3. **India Water Resources Information System (India-WRIS):** River basin telemetry, surface reservoirs, and hydrological discharge figures.
-4. **Central Water Commission (CWC):** Gauge-discharge station data across the Ganga and Yamuna basins.
-5. **Bureau of Indian Standards (BIS 10500:2012):** Acceptable and permissible drinking water chemical limits.
+- The theme toggle switches modes without a page reload and respects `prefers-color-scheme` on first launch.
+- The preference is saved in `localStorage` under `jalsuraksha_theme`.
+- Controls provide visible keyboard focus, ARIA attributes, and accessible labels.
 
 ---
 
-## 9. Installation and Local Execution
+## Data Sources and Integrity
 
-### Prerequisites
-- Node.js 18+ and npm 9+
-- Python 3.10+
-- Git
+The platform never fabricates piezometer readings, failure rates, or model metrics. Missing data is shown as `Unavailable` or `—`, never as zero. Every value carries a provenance label:
 
-### 1. Clone the Repository
+- `Live`: ingested within the past 24 hours
+- `Delayed`: scheduled quarterly monitoring rounds
+- `Cached`: archived historical records
+- `Simulated`: what-if scenarios and algorithmic forecasts
+- `Unavailable`: no verified ground data collected
+
+**Sources:**
+
+1. Central Ground Water Board (CGWB): pre- and post-monsoon water table depths from the National Ground Water Monitoring Network.
+2. India Meteorological Department (IMD): district gridded rainfall and normal departure indices.
+3. India Water Resources Information System (India-WRIS): river basin telemetry, reservoirs, and discharge.
+4. Central Water Commission (CWC): gauge-discharge data for the Ganga and Yamuna basins.
+5. Bureau of Indian Standards (IS 10500:2012): drinking water chemical limits.
+
+---
+
+## Getting Started
+
+**Prerequisites:** Node.js 18+, npm 9+, Python 3.10+, Git.
+
 ```bash
 git clone https://github.com/mohdshamii/HydroRaksh.git
-cd JalSuraksha
+cd HydroRaksh
 ```
 
-### 2. Backend Setup (FastAPI)
+**Backend**
+
 ```bash
 cd apps/api
 python -m venv venv
-# Windows:
-venv\Scripts\activate
-# Linux/macOS:
-# source venv/bin/activate
-
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
-Backend API interactive documentation is available at `http://127.0.0.1:8000/docs`.
 
-### 3. Frontend Setup (Next.js)
-In a separate terminal:
+API docs are served at `http://127.0.0.1:8000/docs`.
+
+**Frontend** (in a separate terminal)
+
 ```bash
 cd apps/web
 npm install
 npm run dev
 ```
-Open `http://localhost:3000` in your web browser.
 
----
+Open `http://localhost:3000`.
 
-## 10. Docker Containerization
+### Docker
 
-JalSuraksha provides production and research Docker configurations.
-
-### Standard Production Stack (API + Frontend)
 ```bash
+# API and frontend
 docker compose up -d --build
-```
-- Web Application: `http://localhost:3000`
-- FastAPI Gateway: `http://localhost:8000`
 
-### ML Research Environment (JupyterLab + ML Workspace)
-```bash
+# JupyterLab research environment
 docker compose --profile research up -d research
 ```
-- JupyterLab Interface: `http://localhost:8888`
-- Access all 16 research notebooks with pre-installed scientific dependencies (`scikit-learn`, `gensim`, `shap`, `pandas`, `numpy`).
+
+Web app: `http://localhost:3000` · API: `http://localhost:8000` · JupyterLab: `http://localhost:8888`
+
+The research container ships with `scikit-learn`, `gensim`, `shap`, `pandas`, and `numpy` and gives access to all 16 notebooks.
 
 ---
 
-## 11. Testing and Verification
-
-The test suite validates backend APIs, authentication, Pan-India endpoints, and ML modules:
+## Testing
 
 ```bash
-# Run all unit tests (69 passing)
-python -m pytest tests/unit ml/tests -v
-
-# Run production web build
-cd apps/web
-npm run build
+python -m pytest tests/unit ml/tests -v     # unit tests
+cd apps/web && npm run build                # production build check
 ```
 
----
-
-## 12. API Reference and Data Contracts
-
-### Core Endpoints
-
-- `GET /health` — Liveness and readiness probe.
-- `GET /api/v1/auth/status` — Current authentication state and session status.
-- `POST /api/v1/auth/register` — Register a user in the atomic JSON user store.
-- `POST /api/v1/auth/login` — Authenticate and receive a session token.
-- `GET /api/v1/pan-india/states` — List all 36 States and UTs with district counts.
-- `GET /api/v1/pan-india/districts/{state_code}` — Retrieve district geometries and telemetry for a specific state.
-- `GET /api/v1/pan-india/water-metrics/{district_id}` — Fetch dual water depth and water quality metrics.
-- `GET /api/v1/pan-india/compare?district_a={id}&district_b={id}` — Multi-metric comparison between two districts.
-- `GET /api/v1/pan-india/sources` — Open data telemetry sources and ingestion fresh rates.
-- `POST /api/v1/jalrakshak/recharge/recommend` — Generate ranked artificial recharge interventions.
-- `POST /api/v1/jalrakshak/simulate/whatif` — Simulate aquifer stress under extraction and rainfall shifts.
-- `POST /api/v1/jalrakshak/budget/optimize` — Dynamic Knapsack capital budget optimization.
+The suite covers backend APIs, authentication, Pan-India endpoints, and ML modules.
 
 ---
 
-### Key References
-1. Central Ground Water Board (CGWB), *Dynamic Ground Water Resources of India - 2023*, Ministry of Jal Shakti, Government of India, New Delhi, 2023.
-2. V. M. Tiwari, B. Wahr, and S. Swenson, "Dwindling groundwater resources in northern India, from satellite gravity observations," *Geophysical Research Letters*, vol. 36, no. 18, 2009.
-3. M. Rodell, I. Velicogna, and J. S. Famiglietti, "Satellite-based estimates of groundwater depletion in India," *Nature*, vol. 460, no. 7258, pp. 999-1002, 2009.
-4. Y. Koren, R. Bell, and C. Volinsky, "Matrix factorization techniques for recommender systems," *Computer*, vol. 42, no. 8, pp. 30-37, Aug. 2009.
-5. D. M. Blei, A. Y. Ng, and M. I. Jordan, "Latent Dirichlet Allocation," *Journal of Machine Learning Research*, vol. 3, pp. 993-1022, Jan. 2003.
-6. Bureau of Indian Standards (BIS), *Indian Standard Drinking Water - Specification (IS 10500:2012)*, New Delhi, 2012.
+## API Reference
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| GET | `/health` | Liveness and readiness probe |
+| GET | `/api/v1/auth/status` | Authentication and session status |
+| POST | `/api/v1/auth/register` | Register a user |
+| POST | `/api/v1/auth/login` | Authenticate and receive a session token |
+| GET | `/api/v1/pan-india/states` | List States/UTs with district counts |
+| GET | `/api/v1/pan-india/districts/{state_code}` | District geometries and telemetry |
+| GET | `/api/v1/pan-india/water-metrics/{district_id}` | Water depth and quality metrics |
+| GET | `/api/v1/pan-india/compare?district_a={id}&district_b={id}` | Compare two districts |
+| GET | `/api/v1/pan-india/sources` | Data sources and ingestion freshness |
+| POST | `/api/v1/jalrakshak/recharge/recommend` | Ranked recharge interventions |
+| POST | `/api/v1/jalrakshak/simulate/whatif` | Aquifer stress simulation |
+| POST | `/api/v1/jalrakshak/budget/optimize` | Knapsack budget optimization |
 
 ---
 
-*JalSuraksha is an independent engineering and research project designed and maintained by **Mohd Shami** (B.Tech Data Science).*
+## References
+
+1. Central Ground Water Board, *Dynamic Ground Water Resources of India – 2023*, Ministry of Jal Shakti, 2023.
+2. V. M. Tiwari, J. Wahr, and S. Swenson, "Dwindling groundwater resources in northern India, from satellite gravity observations," *Geophysical Research Letters*, vol. 36, no. 18, 2009.
+3. M. Rodell, I. Velicogna, and J. S. Famiglietti, "Satellite-based estimates of groundwater depletion in India," *Nature*, vol. 460, pp. 999–1002, 2009.
+4. Y. Koren, R. Bell, and C. Volinsky, "Matrix factorization techniques for recommender systems," *Computer*, vol. 42, no. 8, pp. 30–37, 2009.
+5. D. M. Blei, A. Y. Ng, and M. I. Jordan, "Latent Dirichlet Allocation," *Journal of Machine Learning Research*, vol. 3, pp. 993–1022, 2003.
+6. Bureau of Indian Standards, *IS 10500:2012, Drinking Water – Specification*, New Delhi, 2012.
+
+---
+
+*JalSuraksha is an independent engineering and research project designed and maintained by Mohd Shami.*
