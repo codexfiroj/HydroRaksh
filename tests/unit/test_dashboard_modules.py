@@ -56,6 +56,14 @@ def test_dashboard_trends_endpoint():
     assert len(d10["labels"]) == 11
 
 
+def test_dashboard_query_validation():
+    bad_trend = client.get("/api/v1/dashboard/trends?range_filter=15 Years")
+    assert bad_trend.status_code == 422
+
+    bad_sector = client.get("/api/v1/dashboard/demand-supply?sector=transport")
+    assert bad_sector.status_code == 422
+
+
 def test_reservoirs_module_endpoint():
     res = client.get("/api/v1/reservoirs")
     assert res.status_code == 200

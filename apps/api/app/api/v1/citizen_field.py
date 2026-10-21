@@ -1,5 +1,5 @@
 import random
-from typing import List, Optional
+from typing import List, Literal, Optional
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from pydantic import BaseModel, Field
@@ -109,7 +109,7 @@ def list_field_issues(
 @router.patch("/field/issues/{ticket_no}/status")
 def update_issue_status(
     ticket_no: str,
-    new_status: str = Query(..., enum=["investigating", "in_progress", "resolved"]),
+    new_status: Literal["investigating", "in_progress", "resolved"] = Query(...),
     resolution_notes: Optional[str] = None,
     current_user: User = Depends(require_roles(["Field Officer", "District Officer", "Super Admin"])),
     db: Session = Depends(get_db)

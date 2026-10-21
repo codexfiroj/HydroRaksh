@@ -2,7 +2,7 @@ import csv
 import io
 import json
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Literal, Optional
 from fastapi import APIRouter, Depends, Query, Response, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
@@ -13,11 +13,15 @@ router = APIRouter(tags=["Reports & Public Data API"])
 
 @router.get("/reports/export")
 def export_water_report(
-    report_type: str = Query("District Water Report", enum=[
-        "District Water Report", "Groundwater Report", "Water Quality Report",
-        "Risk Assessment", "Recharge Planning", "Annual Water Budget"
-    ]),
-    format: str = Query("csv", enum=["csv", "json", "txt"]),
+    report_type: Literal[
+        "District Water Report",
+        "Groundwater Report",
+        "Water Quality Report",
+        "Risk Assessment",
+        "Recharge Planning",
+        "Annual Water Budget"
+    ] = Query("District Water Report"),
+    format: Literal["csv", "json", "txt"] = Query("csv"),
     db: Session = Depends(get_db)
 ):
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
