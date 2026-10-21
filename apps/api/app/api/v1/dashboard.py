@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
@@ -208,7 +208,7 @@ def get_districts(db: Session = Depends(get_db)):
 
 
 @router.get("/trends")
-def get_groundwater_trends(range_filter: str = Query("5 Years", enum=["5 Years", "10 Years"])):
+def get_groundwater_trends(range_filter: Literal["5 Years", "10 Years"] = Query("5 Years")):
     if range_filter == "5 Years":
         return {
             "provenance": "LIVE",
@@ -232,7 +232,9 @@ def get_groundwater_trends(range_filter: str = Query("5 Years", enum=["5 Years",
 
 
 @router.get("/demand-supply")
-def get_demand_supply(sector: str = Query("all", enum=["all", "domestic", "agriculture", "industrial"])):
+def get_demand_supply(
+    sector: Literal["all", "domestic", "agriculture", "industrial"] = Query("all")
+):
     mult = {"all": 1.0, "domestic": 0.40, "agriculture": 0.42, "industrial": 0.18}[sector]
     base_demand = [452, 468, 482, 501, 522]
     base_recharge = [268, 285, 310, 322, 335]

@@ -93,6 +93,36 @@ def test_reports_export_csv_and_json():
     assert len(j_data["records"]) > 0
 
 
+def test_reports_export_rejects_invalid_format():
+    bad_res = client.get("/api/v1/reports/export?report_type=District%20Water%20Report&format=xml")
+    assert bad_res.status_code == 422
+
+
+def test_field_issue_status_validation():
+    submit_res = client.post("/api/v1/citizen/report", json={
+        "reporter_name": "Sita Devi",
+        "reporter_phone": "+919812345678",
+        "category": "Pipeline Leakage",
+        "address": "Ward 2, Meerut",
+        "description": "Persistent leakage near the public handpump."
+    })
+    assert submit_res.status_code == 200
+    ticket_no = submit_res.json()["ticket_no"]
+
+    login_res = client.post("/api/v1/auth/login", json={
+        "email": "sunil.verma@up.gov.in",
+        "password": "FieldOfficer123!"
+    })
+    assert login_res.status_code == 200
+    token = login_res.json()["access_token"]
+
+    bad_status_res = client.patch(
+        f"/api/v1/field/issues/{ticket_no}/status?new_status=closed",
+        headers={"Authorization": "Bearer " + token}
+    )
+    assert bad_status_res.status_code == 422
+
+
 def test_public_districts_api():
     pub_res = client.get("/api/v1/public/districts")
     assert pub_res.status_code == 200
