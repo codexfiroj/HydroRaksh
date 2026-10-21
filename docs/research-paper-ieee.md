@@ -1,14 +1,9 @@
 # JalSuraksha: Collaborative Filtering and Latent Topic Analysis for AI-Driven Groundwater Intelligence and Water Resource Decision Support
 
 **Mohd Shami**  
-Department of Computer Science & Engineering (Data Science + AI)  
-JalSuraksha Research Initiative, Greater Noida, India  
-Email: mohdshami@jalsuraksha.gov.in  
-
-**Aman Malik**  
-Department of Computer Science & Engineering (Data Science + AI)  
-JalSuraksha Research Initiative, Greater Noida, India  
-Email: aman.malik@jalsuraksha.gov.in  
+Department of Computer Science & Information Technology (Data Science + AI)  
+JalSuraksha Research Initiative, TMU Moradabad 
+Email: codexshami@gmail.com 
 
 ---
 
