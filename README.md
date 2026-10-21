@@ -53,75 +53,39 @@ All figures are captured from the running application and stored in [`img/`](img
 
 ### Map Layers and Multi-State Exploration
 
-**1. Core map canvas and intelligence dashboard** — Uttar Pradesh 75-district choropleth, river basin vectors, risk classes, timeline dock, and district dossier.
-![Core map canvas and dashboard](img/dashboard.png)
-
-**2. Uttar Pradesh dashboard, Critical stress filter** — Dark theme view of Critical-risk districts with water quality assays.
-![Uttar Pradesh dashboard](img/UttarPradesh_Dashboard.png)
-
-**3. Dynamic multi-state geography, Andhra Pradesh** — All 26 districts loaded under the 2035 climate horizon, with a BIS 10500 chemical compliance dossier.
-![Andhra Pradesh](img/AndhraPradesh.png)
-
-**4. Safe assessment units and decadal horizon** — Safe units under the 2030 target, with top recharge structures highlighted.
-![Safe units dashboard](img/safe_states_dashboard.png)
-
-**5. Coastal aquifer and Union Territory monitoring, Puducherry** — All four districts, with borewell failure telemetry and provenance labels.
-![Puducherry](img/puducherry.png)
-
-**6. Groundwater intelligence and resource atlas** — Printable cartographic map of aquifer stress across all 75 Uttar Pradesh districts for the 2026 horizon.
-![Resource atlas](img/Atlas.png)
+| # | Module | Description | Screenshot |
+|---|---|---|---|
+| 1 | Core Map Canvas and Intelligence Dashboard | Uttar Pradesh 75-district choropleth, river basin vectors, risk classes, timeline dock, and district dossier. | ![Core dashboard](img/dashboard.png) |
+| 2 | Uttar Pradesh Dashboard — Critical Stress Filter | Dark-theme view of critical-risk districts with water quality assays. | ![Uttar Pradesh](img/UttarPradesh_Dashboard.png) |
+| 3 | Dynamic Multi-State Geography — Andhra Pradesh | All 26 districts under the 2035 climate horizon, with a BIS 10500 chemical compliance dossier. | ![Andhra Pradesh](img/AndhraPradesh.png) |
+| 4 | Safe Assessment Units and Decadal Horizon | Safe units under the 2030 target, with top recharge structures highlighted. | ![Safe units](img/safe_states_dashboard.png) |
+| 5 | Coastal Aquifer and UT Monitoring — Puducherry | All four districts, borewell failure telemetry, and provenance labels. | ![Puducherry](img/puducherry.png) |
+| 6 | Groundwater Intelligence and Resource Atlas | Printable map of aquifer stress across all 75 Uttar Pradesh districts for the 2026 horizon. | ![Resource atlas](img/Atlas.png) |
 
 ### Telemetry, Timeline, and Benchmarks
 
-**7. Open data telemetry and provenance hub** — Eight active connectors (CGWB, IMD, CWC, Open-Meteo, data.gov.in, SoilGrids) covering 766 districts.
-![Telemetry hub](img/PAN_India.png)
-
-**8. Spatio-temporal timeline and forecasting hub (2000–2035)** — Milestones from the 2000 baseline through NWP, Atal Bhujal, and JJM to the 2030 target and 2035 projections.
-![Timeline](img/TimeLine.png)
-
-**9. Live present observation horizon** — 2026 real-time ingestion mode with variable-speed time-lapse controls.
-![Live present](img/LivePresent.png)
-
-**10. Groundwater intelligence superlatives** — Auto-computed state-wide extremes: deepest overdraft, shallowest water table, and fastest annual decline.
-![Superlatives](img/GroundWater_Intelligence.png)
-
-**11. District hydrological benchmark fact cards** — Extraction stage extremes, monsoon rainfall contrasts, hard-rock aquifers, and urban infiltration deficits.
-![Fact cards](img/Facts.png)
+| # | Module | Description | Screenshot |
+|---|---|---|---|
+| 7 | Open Data Telemetry and Provenance Hub | Eight active connectors covering 766 districts, including CGWB, IMD, CWC, Open-Meteo, data.gov.in, and SoilGrids. | ![Telemetry hub](img/PAN_India.png) |
+| 8 | Spatio-Temporal Timeline and Forecasting Hub (2000–2035) | Milestones from the 2000 baseline through NWP, Atal Bhujal, and JJM to the 2030 target and 2035 projections. | ![Timeline](img/TimeLine.png) |
+| 9 | Live Present Observation Horizon | 2026 real-time ingestion mode with variable-speed time-lapse controls. | ![Live present](img/LivePresent.png) |
+| 10 | Groundwater Intelligence Superlatives | State-wide extremes: deepest overdraft, shallowest water table, and fastest annual decline. | ![Groundwater intelligence](img/GroundWater_Intelligence.png) |
+| 11 | District Hydrological Benchmark Fact Cards | Extraction-stage extremes, monsoon rainfall contrasts, hard-rock aquifers, and urban infiltration deficits. | ![Fact cards](img/Facts.png) |
 
 ### JalRakshak AI Decision-Support Suite
 
-**12. Decision-support platform hub** — Unified workspace with 14 specialized tabs.
-![Decision-support hub](img/Decision_Support_Plateform.png)
-
-**13. Domain intelligence copilot** — Conversational assistant grounded in CGWB monographs, Atal Bhujal Yojana, and BIS 10500, with contextual prompt chips.
-![Copilot](img/JalRakshakAi.png)
-
-**14. Multi-horizon groundwater forecaster** — 12-month depth projections with confidence bands and SHAP drivers.
-![Forecaster](img/ML_Forcasting.png)
-
-**15. Hydrological matrix and comparative ranking** — Multi-metric district ranking with CSV export.
-![Comparison matrix](img/Matrix.png)
-
-**16. AI recharge suitability and geomorphological mapping** — Suitability scores with ranked engineering interventions, costs, and annual recharge yields.
-![Recharge suitability](img/Recharge_Sustainiblity.png)
-
-**17. Non-revenue water and distribution loss analytics** — Physical leakage, unauthorized extraction, and meter under-registration, with DMA pressure and acoustic burst indicators.
-![NRW leakage](img/NRW_Leakage.png)
-
-**18. Knapsack capital budget optimizer** — Maximizes annual recharge volume under capital ceilings, reporting cost efficiency.
-![Budget optimizer](img/Budget_Optimiser.png)
-
-**19. Rooftop rainwater harvesting calculator** — Capturable precipitation, recommended sump capacity, installation cost, and tariff payback.
-![RWH calculator](img/RWH_Calculator.png)
-
-**20. Crop water demand and low-water crop advisory** — Compares high-water crops with drought-resistant alternatives and estimated savings.
-![Crop advisory](img/Agriculture_Advisory.png)
-
-**21. Citizen grievance and borewell failure dispatch board** — Incident logging and triage for dry borewells, tanker extraction, damaged check dams, and pipeline bursts.
-![Grievance board](img/Borewell_Failure_Portal.png)
-
----
-
+| # | Module | Description | Screenshot |
+|---|---|---|---|
+| 12 | Decision-Support Platform Hub | Unified workspace with 14 specialized tabs. | ![Decision-support hub](img/Decision_Support_Plateform.png) |
+| 13 | Domain Intelligence Copilot | Conversational assistant grounded in CGWB monographs, Atal Bhujal Yojana, and BIS 10500, with contextual prompt chips. | ![Copilot](img/JalRakshakAi.png) |
+| 14 | Multi-Horizon Groundwater Forecaster | 12-month depth projections with confidence bands and SHAP drivers. | ![Forecaster](img/ML_Forcasting.png) |
+| 15 | Hydrological Matrix and Comparative Ranking | Multi-metric district ranking with CSV export. | ![Comparison matrix](img/Matrix.png) |
+| 16 | AI Recharge Suitability and Geomorphological Mapping | Suitability scores, ranked engineering interventions, costs, and annual recharge yields. | ![Recharge suitability](img/Recharge_Sustainiblity.png) |
+| 17 | Non-Revenue Water and Distribution Loss Analytics | Physical leakage, unauthorized extraction, and meter under-registration, with DMA pressure and acoustic burst indicators. | ![NRW leakage](img/NRW_Leakage.png) |
+| 18 | Knapsack Capital Budget Optimizer | Maximizes annual recharge volume under capital ceilings and reports cost efficiency. | ![Budget optimizer](img/Budget_Optimiser.png) |
+| 19 | Rooftop Rainwater Harvesting Calculator | Capturable precipitation, recommended sump capacity, installation cost, and tariff payback. | ![RWH calculator](img/RWH_Calculator.png) |
+| 20 | Crop Water Demand and Low-Water Crop Advisory | Compares high-water crops with drought-resistant alternatives and estimates water savings. | ![Crop advisory](img/Agriculture_Advisory.png) |
+| 21 | Citizen Grievance and Borewell Failure Dispatch Board | Incident logging and triage for dry borewells, tanker extraction, damaged check dams, and pipeline bursts. | ![Grievance board](img/Borewell_Failure_Portal.png) |
 ## Pan-India Geography
 
 JalSuraksha extends a single-state prototype to a full national platform. Selecting a state updates, in one step:
@@ -133,7 +97,6 @@ JalSuraksha extends a single-state prototype to a full national platform. Select
 5. Water stress index and recharge suitability scores.
 6. All dependent analytical panels and decision tools.
 
-Uttar Pradesh serves as the reference standard, with full vector boundaries, 35-year trajectories (2000–2035), water quality assays, and borewell failure registries for all 75 districts. Where live telemetry is unavailable for a district, the interface shows an explicit `Simulated` or `Unavailable` badge instead of an unlabeled estimate.
 
 ---
 
