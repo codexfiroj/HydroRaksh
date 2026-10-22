@@ -20,7 +20,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U jalsuraksha -d jalsuraksha_db"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -48,6 +48,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r apps/api/requirements.txt
+          pip install -r apps/flask_app/requirements.txt
           pip install -r services/ingestion/requirements.txt
           pip install -r services/ml/requirements.txt
           pip install pytest pytest-cov flake8 httpx
