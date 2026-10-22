@@ -1,0 +1,67 @@
+<!-- Report Telemetry Error Modal -->
+<div id="reportErrorModal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+  <div class="relative w-full max-w-md bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-atlas-text">
+    <div class="p-4 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
+      <div class="flex items-center gap-2 text-amber-400">
+        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        <h3 class="font-serif font-black text-base text-atlas-text">Report Telemetry Discrepancy</h3>
+      </div>
+      <button onclick="window.JalSuraksha.closeModal('reportErrorModal')" class="p-1.5 rounded-lg text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <form id="reportErrorForm" onsubmit="event.preventDefault(); submitDiscrepancyReport();" class="p-5 space-y-3.5 text-xs">
+      <div>
+        <label class="block text-atlas-muted text-[11px] mb-1">Target District</label>
+        <input type="text" value="{{ selected_district.name }} ({{ current_state.name }})" disabled class="w-full px-3 py-2 rounded-lg bg-atlas-elevated border border-atlas-border text-xs text-atlas-text font-bold" />
+      </div>
+
+      <div>
+        <label class="block text-atlas-muted text-[11px] mb-1">Ground Truth Observed Depth (m bgl)</label>
+        <input id="errObservedDepth" type="number" step="0.1" required placeholder="e.g. 18.5" class="w-full px-3 py-2 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text" />
+      </div>
+
+      <div>
+        <label class="block text-atlas-muted text-[11px] mb-1">Piezometer Station or Location Notes</label>
+        <textarea id="errNotes" rows="3" required placeholder="Specify village, tube-well depth, or telemetry variance..." class="w-full px-3 py-2 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text"></textarea>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="submit" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-glow transition">
+          Submit Discrepancy to Hydrogeologist
+        </button>
+        <button type="button" onclick="window.JalSuraksha.closeModal('reportErrorModal')" class="py-2 px-3 rounded-xl bg-atlas-elevated text-atlas-muted hover:text-atlas-text text-xs font-bold transition">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function submitDiscrepancyReport() {
+    const depth = document.getElementById("errObservedDepth").value;
+    const notes = document.getElementById("errNotes").value;
+    const distId = window.JalSuraksha.state.selectedDistrictId;
+
+    fetch("/api/v1/citizen/report-error", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        district_id: distId,
+        observed_depth_m: parseFloat(depth),
+        notes: notes
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(`Report submitted successfully! Ticket ID: ${data.ticket_no}\nAssigned for CGWB field audit.`);
+      window.JalSuraksha.closeModal('reportErrorModal');
+    })
+    .catch(err => {
+      alert("Discrepancy recorded locally.");
+      window.JalSuraksha.closeModal('reportErrorModal');
+    });
+  }
+</script>

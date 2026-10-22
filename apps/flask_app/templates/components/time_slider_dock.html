@@ -1,0 +1,79 @@
+<!-- Bottom Continuous Time Slider Dock (2000 - 2035) -->
+<footer id="timeSliderDockHost" class="fixed bottom-0 left-0 right-0 z-30 bg-atlas-card/95 border-t border-atlas-border backdrop-blur-md px-4 py-2.5 shadow-2xl transition-transform duration-200 select-none">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <!-- Left Controls: Play/Pause & Speed -->
+    <div class="flex items-center gap-2">
+      <!-- Play/Pause Button -->
+      <button
+        onclick="window.JalSuraksha.togglePlayTime()"
+        title="Play / Pause continuous historical & AI timeline playback"
+        class="w-8 h-8 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-glow transition flex-shrink-0"
+      >
+        <i id="timePlayBtnIcon" data-lucide="play" class="w-4 h-4 ml-0.5"></i>
+      </button>
+
+      <!-- Speed Toggles -->
+      <div class="flex items-center bg-atlas-canvas p-0.5 rounded-lg border border-atlas-border text-xs">
+        <button
+          id="speedBtn1x"
+          onclick="window.JalSuraksha.setPlaySpeed(1)"
+          class="px-2 py-0.5 rounded text-[10px] font-bold bg-saffron text-slate-900"
+        >
+          1x
+        </button>
+        <button
+          id="speedBtn2x"
+          onclick="window.JalSuraksha.setPlaySpeed(2)"
+          class="px-2 py-0.5 rounded text-[10px] font-semibold text-atlas-muted hover:text-atlas-text"
+        >
+          2x
+        </button>
+        <button
+          id="speedBtn5x"
+          onclick="window.JalSuraksha.setPlaySpeed(5)"
+          class="px-2 py-0.5 rounded text-[10px] font-semibold text-atlas-muted hover:text-atlas-text"
+        >
+          5x
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Timeline Scrubber & Year Markers -->
+    <div class="flex-1 flex flex-col justify-center max-w-4xl space-y-1">
+      <div class="flex items-center justify-between text-[10px] text-atlas-muted font-mono font-semibold px-1">
+        <span onclick="window.JalSuraksha.setCurrentYear(2000)" class="cursor-pointer hover:text-saffron">2000 Baseline</span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2010)" class="cursor-pointer hover:text-saffron hidden sm:inline">2010 Electrification</span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2020)" class="cursor-pointer hover:text-saffron hidden md:inline">2020 NCR Overdraft</span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2026)" class="cursor-pointer text-emerald-400 font-bold flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>2026 Live</span>
+        </span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2028)" class="cursor-pointer hover:text-purple-400 hidden sm:inline">+2Y ML (2028)</span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2030)" class="cursor-pointer hover:text-purple-400 hidden md:inline">+4Y Decadal (2030)</span>
+        <span onclick="window.JalSuraksha.setCurrentYear(2035)" class="cursor-pointer text-purple-400">2035 Climate</span>
+      </div>
+
+      <!-- Scrubber Slider -->
+      <div class="relative flex items-center">
+        <input
+          id="timeSliderInput"
+          type="range"
+          min="2000"
+          max="2035"
+          value="{{ current_year }}"
+          class="time-slider"
+        />
+      </div>
+    </div>
+
+    <!-- Right Year Indicator -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <div class="text-right">
+        <div class="text-[9px] uppercase tracking-wider text-atlas-muted font-bold">Horizon Year</div>
+        <div id="timeSliderCurrentYear" class="text-lg font-serif font-black text-saffron leading-none">
+          {{ current_year }}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

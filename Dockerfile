@@ -1,10 +1,9 @@
-# JalSuraksha Application Dockerfile (FastAPI Backend API)
+# JalSuraksha Production Dockerfile (Python-First Flask Architecture)
 FROM python:3.10-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    AUTH_ENABLED=false \
-    AUTH_STORAGE_MODE=json
+    FLASK_ENV=production
 
 WORKDIR /app
 
@@ -13,26 +12,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install API dependencies
-COPY apps/api/requirements.txt /app/requirements.txt
+# Install Python dependencies
+COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend application and local database
-COPY apps/api /app/apps/api
+# Copy application modules, services, templates, and static assets
+COPY apps /app/apps
 COPY services /app/services
 COPY data /app/data
-COPY jalsuraksha_local.db /app/jalsuraksha_local.db
+COPY server.py /app/server.py
+COPY wsgi.py /app/wsgi.py
 
-WORKDIR /app/apps/api
-
-# Create non-root user
+# Create non-root user for security
 RUN addgroup --system appgroup && adduser --system --group appuser && \
     chown -R appuser:appgroup /app
 USER appuser
 
-EXPOSE 8000
+EXPOSE 5000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+    CMD curl -f http://localhost:5000/api/v1/health || exit 1
 
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "wsgi:app"]

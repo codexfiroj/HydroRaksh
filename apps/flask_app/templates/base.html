@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}JalSuraksha — AI Water Resource Intelligence Platform{% endblock %}</title>
+  <meta name="description" content="Pan-India geospatial artificial intelligence, hydrogeological forecasting, and decision support platform for 700+ districts across 36 States and Union Territories." />
+  
+  <!-- Immediate Theme Initialization to Prevent FOUC -->
+  <script>
+    (function() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlTheme = params.get("theme");
+        const savedTheme = localStorage.getItem("jalsuraksha_theme");
+        const theme = urlTheme || savedTheme;
+        if (theme === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("jalsuraksha_theme", "light");
+        } else if (theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("jalsuraksha_theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          },
+          colors: {
+            primary: '#18B6C9',
+            accent: '#E9B44C',
+            danger: '#FF6B5E',
+            safe: '#2FBF8F',
+            navy: '#06182B',
+            navySecondary: '#0c2e4f',
+            saffron: '#E9B44C',
+            emeraldGreen: '#2FBF8F',
+            atlas: {
+              canvas: 'var(--bg-canvas)',
+              card: 'var(--bg-card)',
+              elevated: 'var(--bg-elevated)',
+              subtle: 'var(--bg-subtle)',
+              text: 'var(--text-primary)',
+              muted: 'var(--text-muted)',
+              faint: 'var(--text-faint)',
+              border: 'var(--border-color)',
+            }
+          },
+          borderRadius: {
+            token: '18px',
+          },
+          boxShadow: {
+            glow: '0 0 18px rgba(24, 182, 201, 0.45)',
+            glowSaffron: '0 0 18px rgba(233, 180, 76, 0.45)',
+            token: '0 10px 30px rgba(11, 60, 93, 0.15)',
+            cardDark: '0 10px 30px rgba(0, 0, 0, 0.45)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js & Lucide Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- Production Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-atlas-canvas text-atlas-text min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
+  
+  {% block content %}{% endblock %}
+
+  <!-- Core Production JavaScript Modules -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jalrakshak.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ai_chat.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

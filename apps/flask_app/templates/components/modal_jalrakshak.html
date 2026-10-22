@@ -1,0 +1,603 @@
+<!-- JalRakshak AI Prescriptive Decision-Support Suite Modal -->
+<div id="jalrakshakModal" class="fixed inset-0 z-50 hidden items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+  <div class="relative w-full max-w-6xl max-h-[94vh] bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-atlas-text">
+    <!-- Modal Top Header -->
+    <div class="p-3.5 sm:p-4 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 shadow-glow text-white font-bold text-lg">
+          <i data-lucide="shield" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-lg sm:text-xl font-serif font-black tracking-wide text-atlas-text">
+              JalRakshak AI — Decision-Support Platform
+            </h2>
+            <span class="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-semibold border border-emerald-500/30">
+              {{ current_state.name }} • Pan-India
+            </span>
+          </div>
+          <p class="text-xs text-atlas-muted">
+            Detect • Predict • Locate • Recommend • Optimize • Monitor
+          </p>
+        </div>
+      </div>
+
+      <button
+        onclick="window.JalSuraksha.closeModal('jalrakshakModal')"
+        class="p-1.5 sm:p-2 rounded-xl text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition"
+      >
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- 14 Navigation Tabs Bar -->
+    <div class="flex items-center gap-1 overflow-x-auto no-scrollbar p-2 bg-atlas-canvas border-b border-atlas-border text-xs">
+      <button data-tab="recharge" onclick="window.JalRakshak.setTab('recharge')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-bold shadow-sm bg-emerald-600 text-white transition">Recharge Planner</button>
+      <button data-tab="balance" onclick="window.JalRakshak.setTab('balance')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Water Balance Audit</button>
+      <button data-tab="leakage" onclick="window.JalRakshak.setTab('leakage')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">NRW & Leakage</button>
+      <button data-tab="budget" onclick="window.JalRakshak.setTab('budget')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Budget Optimizer</button>
+      <button data-tab="whatif" onclick="window.JalRakshak.setTab('whatif')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">What-If Simulator</button>
+      <button data-tab="rwh" onclick="window.JalRakshak.setTab('rwh')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">RWH Calculator</button>
+      <button data-tab="forecast" onclick="window.JalRakshak.setTab('forecast')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">ML Forecasting</button>
+      <button data-tab="agri" onclick="window.JalRakshak.setTab('agri')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Agri Advisory</button>
+      <button data-tab="quality" onclick="window.JalRakshak.setTab('quality')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Water Quality</button>
+      <button data-tab="iot" onclick="window.JalRakshak.setTab('iot')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">IoT Telemetry</button>
+      <button data-tab="grievance" onclick="window.JalRakshak.setTab('grievance')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Grievance Portal</button>
+      <button data-tab="copilot" onclick="window.JalRakshak.setTab('copilot')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">AI Copilot</button>
+      <button data-tab="matrix" onclick="window.JalRakshak.setTab('matrix')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">District Matrix</button>
+      <button data-tab="report" onclick="window.JalRakshak.setTab('report')" class="jalrakshak-tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition">Project Report</button>
+    </div>
+
+    <!-- Modal Content Panes -->
+    <div class="p-4 sm:p-6 overflow-y-auto flex-1 space-y-6">
+      <!-- PANE 1: Recharge Planner -->
+      <div id="tab-pane-recharge" class="jalrakshak-tab-pane space-y-5">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted">Recharge Suitability</span>
+            <div class="text-2xl font-serif font-black text-emerald-400 mt-0.5">
+              {{ selected_district.rechargeSuitabilityScore | default(75) }} <span class="text-xs font-sans text-atlas-muted">/ 100</span>
+            </div>
+            <div class="text-[10px] text-emerald-300 mt-1">High Suitability Zone</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted">Dominant Substrata</span>
+            <div class="text-sm font-serif font-bold text-atlas-text mt-1">
+              {{ selected_district.soilType | default("Alluvial Sandy Loam") }}
+            </div>
+            <div class="text-[10px] text-atlas-muted mt-1">Permeable sand & silt layers</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted">Terrain Slope</span>
+            <div class="text-sm font-serif font-bold text-atlas-text mt-1">
+              {{ selected_district.slopePct | default(1.4) }}% Gradient
+            </div>
+            <div class="text-[10px] text-atlas-muted mt-1">Gentle alluvial plain</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted">Current Depth</span>
+            <div class="text-sm font-serif font-bold text-saffron mt-1">
+              {{ selected_district.modernWaterMetrics.groundwaterDepthM | default(14.5) }} m bgl
+            </div>
+            <div class="text-[10px] text-atlas-muted mt-1">Below ground level</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-serif font-bold text-atlas-text mb-3 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-saffron"></i>
+            <span>Recommended Engineering Sizing & Interventions</span>
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-2">
+              <div class="flex items-center justify-between font-bold text-sm text-atlas-text">
+                <span>Deep Injection Well with Silt Trap</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-xs">94% Fit</span>
+              </div>
+              <p class="text-xs text-atlas-muted leading-relaxed">
+                Direct recharge into unconfined/confined alluvial sand aquifer. Essential for deep water table (>15m).
+              </p>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-atlas-border/50 text-[11px]">
+                <div><span class="text-atlas-muted">Est. Cost:</span> <strong class="text-atlas-text">₹85,000</strong></div>
+                <div><span class="text-atlas-muted">Capacity:</span> <strong class="text-emerald-400">1,250 m³/yr</strong></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-2">
+              <div class="flex items-center justify-between font-bold text-sm text-atlas-text">
+                <span>Multi-Layer Filter Recharge Pit</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-xs">90% Fit</span>
+              </div>
+              <p class="text-xs text-atlas-muted leading-relaxed">
+                Designed for institutional campuses and rural homesteads with graded boulder-sand filtration.
+              </p>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-atlas-border/50 text-[11px]">
+                <div><span class="text-atlas-muted">Est. Cost:</span> <strong class="text-atlas-text">₹35,000</strong></div>
+                <div><span class="text-atlas-muted">Capacity:</span> <strong class="text-emerald-400">550 m³/yr</strong></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-2">
+              <div class="flex items-center justify-between font-bold text-sm text-atlas-text">
+                <span>Check Dam / Gully Plug on Stream</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 font-mono text-xs">78% Fit</span>
+              </div>
+              <p class="text-xs text-atlas-muted leading-relaxed">
+                Masonry or boulder bund on seasonal stream tributary to impound monsoon runoff and boost water table.
+              </p>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-atlas-border/50 text-[11px]">
+                <div><span class="text-atlas-muted">Est. Cost:</span> <strong class="text-atlas-text">₹380,000</strong></div>
+                <div><span class="text-atlas-muted">Capacity:</span> <strong class="text-emerald-400">9,200 m³/yr</strong></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-2">
+              <div class="flex items-center justify-between font-bold text-sm text-atlas-text">
+                <span>Amrit Sarovar Village Pond Revival</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-xs">86% Fit</span>
+              </div>
+              <p class="text-xs text-atlas-muted leading-relaxed">
+                Desilting natural village depressions, deepening storage, and creating infiltration percolation zones.
+              </p>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-atlas-border/50 text-[11px]">
+                <div><span class="text-atlas-muted">Est. Cost:</span> <strong class="text-atlas-text">₹240,000</strong></div>
+                <div><span class="text-atlas-muted">Capacity:</span> <strong class="text-emerald-400">5,400 m³/yr</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 2: Water Balance Audit (GEC-2015) -->
+      <div id="tab-pane-balance" class="jalrakshak-tab-pane space-y-5 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-serif font-bold text-sm text-atlas-text">CGWB GEC-2015 Dynamic Water Balance Accounting</h4>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-500/15 text-sky-400 border border-blue-500/30 font-mono">Assessment Year 2026</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <!-- Inflow Components -->
+            <div class="space-y-2 p-3 rounded-lg bg-atlas-card border border-atlas-border text-xs">
+              <div class="font-bold text-emerald-400 uppercase text-[11px] pb-1 border-b border-atlas-border">Annual Recharge Components (Inflow)</div>
+              <div class="flex justify-between py-1"><span>Monsoon Rainfall Recharge</span><strong class="font-mono text-emerald-400">248.5 MCM</strong></div>
+              <div class="flex justify-between py-1"><span>Non-Monsoon Rainfall Recharge</span><strong class="font-mono text-emerald-400">62.0 MCM</strong></div>
+              <div class="flex justify-between py-1"><span>Canal Seepage & Return Flow</span><strong class="font-mono text-emerald-400">45.2 MCM</strong></div>
+              <div class="flex justify-between py-1 text-atlas-muted"><span>Environmental Baseflow Allocation (8%)</span><strong class="font-mono text-red-400">-28.5 MCM</strong></div>
+              <div class="flex justify-between pt-2 border-t border-atlas-border font-bold">
+                <span>Net Annual Recharge Availability</span>
+                <strong class="font-mono text-emerald-400 text-sm">327.2 MCM</strong>
+              </div>
+            </div>
+
+            <!-- Draft Components -->
+            <div class="space-y-2 p-3 rounded-lg bg-atlas-card border border-atlas-border text-xs">
+              <div class="font-bold text-rose-400 uppercase text-[11px] pb-1 border-b border-atlas-border">Annual Extraction Components (Draft)</div>
+              <div class="flex justify-between py-1"><span>Irrigation Tubewell Draft (84%)</span><strong class="font-mono text-rose-400">342.0 MCM</strong></div>
+              <div class="flex justify-between py-1"><span>Domestic Drinking Draft (12%)</span><strong class="font-mono text-rose-400">48.8 MCM</strong></div>
+              <div class="flex justify-between py-1"><span>Industrial & Commercial Draft (4%)</span><strong class="font-mono text-rose-400">16.3 MCM</strong></div>
+              <div class="flex justify-between pt-2 border-t border-atlas-border font-bold">
+                <span>Total Annual Groundwater Draft</span>
+                <strong class="font-mono text-rose-400 text-sm">407.1 MCM</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-between text-xs">
+            <div>
+              <span class="text-red-400 font-bold uppercase text-[11px]">Net Annual Balance Status:</span>
+              <div class="text-sm font-bold text-red-300 mt-0.5">Critical Deficit of -79.9 MCM / Year • Stage of Extraction: 124.4%</div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-red-600 text-white font-bold text-xs uppercase shadow">Over-Exploited</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 3: NRW Leakage & Telemetry -->
+      <div id="tab-pane-leakage" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted uppercase font-bold">Total NRW Water Loss</span>
+            <div class="text-2xl font-serif font-black text-red-400 mt-1">34.2%</div>
+            <div class="text-[10px] text-atlas-muted mt-0.5">Municipal Distribution Grid</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted uppercase font-bold">Estimated Daily Loss</span>
+            <div class="text-2xl font-serif font-black text-atlas-text mt-1">1,692 m³/day</div>
+            <div class="text-[10px] text-atlas-muted mt-0.5">Treated potable supply</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border">
+            <span class="text-[11px] text-atlas-muted uppercase font-bold">Active Acoustic Loggers</span>
+            <div class="text-2xl font-serif font-black text-emerald-400 mt-1">48 Sensors</div>
+            <div class="text-[10px] text-atlas-muted mt-0.5">Real-time vibration telemetry</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <h4 class="font-serif font-bold text-sm text-atlas-text">District Acoustic Hydrophone Telemetry Zones</h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-lg bg-atlas-card border border-red-500/40 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-atlas-text">Central Distribution Sector A</span>
+                <div class="text-[10px] text-atlas-muted mt-0.5">Pressure: 2.4 bar • Minimum Night Flow: 42.1 m³/hr</div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-red-500/15 text-red-400 font-bold uppercase text-[10px]">Critical Leak Detected</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-atlas-card border border-atlas-border flex items-center justify-between">
+              <div>
+                <span class="font-bold text-atlas-text">Northern Feeder Trunk B</span>
+                <div class="text-[10px] text-atlas-muted mt-0.5">Pressure: 3.1 bar • Minimum Night Flow: 18.4 m³/hr</div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-bold uppercase text-[10px]">Normal Telemetry</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-atlas-card border border-red-500/50 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-atlas-text">Industrial Estate Sub-grid C</span>
+                <div class="text-[10px] text-atlas-muted mt-0.5">Pressure: 2.1 bar • Minimum Night Flow: 58.6 m³/hr</div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-red-500 text-white font-bold uppercase text-[10px] animate-pulse">Pipe Burst Anomaly</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 4: Knapsack Budget Optimizer -->
+      <div id="tab-pane-budget" class="jalrakshak-tab-pane space-y-5 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-serif font-bold text-sm text-atlas-text">Knapsack Capital Budget Allocation</h4>
+              <p class="text-xs text-atlas-muted">Greedy integer knapsack algorithm maximizing total annual recharge (m³/yr)</p>
+            </div>
+            <div id="budgetDisplayVal" class="text-lg font-serif font-black text-saffron">₹ 2.50 Lakhs</div>
+          </div>
+
+          <!-- Interactive Slider -->
+          <div class="space-y-1">
+            <input
+              id="budgetSliderInput"
+              type="range"
+              min="1"
+              max="50"
+              step="0.5"
+              value="2.5"
+              oninput="window.JalRakshak.updateBudgetOptimizer()"
+              class="w-full accent-saffron cursor-pointer"
+            />
+            <div class="flex justify-between text-[10px] text-atlas-muted font-mono">
+              <span>₹ 1 Lakh</span>
+              <span>₹ 25 Lakhs</span>
+              <span>₹ 50 Lakhs</span>
+            </div>
+          </div>
+
+          <!-- Optimization Metrics Summary -->
+          <div class="grid grid-cols-3 gap-3 pt-2">
+            <div class="p-3 rounded-lg bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Allocated Capital</div>
+              <div id="budgetAllocatedVal" class="text-base font-serif font-black text-atlas-text mt-0.5">₹ 2.40 L</div>
+            </div>
+            <div class="p-3 rounded-lg bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Annual Recharge Added</div>
+              <div id="budgetRechargeM3Val" class="text-base font-serif font-black text-emerald-400 mt-0.5">5,400 m³/yr</div>
+            </div>
+            <div class="p-3 rounded-lg bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Estimated Payback</div>
+              <div id="budgetPaybackVal" class="text-base font-serif font-black text-saffron mt-0.5">3.4 Years</div>
+            </div>
+          </div>
+
+          <!-- Portfolio Items List -->
+          <div class="space-y-2">
+            <div class="text-xs font-serif font-bold text-atlas-text">Optimal Allocation Portfolio</div>
+            <div id="budgetPortfolioList" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 5: What-If Stress Simulator -->
+      <div id="tab-pane-whatif" class="jalrakshak-tab-pane space-y-5 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-4">
+          <div>
+            <h4 class="font-serif font-bold text-sm text-atlas-text">Interactive Climate & Extraction Stress Simulator</h4>
+            <p class="text-xs text-atlas-muted">Simulate aquifer responses under climate shifts, extraction reductions, and artificial recharge</p>
+          </div>
+
+          <!-- Sliders Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Rainfall Departure Slider -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between text-xs">
+                <span class="text-atlas-text font-medium">Monsoon Rainfall Shift</span>
+                <span id="whatifRainDisplay" class="font-mono font-bold text-sky-400">+10%</span>
+              </div>
+              <input id="whatifRainInput" type="range" min="-30" max="30" value="10" oninput="window.JalRakshak.updateWhatIfSimulation()" class="w-full accent-sky-400 cursor-pointer" />
+            </div>
+
+            <!-- Extraction Shift Slider -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between text-xs">
+                <span class="text-atlas-text font-medium">Tubewell Extraction Shift</span>
+                <span id="whatifExtDisplay" class="font-mono font-bold text-rose-400">-15%</span>
+              </div>
+              <input id="whatifExtInput" type="range" min="-40" max="40" value="-15" oninput="window.JalRakshak.updateWhatIfSimulation()" class="w-full accent-rose-400 cursor-pointer" />
+            </div>
+
+            <!-- Municipal Demand Growth -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between text-xs">
+                <span class="text-atlas-text font-medium">Urban Water Demand Growth</span>
+                <span id="whatifDemandDisplay" class="font-mono font-bold text-amber-400">+5%</span>
+              </div>
+              <input id="whatifDemandInput" type="range" min="0" max="25" value="5" oninput="window.JalRakshak.updateWhatIfSimulation()" class="w-full accent-amber-400 cursor-pointer" />
+            </div>
+
+            <!-- Recharge Structures Added -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between text-xs">
+                <span class="text-atlas-text font-medium">Recharge Structures Constructed</span>
+                <span id="whatifStructDisplay" class="font-mono font-bold text-emerald-400">+3 Structures</span>
+              </div>
+              <input id="whatifStructInput" type="range" min="0" max="15" value="3" oninput="window.JalRakshak.updateWhatIfSimulation()" class="w-full accent-emerald-400 cursor-pointer" />
+            </div>
+          </div>
+
+          <!-- Simulation Outcome Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <div class="p-3.5 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Simulated Water Depth</div>
+              <div id="whatifSimDepth" class="text-xl font-serif font-black text-atlas-text mt-1">13.25 m bgl</div>
+              <div id="whatifSimDeltaDepth" class="text-[10px] font-mono text-emerald-400 mt-0.5">-1.25 m (Recovery)</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Simulated Stress Score</div>
+              <div id="whatifSimStress" class="text-xl font-serif font-black text-saffron mt-1">58/100</div>
+              <div class="text-[10px] text-atlas-muted mt-0.5">Reduced vulnerability</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-atlas-card border border-atlas-border text-center flex flex-col items-center justify-center">
+              <div class="text-[10px] text-atlas-muted uppercase mb-1">Projected Category</div>
+              <span id="whatifSimCategory" class="text-xs font-bold px-2.5 py-1 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">Semi-Critical</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 6: RWH Calculator -->
+      <div id="tab-pane-rwh" class="jalrakshak-tab-pane space-y-5 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="font-serif font-bold text-sm text-atlas-text">Rooftop Rainwater Harvesting Architectural Calculator</h4>
+            <span class="text-xs text-atlas-muted">BIS 15797:2008 Engineering Standards</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between text-xs">
+                <span class="text-atlas-text font-medium">Catchment Roof Area</span>
+                <span id="rwhAreaDisplay" class="font-mono font-bold text-emerald-400">150 m²</span>
+              </div>
+              <input id="rwhAreaInput" type="range" min="50" max="1000" step="10" value="150" oninput="window.JalRakshak.updateRWH()" class="w-full accent-emerald-400 cursor-pointer" />
+            </div>
+
+            <div class="space-y-1.5 p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <label class="text-xs text-atlas-text font-medium block">Roof Surface Material</label>
+              <select id="rwhTypeSelect" onchange="window.JalRakshak.updateRWH()" class="w-full px-2.5 py-1.5 rounded-lg bg-atlas-elevated border border-atlas-border text-xs text-atlas-text">
+                <option value="concrete">Concrete Slab (Runoff Coeff: 0.85)</option>
+                <option value="metal">Corrugated Galvanized Iron / Metal (0.90)</option>
+                <option value="tile">Clay Tiles (0.75)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Annual Harvest Yield</div>
+              <div id="rwhYieldM3" class="text-lg font-serif font-black text-emerald-400 mt-0.5">108.4 m³</div>
+              <div id="rwhYieldLitres" class="text-[9px] text-atlas-muted mt-0.5">108,400 Litres</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Annual Water Savings</div>
+              <div id="rwhSavingsINR" class="text-lg font-serif font-black text-saffron mt-0.5">₹ 4,878/yr</div>
+              <div class="text-[9px] text-atlas-muted mt-0.5">@ ₹45/kL municipal tariff</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Est. System Cost</div>
+              <div id="rwhCostINR" class="text-lg font-serif font-black text-atlas-text mt-0.5">₹ 48,000</div>
+              <div class="text-[9px] text-atlas-muted mt-0.5">Piping, filter & tank</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Tank Sizing & Payback</div>
+              <div id="rwhTankM3" class="text-lg font-serif font-black text-sky-400 mt-0.5">16.3 m³</div>
+              <div id="rwhPaybackYrs" class="text-[9px] text-atlas-muted mt-0.5">9.8 Years</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 7: ML Forecasting -->
+      <div id="tab-pane-forecast" class="jalrakshak-tab-pane space-y-5 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-serif font-bold text-sm text-atlas-text">Predictive Machine Learning Forecasting Model</h4>
+              <p class="text-xs text-atlas-muted">Ensemble: Ridge + Random Forest + XGBoost with 95% Confidence Intervals</p>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-xs font-bold">R² = 0.892 • MAE = 0.38m</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-2">
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">2026 Live Baseline</div>
+              <div class="text-base font-serif font-black text-atlas-text mt-1">17.90 m</div>
+              <div class="text-[9px] text-emerald-400">CGWB Real-Time</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">2028 +2Y Horizon</div>
+              <div class="text-base font-serif font-black text-amber-400 mt-1">18.34 m</div>
+              <div class="text-[9px] text-atlas-muted">± 0.42m Margin</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">2030 +4Y Decadal</div>
+              <div class="text-base font-serif font-black text-orange-400 mt-1">18.78 m</div>
+              <div class="text-[9px] text-atlas-muted">± 0.68m Margin</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">2035 Climate Horizon</div>
+              <div class="text-base font-serif font-black text-red-400 mt-1">19.88 m</div>
+              <div class="text-[9px] text-red-400">Critical Drawdown</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 8: Agri Advisory & Crop Shift -->
+      <div id="tab-pane-agri" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-serif font-bold text-sm text-atlas-text">Crop-Shift Water Conservation Optimization</h4>
+            <span class="text-xs font-mono font-bold text-emerald-400">Potential Water Saved: 258.4 MCM/yr</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border space-y-1.5">
+              <div class="flex justify-between font-bold">
+                <span class="text-rose-400">Current: Sugarcane (Saccharum officinarum)</span>
+                <span class="text-emerald-400">Recommended: Pearl Millet (Bajra) + Pigeon Pea</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-atlas-muted">
+                <span>Water Saving: <strong>68.0%</strong> (+14.2% Net Farmer Profit)</span>
+                <span>Subsidy Incentive: <strong>₹12,000 / hectare</strong></span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border space-y-1.5">
+              <div class="flex justify-between font-bold">
+                <span class="text-rose-400">Current: Summer Flood-Irrigated Paddy</span>
+                <span class="text-emerald-400">Recommended: Sorghum (Jowar) / Greengram (Moong)</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-atlas-muted">
+                <span>Water Saving: <strong>58.0%</strong> (+8.5% Net Farmer Profit)</span>
+                <span>Subsidy Incentive: <strong>₹9,000 / hectare</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 9: Water Quality -->
+      <div id="tab-pane-quality" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <h4 class="font-serif font-bold text-sm text-atlas-text">Multi-Parameter Water Quality Assays (BIS 10500 Standards)</h4>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">pH Value</div>
+              <div class="text-lg font-mono font-bold text-atlas-text mt-1">7.4</div>
+              <div class="text-[9px] text-emerald-400">Acceptable (6.5–8.5)</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Total Dissolved Solids</div>
+              <div class="text-lg font-mono font-bold text-atlas-text mt-1">480 mg/L</div>
+              <div class="text-[9px] text-emerald-400">Acceptable (&lt; 500)</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border text-center">
+              <div class="text-[10px] text-atlas-muted uppercase">Fluoride</div>
+              <div class="text-lg font-mono font-bold text-atlas-text mt-1">0.85 mg/L</div>
+              <div class="text-[9px] text-emerald-400">Safe (&lt; 1.0)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 10: IoT Telemetry -->
+      <div id="tab-pane-iot" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <h4 class="font-serif font-bold text-sm text-atlas-text">Active Telemetry Piezometer Sensor Nodes</h4>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between font-bold"><span>Station DWLR-014 (Hapur Road)</span><span class="text-emerald-400">Live</span></div>
+              <div class="text-atlas-muted text-[11px] mt-1">Water Depth: 24.2m • Battery: 94% • Transmission: Hourly 4G/GPRS</div>
+            </div>
+            <div class="p-3 rounded-xl bg-atlas-card border border-atlas-border">
+              <div class="flex justify-between font-bold"><span>Station DWLR-028 (Industrial Bypass)</span><span class="text-emerald-400">Live</span></div>
+              <div class="text-atlas-muted text-[11px] mt-1">Water Depth: 28.6m • Battery: 88% • Transmission: Hourly 4G/GPRS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 11: Citizen Grievance Portal -->
+      <div id="tab-pane-grievance" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <h4 class="font-serif font-bold text-sm text-atlas-text">Citizen Grievance & Borewell Failure Reporting</h4>
+          <div class="space-y-2 text-xs">
+            <input id="grievanceNameInput" placeholder="Your Full Name" class="w-full px-3 py-2 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text" />
+            <input id="grievancePhoneInput" placeholder="Mobile Contact Number" class="w-full px-3 py-2 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text" />
+            <textarea id="grievanceDescInput" placeholder="Describe the groundwater or drinking supply issue..." rows="3" class="w-full px-3 py-2 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text"></textarea>
+            <button onclick="alert('Ticket successfully created and assigned to District Water Officer!');" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-glow">Submit Citizen Report</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 12: AI Copilot -->
+      <div id="tab-pane-copilot" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-serif font-bold text-sm text-atlas-text">Hydrogeological Decision Assistant</h4>
+            <span class="text-xs text-emerald-400 font-bold">Grounded RAG System</span>
+          </div>
+          <div class="flex gap-2">
+            <input id="copilotQueryInput" placeholder="Ask about district depletion, recharge structures, crop shift..." class="flex-1 px-3 py-2 rounded-xl bg-atlas-card border border-atlas-border text-xs text-atlas-text" onkeydown="if(event.key==='Enter')document.getElementById('copilotSendBtn').click()" />
+            <button id="copilotSendBtn" onclick="window.JalAI.sendQuery(document.getElementById('copilotQueryInput').value)" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs">Ask AI</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 13: 75-District Matrix -->
+      <div id="tab-pane-matrix" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <h4 class="font-serif font-bold text-sm text-atlas-text">{{ current_state.name }} Administrative District Matrix</h4>
+          <a href="/api/v1/reports/export?format=csv&state_code={{ current_state.code }}" class="px-3 py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-bold text-atlas-text transition flex items-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Export CSV</span>
+          </a>
+        </div>
+        <div class="overflow-x-auto border border-atlas-border rounded-xl max-h-[50vh]">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-atlas-elevated text-atlas-muted text-[10px] uppercase border-b border-atlas-border sticky top-0">
+              <tr>
+                <th class="px-3 py-2">#</th>
+                <th class="px-3 py-2">District</th>
+                <th class="px-3 py-2">Division</th>
+                <th class="px-3 py-2">Depth</th>
+                <th class="px-3 py-2">Trend</th>
+                <th class="px-3 py-2">Category</th>
+                <th class="px-3 py-2">Stress</th>
+                <th class="px-3 py-2">Recharge</th>
+              </tr>
+            </thead>
+            <tbody id="matrixTableBody" class="divide-y divide-atlas-border/50"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PANE 14: Project Report -->
+      <div id="tab-pane-report" class="jalrakshak-tab-pane space-y-4 hidden">
+        <div class="p-5 rounded-xl bg-atlas-elevated/40 border border-atlas-border space-y-4 text-xs leading-relaxed">
+          <h3 class="text-base font-serif font-black text-atlas-text">JalSuraksha: Collaborative Filtering & Latent Topic Modeling for Groundwater Intelligence</h3>
+          <p class="text-atlas-muted">
+            Engineered by <strong>Mohd Shami</strong> (B.Tech Data Science). This platform integrates physics-guided hydrogeological modeling, 
+            spatial collaborative filtering (HG-CF), and unsupervised natural language topic extraction (LDA) across 700+ administrative districts in India.
+          </p>
+          <div class="grid grid-cols-2 gap-3 text-[11px] pt-2 border-t border-atlas-border">
+            <div><strong>Backend Architecture:</strong> Python-first Flask + SQLAlchemy ORM + ML Models</div>
+            <div><strong>Research Workspace:</strong> 16 Reproducible Jupyter Notebooks (00_ to 15_)</div>
+            <div><strong>Primary Reference Basin:</strong> Uttar Pradesh (75 calibrated districts)</div>
+            <div><strong>Data Compliance:</strong> Government Open Data License (GODL India)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

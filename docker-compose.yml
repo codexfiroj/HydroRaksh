@@ -1,41 +1,24 @@
 version: "3.8"
 
 services:
-  api:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: jalsuraksha_api
+    container_name: jalsuraksha_app
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "5000:5000"
     environment:
-      - ENVIRONMENT=production
-      - AUTH_ENABLED=false
-      - AUTH_STORAGE_MODE=json
-      - DATABASE_URL=sqlite:///./jalsuraksha_local.db
+      - FLASK_ENV=production
+      - PORT=5000
     volumes:
       - ./data:/app/data
-      - ./jalsuraksha_local.db:/app/jalsuraksha_local.db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/v1/health"]
       interval: 20s
       timeout: 5s
       retries: 3
-
-  web:
-    build:
-      context: .
-      dockerfile: infra/docker/Dockerfile.web
-    container_name: jalsuraksha_web
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      api:
-        condition: service_healthy
 
   research:
     profiles: ["research"]
@@ -50,7 +33,7 @@ services:
     volumes:
       - ./ml:/workspace/ml
       - ./data:/workspace/data
-      - ./jalsuraksha_local.db:/workspace/jalsuraksha_local.db
+      - ./services:/workspace/services
 
 volumes:
   app_data:

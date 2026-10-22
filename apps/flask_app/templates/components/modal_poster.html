@@ -1,0 +1,95 @@
+{% set d = selected_district | default(district) %}
+{% set mwm = d.modernWaterMetrics if d and d.modernWaterMetrics is defined and d.modernWaterMetrics else {} %}
+{% set st = current_state if current_state is defined and current_state else {"name": "Uttar Pradesh"} %}
+
+<!-- Share Poster Infographic Modal -->
+<div id="posterModal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+  <div class="relative w-full max-w-lg bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-atlas-text">
+    <div class="p-4 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
+      <div class="flex items-center gap-2">
+        <i data-lucide="share-2" class="w-5 h-5 text-saffron"></i>
+        <h3 class="font-serif font-black text-base text-atlas-text">District Water Scorecard Infographic</h3>
+      </div>
+      <button onclick="window.JalSuraksha.closeModal('posterModal')" class="p-1.5 rounded-lg text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="p-5 space-y-4 text-xs overflow-y-auto">
+      <!-- Printable Poster Card View -->
+      <div id="printablePosterCard" class="p-5 rounded-2xl bg-gradient-to-b from-[#0f172a] to-[#1e293b] border-2 border-emerald-500/40 text-white shadow-2xl space-y-4">
+        <!-- Poster Top Header -->
+        <div class="flex items-center justify-between border-b border-slate-700/60 pb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+              💧
+            </div>
+            <div>
+              <div class="font-serif font-black text-sm tracking-wide text-white">JalSuraksha Intelligence</div>
+              <div class="text-[9px] text-slate-400">Government Open Data Telemetry</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">
+            {{ current_year | default(2026) }} Live
+          </span>
+        </div>
+
+        <!-- District Headline -->
+        <div class="text-center py-2 space-y-1">
+          <div class="text-[11px] text-slate-400 uppercase tracking-widest font-bold">{{ st.name }}</div>
+          <h2 class="text-2xl font-serif font-black text-white">{{ d.name if d else "Select District" }}</h2>
+          <div class="text-xs text-emerald-400 font-medium">
+            {{ (d.division if d else "Central") | default("Central") }} Division • {{ mwm.majorRiverBasin | default("Ganga Basin") }}
+          </div>
+        </div>
+
+        <!-- 4 Metric Grid -->
+        <div class="grid grid-cols-2 gap-2 text-center text-xs">
+          <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
+            <div class="text-[9px] text-slate-400 uppercase">Water Depth</div>
+            <div class="text-base font-serif font-black text-white mt-0.5">
+              {{ mwm.groundwaterDepthM | default(14.5) }} m bgl
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
+            <div class="text-[9px] text-slate-400 uppercase">Stress Score</div>
+            <div class="text-base font-serif font-black text-amber-400 mt-0.5">
+              {{ mwm.waterStressScore | default(65) }}/100
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
+            <div class="text-[9px] text-slate-400 uppercase">Extraction Stage</div>
+            <div class="text-base font-serif font-black text-white mt-0.5">
+              {{ mwm.cgwbStageExtractionPct | default(88.4) }}%
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700">
+            <div class="text-[9px] text-slate-400 uppercase">Recharge Potential</div>
+            <div class="text-base font-serif font-black text-emerald-400 mt-0.5">
+              {{ (d.rechargeSuitabilityScore if d else 75) | default(75) }}/100
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Attribution -->
+        <div class="pt-3 border-t border-slate-700/60 text-[9px] text-slate-400 flex items-center justify-between">
+          <span>Lead: Mohd Shami (Data Science)</span>
+          <span>Sources: CGWB • IMD • CWC</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="window.print()" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-glow transition flex items-center justify-center gap-1.5">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Print / Save as PDF</span>
+        </button>
+        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Dashboard URL copied to clipboard!');" class="py-2 px-3 rounded-xl bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-bold text-atlas-text transition">
+          Copy Link
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -254,7 +254,16 @@ cd apps/api
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+### 2. Launching the Python-First Flask Application
+Launch the unified Flask development server:
+```bash
+# Using Makefile
+make dev-flask
+
+# Or directly with Python
+python server.py --host 0.0.0.0 --port 5000
 ```
 
 API docs are served at `http://127.0.0.1:8000/docs`.
@@ -262,9 +271,8 @@ API docs are served at `http://127.0.0.1:8000/docs`.
 **Frontend** (in a separate terminal)
 
 ```bash
-cd apps/web
-npm install
-npm run dev
+make jupyter
+# or: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 ```
 
 Open `http://localhost:3000`.

@@ -1,0 +1,98 @@
+<!-- Stat Cards Grid Modal -->
+<div id="statCardsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in select-none">
+  <div class="relative w-full max-w-5xl max-h-[90vh] bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-atlas-text">
+    <div class="p-4 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-blue-600/15 text-blue-400 flex items-center justify-center font-bold">
+          <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="font-serif font-black text-base sm:text-lg text-atlas-text">
+            {{ current_state.name }} Administrative District Water Cards
+          </h3>
+          <p class="text-xs text-atlas-muted">Comparative snapshot across all {{ districts|length }} administrative units</p>
+        </div>
+      </div>
+      <button onclick="window.JalSuraksha.closeModal('statCardsModal')" class="p-1.5 rounded-lg text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="p-3 bg-atlas-canvas border-b border-atlas-border flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-1.5">
+        <button onclick="filterStatCards('all')" class="stat-filter-btn px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold">All ({{ districts|length }})</button>
+        <button onclick="filterStatCards('over-exploited')" class="stat-filter-btn px-2.5 py-1 rounded-lg bg-atlas-card border border-atlas-border text-atlas-muted hover:text-atlas-text">Over-Exploited</button>
+        <button onclick="filterStatCards('critical')" class="stat-filter-btn px-2.5 py-1 rounded-lg bg-atlas-card border border-atlas-border text-atlas-muted hover:text-atlas-text">Critical</button>
+        <button onclick="filterStatCards('safe')" class="stat-filter-btn px-2.5 py-1 rounded-lg bg-atlas-card border border-atlas-border text-atlas-muted hover:text-atlas-text">Safe</button>
+      </div>
+      <input
+        type="text"
+        placeholder="Filter cards by name..."
+        oninput="searchStatCards(this.value)"
+        class="px-3 py-1 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text placeholder:text-atlas-faint"
+      />
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+      <div id="statCardsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {% for d in districts %}
+          {% set m = d.modernWaterMetrics | default({}) %}
+          <div
+            data-category="{{ (m.cgwbCategory | default('Semi-Critical'))|lower }}"
+            data-name="{{ d.name|lower }}"
+            onclick="window.JalSuraksha.setSelectedDistrict('{{ d.id }}'); window.JalSuraksha.closeModal('statCardsModal');"
+            class="stat-card-item p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border hover:border-saffron cursor-pointer transition space-y-2"
+          >
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="font-serif font-bold text-sm text-atlas-text">{{ d.name }}</div>
+                <div class="text-[10px] text-atlas-muted">{{ d.division | default(d.region | default("Central")) }}</div>
+              </div>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase {% if 'over' in (m.cgwbCategory | default(''))|lower %}bg-red-500/15 text-red-400{% elif 'critical' in (m.cgwbCategory | default(''))|lower %}bg-orange-500/15 text-orange-400{% else %}bg-emerald-500/15 text-emerald-400{% endif %}">
+                {{ m.cgwbCategory | default("Safe") }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-atlas-border/50 text-[11px]">
+              <div>
+                <span class="text-[9px] text-atlas-muted block">Water Depth</span>
+                <strong class="font-mono text-atlas-text">{{ m.groundwaterDepthM | default(12.0) }} m</strong>
+              </div>
+              <div>
+                <span class="text-[9px] text-atlas-muted block">Stress Score</span>
+                <strong class="font-mono text-saffron">{{ m.waterStressScore | default(60) }}/100</strong>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterStatCards(cat) {
+    document.querySelectorAll(".stat-card-item").forEach(item => {
+      const itemCat = item.getAttribute("data-category") || "";
+      if (cat === "all" || itemCat.includes(cat)) {
+        item.classList.remove("hidden");
+      } else {
+        item.classList.add("hidden");
+      }
+    });
+  }
+
+  function searchStatCards(q) {
+    const val = q.trim().toLowerCase();
+    document.querySelectorAll(".stat-card-item").forEach(item => {
+      const name = item.getAttribute("data-name") || "";
+      if (!val || name.includes(val)) {
+        item.classList.remove("hidden");
+      } else {
+        item.classList.add("hidden");
+      }
+    });
+  }
+</script>

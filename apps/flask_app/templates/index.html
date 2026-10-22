@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ selected_district.name }} ({{ current_state.name }}) • {{ current_year }} Water Stress {{ selected_district.modernWaterMetrics.waterStressScore if selected_district.modernWaterMetrics else 65 }}/100 • JalSuraksha Pan-India
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-atlas-canvas text-atlas-text overflow-hidden">
+  
+  <!-- Top JalSuraksha Navigation Bar -->
+  {% include "components/navbar.html" %}
+
+  <!-- Main 3-Column Workspace -->
+  <main class="flex-1 flex overflow-hidden relative pb-28">
+    
+    <!-- Left Filters & Planning Horizons Sidebar (Desktop) -->
+    {% include "components/layer_filter_panel.html" %}
+
+    <!-- Center Interactive Map Canvas -->
+    {% include "components/map_canvas.html" %}
+
+    <!-- Right District Water Dossier & Context Panel (Desktop) -->
+    <div class="hidden lg:block h-full">
+      {% include "components/context_panel.html" %}
+    </div>
+
+    <!-- Mobile Dossier Drawer Trigger Button -->
+    <div class="lg:hidden fixed bottom-24 right-4 z-30 transition-all">
+      <button
+        onclick="openMobileDossier()"
+        class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-glow transition"
+      >
+        <span>{{ selected_district.name }} Dossier</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Bottom Sheet Modal -->
+    <div id="mobileDossierDrawer" class="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/70 backdrop-blur-sm hidden animate-fade-in">
+      <div class="h-[80vh] w-full bg-atlas-card rounded-t-2xl overflow-hidden flex flex-col border-t border-atlas-border">
+        <div class="p-2 border-b border-atlas-border flex justify-end bg-atlas-elevated/50">
+          <button onclick="closeMobileDossier()" class="p-1 rounded-lg text-atlas-muted hover:text-atlas-text" aria-label="Close Mobile Dossier">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          {% include "components/context_panel.html" %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Docked Continuous Time Slider Bar (2000 to 2035) -->
+  {% include "components/time_slider_dock.html" %}
+
+  <!-- Modals & Overlays -->
+  {% include "components/modal_timeline.html" %}
+  {% include "components/modal_trump_cards.html" %}
+  {% include "components/modal_stat_cards.html" %}
+  {% include "components/modal_poster.html" %}
+  {% include "components/modal_report_error.html" %}
+  {% include "components/modal_jalrakshak.html" %}
+  {% include "components/modal_freshness.html" %}
+  {% include "components/modal_owner_profile.html" %}
+
+  <!-- Floating Conversational AI Assistant Widget -->
+  {% include "components/ai_chat_widget.html" %}
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function openMobileDossier() {
+    const el = document.getElementById("mobileDossierDrawer");
+    if (el) el.classList.remove("hidden");
+  }
+
+  function closeMobileDossier() {
+    const el = document.getElementById("mobileDossierDrawer");
+    if (el) el.classList.add("hidden");
+  }
+
+  // Initialize JalSuraksha with complete Pan-India datasets
+  document.addEventListener("DOMContentLoaded", function() {
+    window.JalSuraksha.init({
+      districts: {{ districts_json | safe }},
+      states: {{ states_json | safe }},
+      sources: {{ sources_json | safe }}
+    });
+  });
+</script>
+{% endblock %}

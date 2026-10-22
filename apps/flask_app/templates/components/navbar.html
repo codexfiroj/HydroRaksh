@@ -1,0 +1,193 @@
+<!-- Top JalSuraksha Navigation Bar -->
+<header class="sticky top-0 z-40 w-full border-b border-atlas-border bg-atlas-canvas/95 backdrop-blur-md flex flex-col select-none">
+  <!-- Primary Top Bar -->
+  <div class="px-3 sm:px-4 py-2 flex items-center justify-between gap-2 sm:gap-4">
+    <!-- Brand & Subtitle -->
+    <div class="flex items-center gap-2.5 sm:gap-3">
+      <div class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-blue-700 to-navy text-white shadow-sm flex-shrink-0">
+        <i data-lucide="droplets" class="w-4 h-4 sm:w-5 sm:h-5 text-sky-200"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <h1 class="text-sm sm:text-base font-serif font-black tracking-wide text-atlas-text">
+            JalSuraksha
+          </h1>
+          <span class="text-[10px] font-sans px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/30 line-clamp-1 max-w-[130px] sm:max-w-none">
+            {{ current_state.name }} ({{ current_state.districtCount }})
+          </span>
+        </div>
+        <p class="text-[11px] text-atlas-muted hidden lg:block">
+          Intelligent Pan-India Groundwater & Water Resource Decision System
+        </p>
+      </div>
+    </div>
+
+    <!-- Desktop State Selector & Autocomplete Search Bar -->
+    <div class="relative flex-1 max-w-lg hidden md:flex items-center gap-2">
+      <select
+        id="stateSelectDropdown"
+        onchange="window.JalSuraksha.setSelectedState(this.value)"
+        class="px-2.5 py-1.5 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-400 cursor-pointer shadow-sm max-w-[190px]"
+        title="Select State or Union Territory (36 States & UTs)"
+      >
+        {% for s in states %}
+          <option value="{{ s.code }}" {% if s.code == current_state.code %}selected{% endif %}>
+            {{ s.name }} ({{ s.districtCount }})
+          </option>
+        {% endfor %}
+      </select>
+
+      <div class="relative flex-1">
+        <i data-lucide="search" class="absolute left-3 top-2.5 h-3.5 w-3.5 text-atlas-muted"></i>
+        <input
+          id="globalDistrictSearch"
+          type="text"
+          placeholder="Search {{ current_state.name }} districts, river basins..."
+          class="w-full pl-9 pr-4 py-1.5 rounded-lg bg-atlas-card border border-atlas-border text-xs text-atlas-text placeholder:text-atlas-faint focus:outline-none focus:ring-1 focus:ring-emerald-400"
+        />
+        <!-- Live autocomplete results container -->
+        <div id="searchDropdownResults" class="absolute top-full left-0 right-0 mt-1 bg-atlas-card border border-atlas-border rounded-lg shadow-cardDark overflow-hidden z-50 hidden"></div>
+      </div>
+    </div>
+
+    <!-- Right Controls & Quick Actions -->
+    <div class="flex items-center gap-1.5 sm:gap-2">
+      <!-- Mode Toggle: Stress Heatmap vs Recharge Suitability -->
+      <div class="hidden sm:flex items-center p-0.5 rounded-lg bg-atlas-card border border-atlas-border text-xs">
+        <button
+          id="btnViewModeWater"
+          onclick="window.JalSuraksha.setViewMode('water')"
+          class="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-600 text-white shadow"
+          title="Display aquifer overdraft stress scores"
+        >
+          <i data-lucide="droplets" class="w-3.5 h-3.5"></i>
+          <span class="hidden xl:inline">Stress Heatmap</span>
+        </button>
+        <button
+          id="btnViewModeRecharge"
+          onclick="window.JalSuraksha.setViewMode('recharge')"
+          class="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium text-atlas-muted hover:text-atlas-text"
+          title="Display artificial recharge suitability zones"
+        >
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+          <span class="hidden xl:inline">Recharge Suitability</span>
+        </button>
+      </div>
+
+      <!-- Unified Timeline & AI Forecast Button -->
+      <button
+        onclick="window.JalSuraksha.openModal('timelineModal')"
+        title="Timeline & AI Forecast (2000-2035)"
+        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-semibold text-atlas-text transition shadow-sm group"
+      >
+        <i data-lucide="history" class="h-3.5 w-3.5 text-saffron group-hover:rotate-[-45deg] transition-transform duration-300"></i>
+        <span id="navYearDisplay" class="font-mono text-saffron font-bold text-xs">{{ current_year }}</span>
+        <span id="navYearBadge" class="text-[9px] px-1 py-0.2 rounded uppercase font-bold border bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+          Live
+        </span>
+      </button>
+
+      <!-- Super Intelligence Lab Action Button -->
+      <a
+        href="/lab"
+        title="Open Super Intelligence Lab (Data Science, ML Pipelines, Automated EDA & XAI)"
+        class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary to-cyan-600 hover:brightness-110 text-white font-bold text-xs shadow-glow transition"
+      >
+        <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+        <span>AI Lab</span>
+      </a>
+
+      <!-- JalRakshak Suite Action Button -->
+      <button
+        onclick="window.JalSuraksha.openModal('jalrakshakModal'); window.JalRakshak.setTab('recharge');"
+        title="Open Complete JalRakshak AI Decision-Support Suite"
+        class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-glow transition"
+      >
+        <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Decision Suite</span>
+      </button>
+
+      <!-- Sources (8) Quick Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('freshnessModal')"
+        title="Pan-India Open Data Telemetry & 8 Live Ingestion Sources"
+        class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-semibold text-atlas-text transition"
+      >
+        <i data-lucide="database" class="h-3.5 w-3.5 text-emerald-400"></i>
+        <span class="hidden xl:inline">Sources (8)</span>
+      </button>
+
+      <!-- AI Copilot Quick Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('jalrakshakModal'); window.JalRakshak.setTab('copilot');"
+        title="Ask JalRakshak AI Copilot"
+        class="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-semibold text-atlas-text transition"
+      >
+        <i data-lucide="bot" class="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400"></i>
+        <span class="hidden xl:inline">AI Copilot</span>
+      </button>
+
+      <!-- District Matrix Explorer Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('jalrakshakModal'); window.JalRakshak.setTab('matrix');"
+        title="Open Multi-Dimensional District Matrix"
+        class="hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-semibold text-atlas-text transition"
+      >
+        <i data-lucide="table" class="h-3.5 w-3.5 text-saffron"></i>
+        <span>Matrix</span>
+      </button>
+
+      <!-- Trump Card Duel Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('trumpCardModal')"
+        title="Duel between 2 districts"
+        class="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-medium text-atlas-text transition flex items-center gap-1"
+      >
+        <i data-lucide="trophy" class="h-3.5 w-3.5 text-saffron"></i>
+        <span class="hidden xl:inline">Duel</span>
+      </button>
+
+      <!-- Stat Cards Grid Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('statCardsModal')"
+        title="Quick glance cards for all districts"
+        class="hidden md:flex p-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-atlas-muted hover:text-atlas-text transition"
+      >
+        <i data-lucide="layout-grid" class="h-4 w-4"></i>
+      </button>
+
+      <!-- Share Poster Launcher -->
+      <button
+        onclick="window.JalSuraksha.openModal('posterModal')"
+        title="Generate Infographic Poster"
+        class="hidden sm:flex p-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-atlas-muted hover:text-atlas-text transition"
+      >
+        <i data-lucide="share-2" class="h-4 w-4"></i>
+      </button>
+
+      <!-- Theme Switcher (Light / Dark) -->
+      <button
+        onclick="window.JalSuraksha.toggleTheme()"
+        title="Toggle Light / Dark Theme"
+        class="p-1.5 rounded-lg bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-atlas-muted hover:text-atlas-text transition"
+      >
+        <i id="themeToggleIcon" data-lucide="sun" class="h-4 w-4 text-saffron"></i>
+      </button>
+
+      <!-- Mohd Shami Project Lead Profile -->
+      <button
+        onclick="window.JalSuraksha.openModal('ownerModal')"
+        title="Platform Lead & Attribution — Mohd Shami"
+        class="flex items-center gap-1.5 pl-2 border-l border-atlas-border text-xs text-atlas-text hover:text-emerald-400 transition"
+      >
+        <div class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
+          MS
+        </div>
+        <div class="hidden xl:block text-left leading-tight">
+          <div class="font-bold text-[11px] text-atlas-text">Mohd Shami</div>
+          <div class="text-[9px] text-atlas-muted">Lead Architect</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</header>

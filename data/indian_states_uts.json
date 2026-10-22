@@ -1,0 +1,470 @@
+[
+  {
+    "code": "UP",
+    "name": "Uttar Pradesh",
+    "category": "State",
+    "capital": "Lucknow",
+    "adminTerm": "Tehsil",
+    "terrain": "Indo-Gangetic Alluvial Plain",
+    "districtCount": 75,
+    "center": [
+      26.8467,
+      80.9462
+    ]
+  },
+  {
+    "code": "AP",
+    "name": "Andhra Pradesh",
+    "category": "State",
+    "capital": "Amaravati",
+    "adminTerm": "Mandal",
+    "terrain": "Eastern Ghats & Coastal Sandstone",
+    "districtCount": 26,
+    "center": [
+      15.9129,
+      79.74
+    ]
+  },
+  {
+    "code": "AR",
+    "name": "Arunachal Pradesh",
+    "category": "State",
+    "capital": "Itanagar",
+    "adminTerm": "Circle",
+    "terrain": "Sub-Himalayan & Tethyan Sedimentary",
+    "districtCount": 28,
+    "center": [
+      28.218,
+      94.7278
+    ]
+  },
+  {
+    "code": "AS",
+    "name": "Assam",
+    "category": "State",
+    "capital": "Dispur",
+    "adminTerm": "Revenue Circle",
+    "terrain": "Brahmaputra Alluvial Basin",
+    "districtCount": 35,
+    "center": [
+      26.2006,
+      92.9376
+    ]
+  },
+  {
+    "code": "BR",
+    "name": "Bihar",
+    "category": "State",
+    "capital": "Patna",
+    "adminTerm": "Anchal / Block",
+    "terrain": "Mid-Gangetic Alluvial Quaternary",
+    "districtCount": 38,
+    "center": [
+      25.0961,
+      85.3131
+    ]
+  },
+  {
+    "code": "CG",
+    "name": "Chhattisgarh",
+    "category": "State",
+    "capital": "Raipur",
+    "adminTerm": "Tehsil",
+    "terrain": "Chota Nagpur Crystalline Basement",
+    "districtCount": 33,
+    "center": [
+      21.2787,
+      81.8661
+    ]
+  },
+  {
+    "code": "GA",
+    "name": "Goa",
+    "category": "State",
+    "capital": "Panaji",
+    "adminTerm": "Taluka",
+    "terrain": "Konkan Laterite & Basalt Flanks",
+    "districtCount": 2,
+    "center": [
+      15.2993,
+      74.124
+    ]
+  },
+  {
+    "code": "GJ",
+    "name": "Gujarat",
+    "category": "State",
+    "capital": "Gandhinagar",
+    "adminTerm": "Taluka",
+    "terrain": "Deccan Traps & Sabarmati Sandstone",
+    "districtCount": 33,
+    "center": [
+      22.2587,
+      71.1924
+    ]
+  },
+  {
+    "code": "HR",
+    "name": "Haryana",
+    "category": "State",
+    "capital": "Chandigarh",
+    "adminTerm": "Tehsil",
+    "terrain": "Indo-Gangetic Silt & Ghaggar Sand",
+    "districtCount": 22,
+    "center": [
+      29.0588,
+      76.0856
+    ]
+  },
+  {
+    "code": "HP",
+    "name": "Himachal Pradesh",
+    "category": "State",
+    "capital": "Shimla",
+    "adminTerm": "Tehsil",
+    "terrain": "Lower Siwalik Intermontane Fluvial",
+    "districtCount": 12,
+    "center": [
+      31.1048,
+      77.1734
+    ]
+  },
+  {
+    "code": "JH",
+    "name": "Jharkhand",
+    "category": "State",
+    "capital": "Ranchi",
+    "adminTerm": "Block / Anchal",
+    "terrain": "Chotanagpur Archaean Gneiss Complex",
+    "districtCount": 24,
+    "center": [
+      23.6102,
+      85.2799
+    ]
+  },
+  {
+    "code": "KA",
+    "name": "Karnataka",
+    "category": "State",
+    "capital": "Bengaluru",
+    "adminTerm": "Taluk",
+    "terrain": "Dharwar Craton Hard Fractured Rock",
+    "districtCount": 31,
+    "center": [
+      15.3173,
+      75.7139
+    ]
+  },
+  {
+    "code": "KL",
+    "name": "Kerala",
+    "category": "State",
+    "capital": "Thiruvananthapuram",
+    "adminTerm": "Taluk",
+    "terrain": "Coastal Laterite & Granulite Terrain",
+    "districtCount": 14,
+    "center": [
+      10.8505,
+      76.2711
+    ]
+  },
+  {
+    "code": "MP",
+    "name": "Madhya Pradesh",
+    "category": "State",
+    "capital": "Bhopal",
+    "adminTerm": "Tehsil",
+    "terrain": "Malwa Basalt & Vindhyan Sandstone",
+    "districtCount": 55,
+    "center": [
+      22.9734,
+      78.6569
+    ]
+  },
+  {
+    "code": "MH",
+    "name": "Maharashtra",
+    "category": "State",
+    "capital": "Mumbai",
+    "adminTerm": "Taluka",
+    "terrain": "Deccan Basalt Layered Traps",
+    "districtCount": 36,
+    "center": [
+      19.7515,
+      75.7139
+    ]
+  },
+  {
+    "code": "MN",
+    "name": "Manipur",
+    "category": "State",
+    "capital": "Imphal",
+    "adminTerm": "Sub-Division",
+    "terrain": "Barail Flysch Intermontane Terrane",
+    "districtCount": 16,
+    "center": [
+      24.6637,
+      93.9063
+    ]
+  },
+  {
+    "code": "ML",
+    "name": "Meghalaya",
+    "category": "State",
+    "capital": "Shillong",
+    "adminTerm": "Community Block",
+    "terrain": "Shillong Plateau Karstified Limestone",
+    "districtCount": 12,
+    "center": [
+      25.467,
+      91.3662
+    ]
+  },
+  {
+    "code": "MZ",
+    "name": "Mizoram",
+    "category": "State",
+    "capital": "Aizawl",
+    "adminTerm": "RD Block",
+    "terrain": "Mizo Ridge Sandstone-Shale Folding",
+    "districtCount": 11,
+    "center": [
+      23.1645,
+      92.9376
+    ]
+  },
+  {
+    "code": "NL",
+    "name": "Nagaland",
+    "category": "State",
+    "capital": "Kohima",
+    "adminTerm": "Circle",
+    "terrain": "Disang Thrust Fractured Belt",
+    "districtCount": 16,
+    "center": [
+      26.1584,
+      94.5624
+    ]
+  },
+  {
+    "code": "OD",
+    "name": "Odisha",
+    "category": "State",
+    "capital": "Bhubaneswar",
+    "adminTerm": "Tahasil",
+    "terrain": "Mahanadi Deltaic & Hard Granite Rock",
+    "districtCount": 30,
+    "center": [
+      20.9517,
+      85.0985
+    ]
+  },
+  {
+    "code": "PB",
+    "name": "Punjab",
+    "category": "State",
+    "capital": "Chandigarh",
+    "adminTerm": "Tehsil",
+    "terrain": "Quaternary Upper Bari Doab Sediments",
+    "districtCount": 23,
+    "center": [
+      31.1471,
+      75.3412
+    ]
+  },
+  {
+    "code": "RJ",
+    "name": "Rajasthan",
+    "category": "State",
+    "capital": "Jaipur",
+    "adminTerm": "Tehsil",
+    "terrain": "Thar Dune Aeolian & Aravalli Quartzite",
+    "districtCount": 41,
+    "center": [
+      27.0238,
+      74.2179
+    ]
+  },
+  {
+    "code": "SK",
+    "name": "Sikkim",
+    "category": "State",
+    "capital": "Gangtok",
+    "adminTerm": "Sub-Division",
+    "terrain": "Higher Himalayan Crystalline Spring-shed",
+    "districtCount": 6,
+    "center": [
+      27.533,
+      88.5122
+    ]
+  },
+  {
+    "code": "TN",
+    "name": "Tamil Nadu",
+    "category": "State",
+    "capital": "Chennai",
+    "adminTerm": "Taluk",
+    "terrain": "Charnockite & Cauvery Delta Sediments",
+    "districtCount": 38,
+    "center": [
+      11.1271,
+      78.6569
+    ]
+  },
+  {
+    "code": "TS",
+    "name": "Telangana",
+    "category": "State",
+    "capital": "Hyderabad",
+    "adminTerm": "Mandal",
+    "terrain": "Eastern Dharwar Hard Granitic Basement",
+    "districtCount": 33,
+    "center": [
+      18.1124,
+      79.0193
+    ]
+  },
+  {
+    "code": "TR",
+    "name": "Tripura",
+    "category": "State",
+    "capital": "Agartala",
+    "adminTerm": "Sub-Division",
+    "terrain": "Surma Sandstone Intermontane Valley",
+    "districtCount": 8,
+    "center": [
+      23.9408,
+      91.9882
+    ]
+  },
+  {
+    "code": "UK",
+    "name": "Uttarakhand",
+    "category": "State",
+    "capital": "Dehradun",
+    "adminTerm": "Tehsil",
+    "terrain": "Sub-Himalayan Bhabhar & Tarai Belt",
+    "districtCount": 13,
+    "center": [
+      30.0668,
+      79.0193
+    ]
+  },
+  {
+    "code": "WB",
+    "name": "West Bengal",
+    "category": "State",
+    "capital": "Kolkata",
+    "adminTerm": "Block / Subdivision",
+    "terrain": "Ganges-Brahmaputra Deltaic Aquifer",
+    "districtCount": 23,
+    "center": [
+      22.9868,
+      87.855
+    ]
+  },
+  {
+    "code": "AN",
+    "name": "Andaman & Nicobar Islands",
+    "category": "Union Territory",
+    "capital": "Port Blair",
+    "adminTerm": "Tehsil",
+    "terrain": "Insular Volcanics & Coral Sands",
+    "districtCount": 3,
+    "center": [
+      11.7401,
+      92.6586
+    ]
+  },
+  {
+    "code": "CH",
+    "name": "Chandigarh",
+    "category": "Union Territory",
+    "capital": "Chandigarh",
+    "adminTerm": "Tehsil",
+    "terrain": "Siwalik Alluvial Piedmont",
+    "districtCount": 1,
+    "center": [
+      30.7333,
+      76.7794
+    ]
+  },
+  {
+    "code": "DH",
+    "name": "Dadra and Nagar Haveli and Daman and Diu",
+    "category": "Union Territory",
+    "capital": "Daman",
+    "adminTerm": "Taluka",
+    "terrain": "Deccan Basalt & Coastal Fluvio-Marine",
+    "districtCount": 3,
+    "center": [
+      20.4283,
+      72.8397
+    ]
+  },
+  {
+    "code": "DL",
+    "name": "Delhi",
+    "category": "Union Territory",
+    "capital": "New Delhi",
+    "adminTerm": "Tehsil",
+    "terrain": "Yamuna Alluvium & Delhi Quartzite Ridge",
+    "districtCount": 11,
+    "center": [
+      28.7041,
+      77.1025
+    ]
+  },
+  {
+    "code": "JK",
+    "name": "Jammu and Kashmir",
+    "category": "Union Territory",
+    "capital": "Srinagar / Jammu",
+    "adminTerm": "Tehsil",
+    "terrain": "Karewa Lacustrine & Pir Panjal Rock",
+    "districtCount": 20,
+    "center": [
+      33.7782,
+      76.5762
+    ]
+  },
+  {
+    "code": "LA",
+    "name": "Ladakh",
+    "category": "Union Territory",
+    "capital": "Leh",
+    "adminTerm": "Tehsil",
+    "terrain": "Trans-Himalayan Cold Desert Scree",
+    "districtCount": 2,
+    "center": [
+      34.1526,
+      77.5771
+    ]
+  },
+  {
+    "code": "LD",
+    "name": "Lakshadweep",
+    "category": "Union Territory",
+    "capital": "Kavaratti",
+    "adminTerm": "Island Sub-Division",
+    "terrain": "Coral Atolls Fresh Ghyben-Herzberg Lens",
+    "districtCount": 1,
+    "center": [
+      10.5667,
+      72.6417
+    ]
+  },
+  {
+    "code": "PY",
+    "name": "Puducherry",
+    "category": "Union Territory",
+    "capital": "Puducherry",
+    "adminTerm": "Taluk",
+    "terrain": "Coastal Vanur Sandstone Aquifer",
+    "districtCount": 4,
+    "center": [
+      11.9416,
+      79.8083
+    ]
+  }
+]

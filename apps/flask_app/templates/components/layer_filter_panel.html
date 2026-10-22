@@ -1,0 +1,148 @@
+<!-- Left Layer Filter & Planning Horizons Panel -->
+<aside class="w-64 flex-shrink-0 bg-atlas-card border-r border-atlas-border flex flex-col h-full overflow-y-auto select-none p-3 space-y-4">
+  <!-- Section: Planning Horizons -->
+  <div>
+    <div class="flex items-center justify-between text-xs font-serif font-bold text-atlas-text mb-2">
+      <span class="flex items-center gap-1.5">
+        <i data-lucide="history" class="w-3.5 h-3.5 text-saffron"></i>
+        <span>Planning Horizons</span>
+      </span>
+      <span class="text-[10px] text-atlas-muted font-sans font-normal">2000–2035</span>
+    </div>
+    
+    <div class="space-y-1">
+      {% set horizons = [
+        {'yr': 2000, 'label': '2000 Baseline', 'tag': 'Hist', 'color': 'text-amber-400 bg-amber-500/10'},
+        {'yr': 2010, 'label': '2010 Tubewell Surge', 'tag': 'Hist', 'color': 'text-amber-400 bg-amber-500/10'},
+        {'yr': 2020, 'label': '2020 Stress Surge', 'tag': 'Hist', 'color': 'text-amber-400 bg-amber-500/10'},
+        {'yr': 2026, 'label': '2026 Live Telemetry', 'tag': 'Live', 'color': 'text-emerald-400 bg-emerald-500/10'},
+        {'yr': 2028, 'label': '2028 +2Y ML Forecast', 'tag': 'AI', 'color': 'text-purple-400 bg-purple-500/10'},
+        {'yr': 2030, 'label': '2030 +4Y Decadal Target', 'tag': 'AI', 'color': 'text-purple-400 bg-purple-500/10'},
+        {'yr': 2035, 'label': '2035 Climate Horizon', 'tag': 'AI', 'color': 'text-purple-400 bg-purple-500/10'}
+      ] %}
+      {% for h in horizons %}
+        <button
+          onclick="window.JalSuraksha.setCurrentYear({{ h.yr }})"
+          class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between transition {% if current_year == h.yr %}bg-atlas-elevated font-bold border border-saffron/40 text-atlas-text{% else %}text-atlas-muted hover:bg-atlas-elevated/50 hover:text-atlas-text{% endif %}"
+        >
+          <span>{{ h.label }}</span>
+          <span class="text-[9px] px-1.5 py-0.2 rounded font-bold uppercase {{ h.color }}">{{ h.tag }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Section: Map Layer Toggles -->
+  <div class="pt-3 border-t border-atlas-border">
+    <div class="text-xs font-serif font-bold text-atlas-text mb-2 flex items-center gap-1.5">
+      <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <span>Geospatial Layers</span>
+    </div>
+
+    <div class="space-y-2 text-xs">
+      <!-- Rivers Toggle -->
+      <label class="flex items-center justify-between p-2 rounded-lg bg-atlas-elevated/40 border border-atlas-border/50 cursor-pointer hover:bg-atlas-elevated transition">
+        <span class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+          <span class="text-atlas-text font-medium text-[11px]">River Basin Vectors</span>
+        </span>
+        <input
+          type="checkbox"
+          checked
+          id="toggleRiversCheckbox"
+          onchange="document.getElementById('svgRiversLayer').style.display = this.checked ? 'block' : 'none';"
+          class="rounded accent-emerald-500 cursor-pointer"
+        />
+      </label>
+
+      <!-- Hotspots Toggle -->
+      <label class="flex items-center justify-between p-2 rounded-lg bg-atlas-elevated/40 border border-atlas-border/50 cursor-pointer hover:bg-atlas-elevated transition">
+        <span class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+          <span class="text-atlas-text font-medium text-[11px]">Critical Stress Hotspots</span>
+        </span>
+        <input
+          type="checkbox"
+          checked
+          id="toggleHotspotsCheckbox"
+          onchange="document.getElementById('svgHotspotsLayer').style.display = this.checked ? 'block' : 'none';"
+          class="rounded accent-emerald-500 cursor-pointer"
+        />
+      </label>
+
+      <!-- IoT Sensors Toggle -->
+      <label class="flex items-center justify-between p-2 rounded-lg bg-atlas-elevated/40 border border-atlas-border/50 cursor-pointer hover:bg-atlas-elevated transition">
+        <span class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+          <span class="text-atlas-text font-medium text-[11px]">Active IoT Piezometers</span>
+        </span>
+        <input
+          type="checkbox"
+          checked
+          id="toggleIoTCheckbox"
+          onchange="document.getElementById('svgIoTLayer').style.display = this.checked ? 'block' : 'none';"
+          class="rounded accent-emerald-500 cursor-pointer"
+        />
+      </label>
+
+      <!-- Okabe-Ito Color-Blind Mode Toggle -->
+      <label class="flex items-center justify-between p-2 rounded-lg bg-atlas-elevated/40 border border-atlas-border/50 cursor-pointer hover:bg-atlas-elevated transition">
+        <span class="flex items-center gap-2">
+          <i data-lucide="eye" class="w-3.5 h-3.5 text-saffron"></i>
+          <span class="text-atlas-text font-medium text-[11px]">Color-Blind Mode (Okabe-Ito)</span>
+        </span>
+        <input
+          type="checkbox"
+          id="toggleColorBlindCheckbox"
+          onchange="window.JalSuraksha.state.isColorBlindMode = this.checked; window.JalMap.updateDistrictColors();"
+          class="rounded accent-emerald-500 cursor-pointer"
+        />
+      </label>
+    </div>
+  </div>
+
+  <!-- Section: Choropleth Legend -->
+  <div class="pt-3 border-t border-atlas-border">
+    <div class="text-xs font-serif font-bold text-atlas-text mb-2 flex items-center justify-between">
+      <span>Legend</span>
+      <span class="text-[10px] text-atlas-muted font-sans font-normal" id="legendSubtitle">Water Stress (0-100)</span>
+    </div>
+
+    <!-- Water Stress Legend -->
+    <div id="legendWaterStress" class="space-y-1.5 text-[11px]">
+      <div class="flex items-center justify-between">
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-red-500"></span>
+          <span class="text-atlas-text">Over-Exploited</span>
+        </span>
+        <span class="text-atlas-muted font-mono text-[10px]">≥ 75</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+          <span class="text-atlas-text">Critical</span>
+        </span>
+        <span class="text-atlas-muted font-mono text-[10px]">55 – 74</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+          <span class="text-atlas-text">Semi-Critical</span>
+        </span>
+        <span class="text-atlas-muted font-mono text-[10px]">35 – 54</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+          <span class="text-atlas-text">Safe / Abundant</span>
+        </span>
+        <span class="text-atlas-muted font-mono text-[10px]">&lt; 35</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Government & Public Attribution Note -->
+  <div class="mt-auto pt-3 border-t border-atlas-border text-[10px] text-atlas-muted leading-tight">
+    Telemetry: CGWB, IMD, CWC, India-WRIS GODL License.
+  </div>
+</aside>

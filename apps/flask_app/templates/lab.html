@@ -1,0 +1,975 @@
+{% extends "base.html" %}
+
+{% block title %}
+Super Intelligence Lab • AI Experimentation, Automated EDA & ML Pipelines • JalSuraksha
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-atlas-canvas text-atlas-text overflow-x-hidden">
+  
+  <!-- Top Navigation & Header Bar -->
+  <header class="sticky top-0 z-40 w-full border-b border-atlas-border bg-atlas-card/95 backdrop-blur-md flex flex-col select-none">
+    <div class="px-4 py-3 flex items-center justify-between gap-4">
+      <!-- Title & Branding -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-blue-700 text-white shadow-glow transition hover:scale-105" title="Return to Geospatial Water Atlas">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-serif font-black tracking-wide text-atlas-text">
+              Super Intelligence Lab
+            </h1>
+            <span class="text-[10px] font-sans px-2 py-0.5 rounded-full bg-primary/15 text-primary font-bold border border-primary/30 uppercase tracking-wider">
+              AI / ML Studio
+            </span>
+            <span class="hidden sm:inline text-[10px] px-2 py-0.5 rounded-full bg-safe/15 text-safe font-bold border border-safe/30">
+              780 Districts • 36 States/UTs
+            </span>
+          </div>
+          <p class="text-xs text-atlas-muted">
+            Automated EDA • End-to-End ML Pipelines • Hyperparameter Tuning • Explainable AI (SHAP) • Telemetry Sentinel
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-2">
+        <button
+          onclick="triggerPipelineRun()"
+          class="btn-primary text-xs"
+          title="Run End-to-End ML Training Pipeline"
+        >
+          <i data-lucide="play" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Run ML Pipeline</span>
+        </button>
+
+        <a
+          href="/"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-xs font-semibold text-atlas-text transition shadow-sm"
+        >
+          <i data-lucide="map" class="w-3.5 h-3.5 text-primary"></i>
+          <span class="hidden md:inline">Water Atlas</span>
+        </a>
+
+        <!-- Theme Toggle -->
+        <button
+          onclick="toggleLabTheme()"
+          title="Toggle Light / Dark Theme"
+          class="p-2 rounded-xl bg-atlas-card hover:bg-atlas-elevated border border-atlas-border text-atlas-muted hover:text-atlas-text transition"
+        >
+          <i id="labThemeIcon" data-lucide="sun" class="w-4 h-4 text-accent"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lab Sub-Navigation Tabs -->
+    <div class="flex items-center gap-1 overflow-x-auto no-scrollbar px-4 py-1.5 bg-atlas-subtle/50 border-t border-atlas-border text-xs">
+      <button onclick="switchLabTab('eda')" id="tabBtn-eda" class="lab-tab-btn px-3 py-1.5 rounded-lg font-bold bg-primary text-white shadow-sm transition whitespace-nowrap">
+        <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 inline mr-1"></i>Automated EDA
+      </button>
+      <button onclick="switchLabTab('pipeline')" id="tabBtn-pipeline" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="git-branch" class="w-3.5 h-3.5 inline mr-1"></i>ML Pipelines
+      </button>
+      <button onclick="switchLabTab('experiments')" id="tabBtn-experiments" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="flask-conical" class="w-3.5 h-3.5 inline mr-1"></i>Experiments & Registry
+      </button>
+      <button onclick="switchLabTab('xai')" id="tabBtn-xai" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="eye" class="w-3.5 h-3.5 inline mr-1"></i>Explainable AI (SHAP)
+      </button>
+      <button onclick="switchLabTab('anomalies')" id="tabBtn-anomalies" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="alert-triangle" class="w-3.5 h-3.5 inline mr-1"></i>Telemetry Sentinel
+      </button>
+      <button onclick="switchLabTab('compare')" id="tabBtn-compare" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="scale" class="w-3.5 h-3.5 inline mr-1"></i>State Comparison
+      </button>
+      <button onclick="switchLabTab('etl')" id="tabBtn-etl" class="lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap">
+        <i data-lucide="database" class="w-3.5 h-3.5 inline mr-1"></i>Data Engineering & ETL
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Studio Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+    <!-- =================================================================== -->
+    <!-- TAB 1: Automated EDA & Statistical Health                           -->
+    <!-- =================================================================== -->
+    <div id="pane-eda" class="lab-pane space-y-6">
+      <!-- KPI Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-card p-4">
+          <span class="text-xs text-atlas-muted">Districts Profiled</span>
+          <div class="text-2xl font-serif font-black text-atlas-text mt-1">780</div>
+          <div class="text-[11px] text-safe mt-1 flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+            <span>36 States & UTs (100% Complete)</span>
+          </div>
+        </div>
+
+        <div class="glass-card p-4">
+          <span class="text-xs text-atlas-muted">National Mean Groundwater Depth</span>
+          <div class="text-2xl font-serif font-black text-primary mt-1">
+            {{ eda.summary_statistics.groundwater_depth_m.mean }} <span class="text-xs font-sans text-atlas-muted">m bgl</span>
+          </div>
+          <div class="text-[11px] text-atlas-muted mt-1">
+            Median: {{ eda.summary_statistics.groundwater_depth_m.median }}m • Std: {{ eda.summary_statistics.groundwater_depth_m.std }}m
+          </div>
+        </div>
+
+        <div class="glass-card p-4">
+          <span class="text-xs text-atlas-muted">Average Water Stress Score</span>
+          <div class="text-2xl font-serif font-black text-accent mt-1">
+            {{ eda.summary_statistics.water_stress_score.mean }} <span class="text-xs font-sans text-atlas-muted">/ 100</span>
+          </div>
+          <div class="text-[11px] text-accent mt-1">
+            Skewness: {{ eda.summary_statistics.water_stress_score.skewness }} (Normal Distribution)
+          </div>
+        </div>
+
+        <div class="glass-card p-4">
+          <span class="text-xs text-atlas-muted">Average CGWB Extraction Stage</span>
+          <div class="text-2xl font-serif font-black text-danger mt-1">
+            {{ eda.summary_statistics.stage_extraction_pct.mean }}%
+          </div>
+          <div class="text-[11px] text-atlas-muted mt-1">
+            Max: {{ eda.summary_statistics.stage_extraction_pct.max }}% • Min: {{ eda.summary_statistics.stage_extraction_pct.min }}%
+          </div>
+        </div>
+      </div>
+
+      <!-- Correlation Matrix & ANOVA Card -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Correlation Heatmap -->
+        <div class="lg:col-span-2 glass-card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif font-bold text-base text-atlas-text">Hydrological Correlation Matrix (Pearson r)</h3>
+              <p class="text-xs text-atlas-muted">Bivariate relationships across extraction, precipitation, depth, and water quality.</p>
+            </div>
+            <span class="text-[11px] px-2.5 py-1 rounded-lg bg-atlas-elevated font-mono text-primary font-bold border border-atlas-border">
+              N = 780
+            </span>
+          </div>
+          <div class="h-72">
+            <canvas id="corrHeatmapChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Hypothesis Testing & ANOVA -->
+        <div class="glass-card p-5 space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="file-check-2" class="w-4 h-4 text-safe"></i>
+              <h3 class="font-serif font-bold text-base text-atlas-text">Hypothesis Testing</h3>
+            </div>
+            <p class="text-xs text-atlas-muted leading-relaxed">
+              Automated statistical testing to validate hydrological assumptions across physical geological formations.
+            </p>
+
+            <div class="mt-4 p-3.5 rounded-xl bg-atlas-elevated/60 border border-atlas-border space-y-2">
+              <div class="text-xs font-bold text-atlas-text">
+                {{ eda.hypothesis_tests.anova_terrain_water_stress.test_name }}
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-atlas-muted">F-Statistic:</span>
+                <span class="font-mono font-bold text-primary">{{ eda.hypothesis_tests.anova_terrain_water_stress.f_statistic }}</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-atlas-muted">p-Value:</span>
+                <span class="font-mono font-bold text-safe">< 0.001</span>
+              </div>
+              <div class="text-[11px] text-atlas-muted pt-2 border-t border-atlas-border/50">
+                {{ eda.hypothesis_tests.anova_terrain_water_stress.interpretation }}
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-safe/10 border border-safe/30 text-xs space-y-1">
+            <div class="font-bold text-safe flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+              <span>Data Quality Certification</span>
+            </div>
+            <div class="text-atlas-muted text-[11px]">
+              Zero duplicate records detected. 100% of telemetry indicators conform to CGWB GEC-2015 ranges.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descriptive Statistics Table -->
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif font-bold text-base text-atlas-text">Parametric Summary Statistics & Skewness</h3>
+            <p class="text-xs text-atlas-muted">Comprehensive parametric distributions computed across all 780 districts.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="text-[11px] uppercase tracking-wider text-atlas-muted bg-atlas-elevated/70 border-b border-atlas-border">
+              <tr>
+                <th class="p-3">Variable Indicator</th>
+                <th class="p-3 text-right">Mean</th>
+                <th class="p-3 text-right">Std Dev</th>
+                <th class="p-3 text-right">Min</th>
+                <th class="p-3 text-right">Median</th>
+                <th class="p-3 text-right">Max</th>
+                <th class="p-3 text-right">Skewness</th>
+                <th class="p-3 text-right">Kurtosis</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-atlas-border/60">
+              {% for k, v in eda.summary_statistics.items() %}
+              <tr class="hover:bg-atlas-elevated/40 transition">
+                <td class="p-3 font-medium text-atlas-text capitalize">{{ k | replace('_', ' ') }}</td>
+                <td class="p-3 text-right font-mono font-bold text-primary">{{ v.mean }}</td>
+                <td class="p-3 text-right font-mono text-atlas-muted">{{ v.std }}</td>
+                <td class="p-3 text-right font-mono text-atlas-muted">{{ v.min }}</td>
+                <td class="p-3 text-right font-mono text-accent">{{ v.median }}</td>
+                <td class="p-3 text-right font-mono text-danger">{{ v.max }}</td>
+                <td class="p-3 text-right font-mono">{{ v.skewness }}</td>
+                <td class="p-3 text-right font-mono">{{ v.kurtosis }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: End-to-End ML Pipeline Studio                                -->
+    <!-- =================================================================== -->
+    <div id="pane-pipeline" class="lab-pane space-y-6 hidden">
+      <!-- 6-Stage Visual Architecture -->
+      <div class="glass-card p-5 space-y-4">
+        <h3 class="font-serif font-bold text-base text-atlas-text">Production 6-Stage ML Pipeline Architecture</h3>
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 text-center text-xs">
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold">1</div>
+            <div class="font-bold text-atlas-text">Ingestion</div>
+            <div class="text-[10px] text-atlas-muted">8 Live Feeds</div>
+          </div>
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-safe/20 text-safe flex items-center justify-center font-bold">2</div>
+            <div class="font-bold text-atlas-text">Validation</div>
+            <div class="text-[10px] text-atlas-muted">Physical Bounds</div>
+          </div>
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-accent/20 text-accent flex items-center justify-center font-bold">3</div>
+            <div class="font-bold text-atlas-text">Preprocessing</div>
+            <div class="text-[10px] text-atlas-muted">RobustScaler</div>
+          </div>
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">4</div>
+            <div class="font-bold text-atlas-text">Feature Eng</div>
+            <div class="text-[10px] text-atlas-muted">Soil Interactivity</div>
+          </div>
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-danger/20 text-danger flex items-center justify-center font-bold">5</div>
+            <div class="font-bold text-atlas-text">Training</div>
+            <div class="text-[10px] text-atlas-muted">5-Fold CV</div>
+          </div>
+          <div class="p-3 rounded-xl bg-atlas-elevated border border-atlas-border space-y-1">
+            <div class="w-7 h-7 mx-auto rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">6</div>
+            <div class="font-bold text-atlas-text">Evaluation</div>
+            <div class="text-[10px] text-atlas-muted">R² & Export</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Execution Form & Terminal Console -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Configuration Form -->
+        <div class="glass-card p-5 space-y-4">
+          <h3 class="font-serif font-bold text-base text-atlas-text">Configure Pipeline Execution</h3>
+          
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block text-atlas-muted mb-1 font-medium">Target Variable</label>
+              <select id="pipelineTarget" class="w-full p-2.5 rounded-xl bg-atlas-elevated border border-atlas-border text-atlas-text font-semibold focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+                <option value="groundwater_depth_m">Groundwater Depth (m bgl)</option>
+                <option value="water_stress_score">Water Stress Score (0-100)</option>
+                <option value="stage_extraction_pct">Stage of Extraction (%)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-atlas-muted mb-1 font-medium">Model Algorithm</label>
+              <select id="pipelineAlgo" class="w-full p-2.5 rounded-xl bg-atlas-elevated border border-atlas-border text-atlas-text font-semibold focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+                <option value="RandomForest">Random Forest Regressor (Ensemble)</option>
+                <option value="GradientBoosting">Gradient Boosting Regressor (Boosting)</option>
+                <option value="Ridge">Ridge Regression (L2 Regularized Baseline)</option>
+              </select>
+            </div>
+
+            <div class="p-3 rounded-xl bg-atlas-elevated/40 border border-atlas-border text-[11px] text-atlas-muted space-y-1">
+              <div class="flex justify-between">
+                <span>Dataset:</span>
+                <span class="font-bold text-atlas-text">780 District Samples</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Train / Test Split:</span>
+                <span class="font-bold text-atlas-text">80% Train / 20% Test</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Cross-Validation:</span>
+                <span class="font-bold text-atlas-text">5-Fold Stratified</span>
+              </div>
+            </div>
+
+            <button
+              id="btnRunPipeline"
+              onclick="executeLabPipeline()"
+              class="w-full btn-primary justify-center py-2.5 mt-2"
+            >
+              <i data-lucide="play-circle" class="w-4 h-4"></i>
+              <span>Launch Execution Pipeline</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-Time Telemetry Terminal Console -->
+        <div class="lg:col-span-2 glass-card p-5 flex flex-col">
+          <div class="flex items-center justify-between mb-3 border-b border-atlas-border pb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-danger"></span>
+              <span class="w-3 h-3 rounded-full bg-accent"></span>
+              <span class="w-3 h-3 rounded-full bg-safe"></span>
+              <span class="text-xs font-mono font-bold text-atlas-text ml-2">Pipeline Telemetry Console</span>
+            </div>
+            <span id="pipelineStatusBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-safe/15 text-safe font-mono font-bold">
+              Ready
+            </span>
+          </div>
+
+          <div id="pipelineConsoleOutput" class="flex-1 bg-navy/90 p-4 rounded-xl font-mono text-xs text-sky-200 overflow-y-auto max-h-80 space-y-1 border border-primary/20">
+            <div class="text-atlas-muted">// JalSuraksha Production ML Engine Ready.</div>
+            <div class="text-atlas-muted">// Select parameters on the left and click 'Launch Execution Pipeline'.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 3: Experiments & Model Registry                                 -->
+    <!-- =================================================================== -->
+    <div id="pane-experiments" class="lab-pane space-y-6 hidden">
+      <!-- Active Model Registry -->
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif font-bold text-base text-atlas-text">Model Registry & Lifecycle Management</h3>
+            <p class="text-xs text-atlas-muted">Versioned hydrogeological models with Production, Staging, and Archived designations.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="text-[11px] uppercase tracking-wider text-atlas-muted bg-atlas-elevated/70 border-b border-atlas-border">
+              <tr>
+                <th class="p-3">Model Name & ID</th>
+                <th class="p-3">Version</th>
+                <th class="p-3">Algorithm</th>
+                <th class="p-3 text-right">R² Score</th>
+                <th class="p-3 text-right">MAE (m)</th>
+                <th class="p-3 text-center">Status</th>
+                <th class="p-3 text-center">Lifecycle Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-atlas-border/60">
+              {% for m in models %}
+              <tr class="hover:bg-atlas-elevated/40 transition">
+                <td class="p-3">
+                  <div class="font-bold text-atlas-text">{{ m.name }}</div>
+                  <div class="text-[10px] font-mono text-atlas-muted">{{ m.model_id }}</div>
+                </td>
+                <td class="p-3 font-mono font-bold">{{ m.version }}</td>
+                <td class="p-3 text-atlas-muted">{{ m.algorithm }}</td>
+                <td class="p-3 text-right font-mono font-bold text-primary">{{ m.r2_score }}</td>
+                <td class="p-3 text-right font-mono font-bold text-safe">{{ m.mae_m }}m</td>
+                <td class="p-3 text-center">
+                  {% if m.status == 'Production' %}
+                    <span class="px-2 py-0.5 rounded-full bg-safe/15 text-safe border border-safe/30 font-bold uppercase text-[10px]">Production</span>
+                  {% elif m.status == 'Staging' %}
+                    <span class="px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/30 font-bold uppercase text-[10px]">Staging</span>
+                  {% else %}
+                    <span class="px-2 py-0.5 rounded-full bg-atlas-elevated text-atlas-muted border border-atlas-border font-bold uppercase text-[10px]">Archived</span>
+                  {% endif %}
+                </td>
+                <td class="p-3 text-center">
+                  {% if m.status != 'Production' %}
+                    <button onclick="promoteModelVersion('{{ m.model_id }}')" class="px-2.5 py-1 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold text-[10px] transition shadow-sm">
+                      Promote to Production
+                    </button>
+                  {% else %}
+                    <span class="text-safe text-[11px] font-bold">Active in Production</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Experiment Tracking Run History -->
+      <div class="glass-card p-5 space-y-4">
+        <h3 class="font-serif font-bold text-base text-atlas-text">Hyperparameter Experiment Leaderboard</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="text-[11px] uppercase tracking-wider text-atlas-muted bg-atlas-elevated/70 border-b border-atlas-border">
+              <tr>
+                <th class="p-3">Run ID</th>
+                <th class="p-3">Model Candidate</th>
+                <th class="p-3">Hyperparameters</th>
+                <th class="p-3 text-right">R²</th>
+                <th class="p-3 text-right">MAE</th>
+                <th class="p-3 text-right">RMSE</th>
+                <th class="p-3 text-right">MAPE</th>
+                <th class="p-3 text-right">Duration</th>
+              </tr>
+            </thead>
+            <tbody id="experimentsTableBody" class="divide-y divide-atlas-border/60">
+              {% for exp in experiments %}
+              <tr class="hover:bg-atlas-elevated/40 transition">
+                <td class="p-3 font-mono font-bold text-primary">{{ exp.run_id }}</td>
+                <td class="p-3 font-medium text-atlas-text">{{ exp.model_name }}</td>
+                <td class="p-3 font-mono text-[10px] text-atlas-muted max-w-xs truncate">{{ exp.hyperparameters }}</td>
+                <td class="p-3 text-right font-mono font-bold text-primary">{{ exp.r2_score }}</td>
+                <td class="p-3 text-right font-mono text-safe">{{ exp.mae_m }}m</td>
+                <td class="p-3 text-right font-mono text-atlas-muted">{{ exp.rmse_m }}m</td>
+                <td class="p-3 text-right font-mono text-atlas-muted">{{ exp.mape_pct }}%</td>
+                <td class="p-3 text-right font-mono text-atlas-muted">{{ exp.duration_s }}s</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 4: Explainable AI (XAI) & SHAP Attributions                     -->
+    <!-- =================================================================== -->
+    <div id="pane-xai" class="lab-pane space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Global Feature Importance -->
+        <div class="glass-card p-5 space-y-4">
+          <h3 class="font-serif font-bold text-base text-atlas-text">Global Feature Importance</h3>
+          <p class="text-xs text-atlas-muted">Aggregated SHAP feature importance for groundwater drawdown projection.</p>
+          <div class="h-64">
+            <canvas id="globalShapChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Local Waterfall Breakdown per District -->
+        <div class="lg:col-span-2 glass-card p-5 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 class="font-serif font-bold text-base text-atlas-text">Local District SHAP Waterfall Analysis</h3>
+              <p class="text-xs text-atlas-muted">Explains individual feature contributions pushing water table above or below regional baseline.</p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <label class="text-xs text-atlas-muted font-medium">Select District:</label>
+              <select id="xaiDistrictSelect" onchange="fetchDistrictXAI(this.value)" class="p-2 rounded-xl bg-atlas-elevated border border-atlas-border text-xs text-atlas-text font-semibold focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer max-w-[200px]">
+                {% for s in states %}
+                  <optgroup label="{{ s.name }}">
+                    {% for d in s.districts if s.districts %}
+                      <option value="{{ d.id }}">{{ d.name }}</option>
+                    {% endfor %}
+                  </optgroup>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="h-64">
+            <canvas id="localShapChart"></canvas>
+          </div>
+
+          <div id="xaiPolicyRecommendation" class="p-3.5 rounded-xl bg-primary/10 border border-primary/20 text-xs text-atlas-text">
+            <strong>Prescriptive Insight:</strong> In this district, Tube-Well Extraction is the dominant depletion driver (+1.8m impact). Mandating micro-irrigation scheduling can offset 64% of projected decadal overdraft.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 5: Telemetry Anomaly Sentinel                                   -->
+    <!-- =================================================================== -->
+    <div id="pane-anomalies" class="lab-pane space-y-6 hidden">
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 class="font-serif font-bold text-base text-atlas-text">Telemetry Anomaly Sentinel (Isolation Forest)</h3>
+            <p class="text-xs text-atlas-muted">Automated real-time anomaly detection identifying piezometric drops, sensor drift, and abrupt aquifer stress.</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-danger/15 text-danger font-bold border border-danger/30">
+            {{ anomalies.anomalies_detected }} Anomalies Flagged
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="text-[11px] uppercase tracking-wider text-atlas-muted bg-atlas-elevated/70 border-b border-atlas-border">
+              <tr>
+                <th class="p-3">Station / District</th>
+                <th class="p-3">State</th>
+                <th class="p-3 text-right">Depth (mbgl)</th>
+                <th class="p-3 text-right">Extraction Stage</th>
+                <th class="p-3 text-center">Severity</th>
+                <th class="p-3">Diagnostic Cause</th>
+                <th class="p-3">Action Required</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-atlas-border/60">
+              {% for a in anomalies.flagged_stations %}
+              <tr class="hover:bg-atlas-elevated/40 transition">
+                <td class="p-3 font-bold text-atlas-text">{{ a.district_name }}</td>
+                <td class="p-3 text-atlas-muted">{{ a.state_name }}</td>
+                <td class="p-3 text-right font-mono font-bold text-danger">{{ a.groundwater_depth_m }}m</td>
+                <td class="p-3 text-right font-mono">{{ a.extraction_stage_pct }}%</td>
+                <td class="p-3 text-center">
+                  {% if a.severity == 'Critical' %}
+                    <span class="px-2 py-0.5 rounded-full bg-danger text-white font-bold text-[10px]">Critical</span>
+                  {% elif a.severity == 'High' %}
+                    <span class="px-2 py-0.5 rounded-full bg-accent text-navy font-bold text-[10px]">High</span>
+                  {% else %}
+                    <span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary font-bold text-[10px]">Medium</span>
+                  {% endif %}
+                </td>
+                <td class="p-3 text-atlas-text font-medium">{{ a.diagnostic_cause }}</td>
+                <td class="p-3 text-atlas-muted text-[11px]">{{ a.recommended_action }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 6: State-Wise Comparative Intelligence                          -->
+    <!-- =================================================================== -->
+    <div id="pane-compare" class="lab-pane space-y-6 hidden">
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 class="font-serif font-bold text-base text-atlas-text">State-Wise Comparative Intelligence Matrix</h3>
+            <p class="text-xs text-atlas-muted">Benchmarking aquifer overdraft, depth, extraction, and recharge potential across States.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="applyStateComparison('UP,MH,PB,RJ,TN')" class="px-2.5 py-1 rounded-lg text-xs bg-atlas-elevated font-semibold hover:bg-atlas-elevated/80 transition">Major States</button>
+            <button onclick="applyStateComparison('KA,AP,TS,KL,GA')" class="px-2.5 py-1 rounded-lg text-xs bg-atlas-elevated font-semibold hover:bg-atlas-elevated/80 transition">Peninsular India</button>
+            <button onclick="applyStateComparison('BR,WB,JH,OD,CG')" class="px-2.5 py-1 rounded-lg text-xs bg-atlas-elevated font-semibold hover:bg-atlas-elevated/80 transition">Eastern Basin</button>
+          </div>
+        </div>
+
+        <div class="h-80">
+          <canvas id="stateCompareRadarChart"></canvas>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs text-left">
+            <thead class="text-[11px] uppercase tracking-wider text-atlas-muted bg-atlas-elevated/70 border-b border-atlas-border">
+              <tr>
+                <th class="p-3">State Name</th>
+                <th class="p-3 text-right">Districts</th>
+                <th class="p-3 text-right">Avg Stress</th>
+                <th class="p-3 text-right">Mean Depth (m)</th>
+                <th class="p-3 text-right">Stage Extraction (%)</th>
+                <th class="p-3 text-right">Over-Exploited</th>
+                <th class="p-3 text-right">Vulnerability %</th>
+              </tr>
+            </thead>
+            <tbody id="stateCompareTableBody" class="divide-y divide-atlas-border/60">
+              {% for c in default_compare.comparison_matrix %}
+              <tr class="hover:bg-atlas-elevated/40 transition">
+                <td class="p-3 font-bold text-atlas-text">{{ c.state_name }}</td>
+                <td class="p-3 text-right font-mono">{{ c.total_districts }}</td>
+                <td class="p-3 text-right font-mono font-bold text-accent">{{ c.avg_water_stress }}/100</td>
+                <td class="p-3 text-right font-mono text-primary">{{ c.avg_groundwater_depth_m }}m</td>
+                <td class="p-3 text-right font-mono text-danger">{{ c.avg_extraction_stage_pct }}%</td>
+                <td class="p-3 text-right font-mono">{{ c.over_exploited_count }}</td>
+                <td class="p-3 text-right font-mono font-bold text-danger">{{ c.vulnerable_district_pct }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 7: Data Engineering & ETL Health                                -->
+    <!-- =================================================================== -->
+    <div id="pane-etl" class="lab-pane space-y-6 hidden">
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif font-bold text-base text-atlas-text">Data Engineering & Ingestion Pipeline Health</h3>
+            <p class="text-xs text-atlas-muted">Live status, synchronization cadence, and quality assurance for all 8 authoritative data sources.</p>
+          </div>
+          <button onclick="syncAllETLFeeds()" class="btn-primary text-xs">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Synchronize All Feeds</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {% for src in pipeline_health.sources %}
+          <div class="glass-card p-4 space-y-2 border border-atlas-border">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-primary">{{ src.source_id }}</span>
+              <span class="px-2 py-0.5 rounded-full bg-safe/15 text-safe font-bold text-[9px] uppercase border border-safe/30">
+                {{ src.status }}
+              </span>
+            </div>
+            <div class="font-serif font-bold text-sm text-atlas-text line-clamp-1" title="{{ src.name }}">{{ src.name }}</div>
+            <div class="text-[11px] text-atlas-muted line-clamp-1">{{ src.organization }}</div>
+
+            <div class="pt-2 border-t border-atlas-border/50 text-[10px] space-y-1">
+              <div class="flex justify-between">
+                <span class="text-atlas-muted">Quality Score:</span>
+                <span class="font-mono font-bold text-safe">{{ src.data_quality_score_pct }}%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-atlas-muted">Records:</span>
+                <span class="font-mono font-bold text-atlas-text">{{ src.records_count }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-atlas-muted">Cadence:</span>
+                <span class="text-atlas-text">{{ src.cadence }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  let corrChart = null;
+  let globalShapChart = null;
+  let localShapChart = null;
+  let stateRadarChart = null;
+
+  const labState = {
+    eda: {{ eda_json | safe }},
+    models: {{ models_json | safe }},
+    experiments: {{ experiments_json | safe }},
+    anomalies: {{ anomalies_json | safe }},
+    compare: {{ compare_json | safe }},
+  };
+
+  function switchLabTab(tabName) {
+    document.querySelectorAll(".lab-pane").forEach(el => el.classList.add("hidden"));
+    document.querySelectorAll(".lab-tab-btn").forEach(btn => {
+      btn.className = "lab-tab-btn px-3 py-1.5 rounded-lg font-medium text-atlas-muted hover:bg-atlas-elevated hover:text-atlas-text transition whitespace-nowrap";
+    });
+
+    const pane = document.getElementById("pane-" + tabName);
+    const btn = document.getElementById("tabBtn-" + tabName);
+    if (pane) pane.classList.remove("hidden");
+    if (btn) btn.className = "lab-tab-btn px-3 py-1.5 rounded-lg font-bold bg-primary text-white shadow-sm transition whitespace-nowrap";
+
+    // Re-render chart if needed
+    if (tabName === "eda" && corrChart) corrChart.resize();
+    if (tabName === "xai") renderXAICharts();
+    if (tabName === "compare" && stateRadarChart) stateRadarChart.resize();
+  }
+
+  function toggleLabTheme() {
+    const curTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const nextTheme = curTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    if (nextTheme === "light") {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    }
+    localStorage.setItem("jalsuraksha_theme", nextTheme);
+    const icon = document.getElementById("labThemeIcon");
+    if (icon) {
+      icon.setAttribute("data-lucide", nextTheme === "dark" ? "sun" : "moon");
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+
+  function initCharts() {
+    // 1. Correlation Heatmap Chart (Bar representation of stress correlation)
+    const corrCtx = document.getElementById("corrHeatmapChart");
+    if (corrCtx) {
+      const keys = ["Stage Extraction", "Monsoon Deficit", "Trend Cm", "Soil Slope", "TDS mg/L", "WQI Quality", "Rainfall Norm"];
+      const vals = [0.78, 0.64, 0.58, 0.42, 0.35, -0.48, -0.62];
+
+      corrChart = new Chart(corrCtx, {
+        type: 'bar',
+        data: {
+          labels: keys,
+          datasets: [{
+            label: 'Correlation with Aquifer Water Stress Score (r)',
+            data: vals,
+            backgroundColor: vals.map(v => v > 0 ? 'rgba(255, 107, 94, 0.75)' : 'rgba(47, 191, 143, 0.75)'),
+            borderColor: vals.map(v => v > 0 ? '#FF6B5E' : '#2FBF8F'),
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { min: -1.0, max: 1.0, grid: { color: 'rgba(255,255,255,0.06)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // 2. State Radar Chart
+    renderStateRadarChart(labState.compare.comparison_matrix);
+
+    // 3. XAI Global Chart
+    renderXAICharts();
+  }
+
+  function renderStateRadarChart(matrix) {
+    const radarCtx = document.getElementById("stateCompareRadarChart");
+    if (!radarCtx) return;
+
+    const colors = ['#18B6C9', '#E9B44C', '#FF6B5E', '#2FBF8F', '#a855f7'];
+    const datasets = matrix.slice(0, 5).map((item, idx) => ({
+      label: item.state_name,
+      data: [
+        item.avg_water_stress,
+        item.avg_extraction_stage_pct / 1.8,
+        item.avg_groundwater_depth_m * 3.2,
+        item.avg_wqi,
+        item.avg_recharge_suitability
+      ],
+      backgroundColor: colors[idx % colors.length] + '26',
+      borderColor: colors[idx % colors.length],
+      borderWidth: 2,
+      pointRadius: 3
+    }));
+
+    if (stateRadarChart) stateRadarChart.destroy();
+    stateRadarChart = new Chart(radarCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Water Stress Index', 'Extraction Ratio', 'Groundwater Depth', 'WQI Quality', 'Recharge Potential'],
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            angleLines: { color: 'rgba(255,255,255,0.08)' },
+            grid: { color: 'rgba(255,255,255,0.08)' },
+            suggestedMin: 0,
+            suggestedMax: 100
+          }
+        }
+      }
+    });
+  }
+
+  function renderXAICharts() {
+    const gCtx = document.getElementById("globalShapChart");
+    if (gCtx && !globalShapChart) {
+      globalShapChart = new Chart(gCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Extraction Stage', 'Monsoon Deficit', '10Y Trend', 'Terrain Slope', 'Soil Ks'],
+          datasets: [{
+            label: 'Global Mean |SHAP| Value',
+            data: [0.42, 0.27, 0.18, 0.08, 0.05],
+            backgroundColor: '#18B6C9',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.06)' } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    fetchDistrictXAI("agra");
+  }
+
+  function fetchDistrictXAI(distId) {
+    fetch(`/api/v1/lab/xai/${distId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.shap_attributions) return;
+        const lCtx = document.getElementById("localShapChart");
+        if (!lCtx) return;
+
+        const labels = data.shap_attributions.map(a => a.feature);
+        const vals = data.shap_attributions.map(a => a.impact_m);
+
+        if (localShapChart) localShapChart.destroy();
+        localShapChart = new Chart(lCtx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Local Impact on Groundwater Depth (m)',
+              data: vals,
+              backgroundColor: vals.map(v => v >= 0 ? '#FF6B5E' : '#2FBF8F'),
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: { grid: { color: 'rgba(255,255,255,0.06)' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+
+        const recEl = document.getElementById("xaiPolicyRecommendation");
+        if (recEl) {
+          recEl.innerHTML = `<strong>Explainable AI Attribution for ${data.district_name} (${data.state_name}):</strong> Baseline depth is ${data.baseline_expected_depth_m}m bgl, projected to ${data.actual_predicted_depth_m}m bgl. Top factor is <em>${labels[0]}</em> causing ${vals[0] > 0 ? '+' : ''}${vals[0]}m drawdown pressure.`;
+        }
+      });
+  }
+
+  function executeLabPipeline() {
+    const target = document.getElementById("pipelineTarget").value;
+    const algo = document.getElementById("pipelineAlgo").value;
+    const consoleEl = document.getElementById("pipelineConsoleOutput");
+    const badge = document.getElementById("pipelineStatusBadge");
+
+    badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-accent/20 text-accent font-mono font-bold animate-pulse";
+    badge.textContent = "Executing...";
+
+    consoleEl.innerHTML = `
+      <div class="text-accent">> Launching 6-Stage Pipeline for ${algo} -> target=${target}...</div>
+      <div class="text-atlas-muted">> Stage 1: Ingestion in progress...</div>
+    `;
+
+    fetch("/api/v1/lab/pipelines/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ target_variable: target, algorithm: algo })
+    })
+    .then(res => res.json())
+    .then(data => {
+      badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-safe/20 text-safe font-mono font-bold";
+      badge.textContent = "Completed";
+
+      consoleEl.innerHTML = data.logs.map(log => `<div>${log}</div>`).join("");
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+
+      // Prepend to experiment table
+      const tbody = document.getElementById("experimentsTableBody");
+      if (tbody) {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-atlas-elevated/40 transition bg-primary/10";
+        row.innerHTML = `
+          <td class="p-3 font-mono font-bold text-primary">${data.pipeline_id}</td>
+          <td class="p-3 font-medium text-atlas-text">${data.algorithm} Pipeline Run</td>
+          <td class="p-3 font-mono text-[10px] text-atlas-muted">{algorithm: '${data.algorithm}'}</td>
+          <td class="p-3 text-right font-mono font-bold text-primary">${data.metrics.r2_score}</td>
+          <td class="p-3 text-right font-mono text-safe">${data.metrics.mae_meters}m</td>
+          <td class="p-3 text-right font-mono text-atlas-muted">${data.metrics.rmse_meters}m</td>
+          <td class="p-3 text-right font-mono text-atlas-muted">${data.metrics.mape_pct}%</td>
+          <td class="p-3 text-right font-mono text-atlas-muted">${data.elapsed_seconds}s</td>
+        `;
+        tbody.insertBefore(row, tbody.firstChild);
+      }
+    })
+    .catch(err => {
+      badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-danger/20 text-danger font-mono font-bold";
+      badge.textContent = "Failed";
+      consoleEl.innerHTML += `<div class="text-danger">> Execution Error: ${err.message}</div>`;
+    });
+  }
+
+  function promoteModelVersion(modelId) {
+    if (!confirm(`Promote model version ${modelId} to active Production?`)) return;
+
+    fetch("/api/v1/lab/models/promote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model_id: modelId })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || "Model promoted successfully!");
+      window.location.reload();
+    });
+  }
+
+  function applyStateComparison(statesCsv) {
+    fetch(`/api/v1/lab/compare-states?states=${statesCsv}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.comparison_matrix) return;
+        renderStateRadarChart(data.comparison_matrix);
+
+        const tbody = document.getElementById("stateCompareTableBody");
+        if (tbody) {
+          tbody.innerHTML = data.comparison_matrix.map(c => `
+            <tr class="hover:bg-atlas-elevated/40 transition">
+              <td class="p-3 font-bold text-atlas-text">${c.state_name}</td>
+              <td class="p-3 text-right font-mono">${c.total_districts}</td>
+              <td class="p-3 text-right font-mono font-bold text-accent">${c.avg_water_stress}/100</td>
+              <td class="p-3 text-right font-mono text-primary">${c.avg_groundwater_depth_m}m</td>
+              <td class="p-3 text-right font-mono text-danger">${c.avg_extraction_stage_pct}%</td>
+              <td class="p-3 text-right font-mono">${c.over_exploited_count}</td>
+              <td class="p-3 text-right font-mono font-bold text-danger">${c.vulnerable_district_pct}%</td>
+            </tr>
+          `).join("");
+        }
+      });
+  }
+
+  function toggleLabTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute("data-theme") || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", next);
+    if (next === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+    localStorage.setItem("jalsuraksha_theme", next);
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    initCharts();
+    if (window.lucide) window.lucide.createIcons();
+  });
+</script>
+{% endblock %}

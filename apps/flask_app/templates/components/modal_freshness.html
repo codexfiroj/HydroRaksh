@@ -1,0 +1,222 @@
+<!-- Pan-India Open Data Telemetry & Provenance Modal -->
+<div id="freshnessModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-fade-in select-none" role="dialog" aria-modal="true" aria-labelledby="freshnessModalTitle">
+  <div class="relative w-full max-w-4xl max-h-[90vh] bg-atlas-card border border-atlas-border rounded-2xl shadow-2xl overflow-hidden flex flex-col text-atlas-text">
+    
+    <!-- Header -->
+    <div class="p-4 sm:p-5 border-b border-atlas-border flex items-center justify-between bg-atlas-elevated/40">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 id="freshnessModalTitle" class="text-base sm:text-lg font-serif font-bold text-atlas-text">
+              Pan-India Open Data Telemetry & Provenance
+            </h2>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+              8 Connectors Live
+            </span>
+          </div>
+          <p class="text-xs text-atlas-muted">
+            Authoritative Government &amp; Open Scientific Ingestion Pipelines • GODL / CC-BY-4.0 / ODbL Compliant
+          </p>
+        </div>
+      </div>
+      <button onclick="JalSuraksha.toggleModal('freshnessModal', false)" class="p-1.5 rounded-lg text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition" aria-label="Close telemetry modal">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Global Summary Stats Bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-3 sm:p-4 bg-atlas-elevated/20 border-b border-atlas-border text-center">
+      <div class="p-2.5 rounded-xl bg-atlas-card border border-atlas-border/60">
+        <div class="text-[10px] uppercase font-bold text-atlas-muted tracking-wider">States &amp; UTs</div>
+        <div class="text-lg font-mono font-bold text-emerald-400">36 / 36</div>
+        <div class="text-[10px] text-atlas-faint">28 States • 8 UTs</div>
+      </div>
+      <div class="p-2.5 rounded-xl bg-atlas-card border border-atlas-border/60">
+        <div class="text-[10px] uppercase font-bold text-atlas-muted tracking-wider">Districts Covered</div>
+        <div class="text-lg font-mono font-bold text-sky-400">766</div>
+        <div class="text-[10px] text-atlas-faint">All LGD Units</div>
+      </div>
+      <div class="p-2.5 rounded-xl bg-atlas-card border border-atlas-border/60">
+        <div class="text-[10px] uppercase font-bold text-atlas-muted tracking-wider">Active Ingestions</div>
+        <div class="text-lg font-mono font-bold text-amber-400">8 Sources</div>
+        <div class="text-[10px] text-atlas-faint">Normalized to Schema</div>
+      </div>
+      <div class="p-2.5 rounded-xl bg-atlas-card border border-atlas-border/60">
+        <div class="text-[10px] uppercase font-bold text-atlas-muted tracking-wider">Validated Telemetry</div>
+        <div class="text-lg font-mono font-bold text-saffron">3,736,000+</div>
+        <div class="text-[10px] text-atlas-faint">BIS 10500 Verified</div>
+      </div>
+    </div>
+
+    <!-- Tabs & Filter Bar -->
+    <div class="px-4 py-2.5 border-b border-atlas-border flex flex-wrap items-center justify-between gap-2 bg-atlas-card">
+      <div class="flex items-center gap-1.5">
+        <button id="freshnessTabSources" onclick="switchFreshnessTab('sources')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white shadow transition">
+          Data Sources (8)
+        </button>
+        <button id="freshnessTabCoverage" onclick="switchFreshnessTab('coverage')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition">
+          State &amp; UT Coverage Matrix (36)
+        </button>
+      </div>
+
+      <div id="freshnessSourceFilters" class="flex items-center gap-1 overflow-x-auto text-xs">
+        <button onclick="filterFreshnessSources('all')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] font-bold bg-atlas-elevated text-emerald-400 border border-emerald-500/40">All</button>
+        <button onclick="filterFreshnessSources('Groundwater')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text">Groundwater</button>
+        <button onclick="filterFreshnessSources('Meteorology')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text">Meteorology</button>
+        <button onclick="filterFreshnessSources('Surface Water')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text">Surface Water</button>
+        <button onclick="filterFreshnessSources('Soil')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text">Soil</button>
+        <button onclick="filterFreshnessSources('Agriculture')" class="freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text">Agriculture</button>
+      </div>
+    </div>
+
+    <!-- Scrollable Content Body -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-3">
+      <!-- Sources View -->
+      <div id="freshnessSourcesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {% for source in data_sources %}
+        <div class="freshness-source-card p-3.5 rounded-xl bg-atlas-elevated/40 border border-atlas-border hover:border-emerald-500/40 transition flex flex-col justify-between" data-category="{{ source.category }}">
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-black px-2 py-0.5 rounded bg-atlas-card border border-atlas-border text-emerald-400">
+                  {{ source.id }}
+                </span>
+                <span class="text-xs font-bold text-atlas-text line-clamp-1">
+                  {{ source.name }}
+                </span>
+              </div>
+              <span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                {{ source.status }}
+              </span>
+            </div>
+
+            <p class="text-[11px] text-atlas-muted mt-1 font-medium">
+              {{ source.organization }}
+            </p>
+
+            <div class="mt-2.5 space-y-1.5">
+              <div class="text-[11px]">
+                <span class="text-atlas-faint font-semibold">Key Parameters:</span>
+                <span class="text-atlas-text text-[10px]">
+                  {{ source.indicators | join(" • ") }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-[10px] text-atlas-muted">
+                <span>Cadence: <strong class="text-atlas-text">{{ source.cadence }}</strong></span>
+                <span>Coverage: <strong class="text-atlas-text">{{ source.coverage }}</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 pt-2.5 border-t border-atlas-border/60 flex items-center justify-between text-[10px] text-atlas-faint">
+            <span class="truncate max-w-[200px]" title="{{ source.license }}">
+              Lic: {{ source.license }}
+            </span>
+            <span class="font-mono font-bold text-emerald-400/90">
+              {{ "{:,}".format(source.recordsCount) }} records
+            </span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Coverage View -->
+      <div id="freshnessCoverageContainer" class="hidden space-y-3">
+        <div class="p-3 rounded-xl bg-atlas-elevated/40 border border-atlas-border text-xs text-atlas-muted">
+          Official Local Government Directory (LGD) and Ministry of Jal Shakti compliance matrix across all 36 Indian States and Union Territories.
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {% for state in states %}
+          <div class="p-2.5 rounded-xl bg-atlas-card border border-atlas-border/70 flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-atlas-elevated text-saffron">
+                  {{ state.code }}
+                </span>
+                <span class="text-xs font-semibold text-atlas-text">
+                  {{ state.name }}
+                </span>
+              </div>
+              <div class="text-[10px] text-atlas-muted mt-0.5">
+                {{ state.adminTerm }} hierarchy • {{ state.terrain.split("&")[0] }}
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-mono text-xs font-bold text-emerald-400">
+                {{ state.districtCount }}
+              </span>
+              <div class="text-[9px] text-atlas-faint">districts</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="p-3 sm:p-4 border-t border-atlas-border bg-atlas-elevated/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2 text-atlas-muted text-[11px]">
+        <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <span>All ingestions validate timestamps, coordinate boundaries, null-handling &amp; BIS 10500 standards.</span>
+      </div>
+      <button onclick="JalSuraksha.toggleModal('freshnessModal', false)" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow">
+        Close Telemetry View
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchFreshnessTab(tab) {
+  const sourcesContainer = document.getElementById("freshnessSourcesContainer");
+  const coverageContainer = document.getElementById("freshnessCoverageContainer");
+  const tabSources = document.getElementById("freshnessTabSources");
+  const tabCoverage = document.getElementById("freshnessTabCoverage");
+  const filterBar = document.getElementById("freshnessSourceFilters");
+
+  if (tab === "sources") {
+    sourcesContainer.classList.remove("hidden");
+    coverageContainer.classList.add("hidden");
+    filterBar.classList.remove("hidden");
+    tabSources.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white shadow transition";
+    tabCoverage.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition";
+  } else {
+    sourcesContainer.classList.add("hidden");
+    coverageContainer.classList.remove("hidden");
+    filterBar.classList.add("hidden");
+    tabCoverage.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white shadow transition";
+    tabSources.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-atlas-muted hover:text-atlas-text hover:bg-atlas-elevated transition";
+  }
+}
+
+function filterFreshnessSources(cat) {
+  const cards = document.querySelectorAll(".freshness-source-card");
+  const buttons = document.querySelectorAll(".freshness-filter-btn");
+
+  buttons.forEach(btn => {
+    if (btn.textContent.toLowerCase() === cat.toLowerCase()) {
+      btn.className = "freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] font-bold bg-atlas-elevated text-emerald-400 border border-emerald-500/40";
+    } else {
+      btn.className = "freshness-filter-btn px-2 py-0.5 rounded-md text-[11px] text-atlas-muted hover:text-atlas-text";
+    }
+  });
+
+  cards.forEach(card => {
+    const cardCat = card.getAttribute("data-category") || "";
+    if (cat === "all" || cardCat.toLowerCase().includes(cat.toLowerCase())) {
+      card.classList.remove("hidden");
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+}
+</script>

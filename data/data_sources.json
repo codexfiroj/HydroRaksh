@@ -1,0 +1,145 @@
+[
+  {
+    "id": "CGWB",
+    "name": "Groundwater Levels & Hydrochemical Quality",
+    "organization": "Central Ground Water Board (CGWB) & NWIC",
+    "category": "Groundwater Telemetry & Aquifer Mapping",
+    "indicators": [
+      "Groundwater Depth (mbgl)",
+      "Electrical Conductivity (\u00b5S/cm)",
+      "Total Dissolved Solids (mg/L)",
+      "Fluoride (mg/L)",
+      "Nitrate (mg/L)",
+      "Arsenic (mg/L)"
+    ],
+    "cadence": "Seasonal (Pre & Post-Monsoon) & DWLR Hourly",
+    "license": "Government Open Data License - India (GODL)",
+    "accessMethod": "REST API / Automated ETL Ingestion Pipeline",
+    "status": "Active",
+    "coverage": "Pan-India (All 28 States & 8 UTs)",
+    "recordsCount": 437
+  },
+  {
+    "id": "IMD",
+    "name": "District Gridded Rainfall & Drought Departure",
+    "organization": "India Meteorological Department (IMD) / MoES",
+    "category": "Meteorology & Climate Telemetry",
+    "indicators": [
+      "Daily Rainfall (mm)",
+      "Cumulative Normal Rainfall (mm)",
+      "Rainfall Departure (%)",
+      "Standardized Precipitation Index (SPI)"
+    ],
+    "cadence": "Daily & Weekly Monsoon Updates",
+    "license": "Open Data Portal (data.gov.in / IMD)",
+    "accessMethod": "REST Ingestion / Gridded GeoJSON",
+    "status": "Active",
+    "coverage": "766 Administrative Districts",
+    "recordsCount": 766
+  },
+  {
+    "id": "CWC",
+    "name": "National Major Water Storage Reservoirs",
+    "organization": "Central Water Commission (CWC) / NWIC",
+    "category": "Surface Water Storage & Basin Telemetry",
+    "indicators": [
+      "Live Storage (BCM)",
+      "Full Reservoir Level (m)",
+      "Percentage of Live Capacity (%)",
+      "Basin Storage Departure"
+    ],
+    "cadence": "Weekly Reservoir Bulletins",
+    "license": "Government Open Data License - India",
+    "accessMethod": "Automated Ingestion Feed",
+    "status": "Operational",
+    "coverage": "150+ Major National Reservoirs (Indus, Ganga, Narmada, Godavari, Krishna)",
+    "recordsCount": 13
+  },
+  {
+    "id": "OPEN_METEO",
+    "name": "High-Resolution Boundary Layer Meteorological Reanalysis",
+    "organization": "Open-Meteo & ECMWF Integrated Systems",
+    "category": "Atmospheric & Soil Physics Modeling",
+    "indicators": [
+      "Surface Temperature (\u00b0C)",
+      "Vapor Pressure Deficit (kPa)",
+      "Evapotranspiration ET0 (mm)",
+      "Soil Moisture Volumetric (0-100cm)"
+    ],
+    "cadence": "Hourly & 7-Day Forecasting",
+    "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+    "accessMethod": "Direct REST API with Exponential Backoff",
+    "status": "Real-time",
+    "coverage": "Global / Pan-India High Resolution (11km Grid)",
+    "recordsCount": 1532
+  },
+  {
+    "id": "DATA_GOV_IN",
+    "name": "National Irrigation Infrastructure & Extraction Registry",
+    "organization": "Ministry of Jal Shakti / data.gov.in",
+    "category": "Irrigation Statistics & Water Use",
+    "indicators": [
+      "Canal Irrigated Area (ha)",
+      "Tubewell / Borewell Irrigated Area (ha)",
+      "Groundwater Draft Ratio (%)"
+    ],
+    "cadence": "Annual / Periodic Minor Irrigation Census",
+    "license": "National Data Sharing and Accessibility Policy (NDSAP)",
+    "accessMethod": "Open API Ingestion Connector",
+    "status": "Active",
+    "coverage": "Pan-India District Aggregates",
+    "recordsCount": 766
+  },
+  {
+    "id": "SOILGRIDS",
+    "name": "Digital Soil Hydraulic Parameters & Infiltration Rates",
+    "organization": "ISRIC \u2014 World Soil Information & SoilGrids250m",
+    "category": "Pedology & Soil Hydraulic Modeling",
+    "indicators": [
+      "Hydraulic Conductivity Ks (cm/day)",
+      "Soil Texture Class",
+      "Clay/Sand Content (%)",
+      "Infiltration Capacity (mm/hr)"
+    ],
+    "cadence": "Static Geospatial Gridded Atlas",
+    "license": "Open Data Commons Open Database License (ODbL)",
+    "accessMethod": "REST Ingestion & GeoTIFF Resampling",
+    "status": "Active",
+    "coverage": "Pan-India 250m Spatial Resolution",
+    "recordsCount": 766
+  },
+  {
+    "id": "ICAR_CROPS",
+    "name": "Agricultural Water Footprint & Crop Water Demand Matrix",
+    "organization": "ICAR & Ministry of Agriculture and Farmers Welfare",
+    "category": "Agricultural Water Intelligence",
+    "indicators": [
+      "Crop Evapotranspirative Demand ETc (mm)",
+      "Paddy Water Consumption (m\u00b3/ha)",
+      "Micro-Irrigation Potential (ha)"
+    ],
+    "cadence": "Seasonal (Kharif, Rabi, Zaid)",
+    "license": "Public Domain / Agricultural Statistics",
+    "accessMethod": "Tabular Ingestion Connector",
+    "status": "Active",
+    "coverage": "All Agro-Ecological Zones of India",
+    "recordsCount": 300
+  },
+  {
+    "id": "CENSUS_DEMAND",
+    "name": "District Municipal & Rural Domestic Water Benchmarks",
+    "organization": "Office of the Registrar General & Jal Jeevan Mission",
+    "category": "Socio-Economic & Demographics",
+    "indicators": [
+      "Rural Benchmark (55 LPCD JJM)",
+      "Urban Municipal Benchmark (135 LPCD)",
+      "District Projected Demand (MCM/yr)"
+    ],
+    "cadence": "Decadal Census with Annual Intercensal Projections",
+    "license": "Government Open Data",
+    "accessMethod": "Normalized Demographic Ingestion Pipeline",
+    "status": "Active",
+    "coverage": "Pan-India All Districts",
+    "recordsCount": 766
+  }
+]

@@ -1,0 +1,132 @@
+<!-- Center Interactive Map Canvas & Pan-India Viewport -->
+<section class="flex-1 relative flex flex-col overflow-hidden bg-atlas-canvas select-none">
+  <!-- Top Viewport Control Bar -->
+  <div class="px-4 py-2 border-b border-atlas-border flex items-center justify-between text-xs bg-atlas-elevated/30">
+    <div class="flex items-center gap-2">
+      <span class="font-serif font-bold text-atlas-text">{{ current_state.name }}</span>
+      <span class="text-atlas-muted text-[11px]">({{ districts|length }} Districts • {{ current_state.terrain }})</span>
+    </div>
+
+    <!-- Map vs Grid View Toggle Buttons -->
+    <div class="flex items-center gap-1 bg-atlas-card border border-atlas-border p-0.5 rounded-lg">
+      <button
+        id="btnDisplayModeMap"
+        onclick="document.getElementById('mapSvgContainer').classList.remove('hidden'); document.getElementById('mapGridContainer').classList.add('hidden'); this.className='px-2.5 py-1 rounded text-xs font-bold bg-emerald-600 text-white shadow-sm'; document.getElementById('btnDisplayModeGrid').className='px-2.5 py-1 rounded text-xs font-medium text-atlas-muted hover:text-atlas-text';"
+        class="px-2.5 py-1 rounded text-xs font-bold bg-emerald-600 text-white shadow-sm"
+      >
+        <span class="flex items-center gap-1">
+          <i data-lucide="map" class="w-3.5 h-3.5"></i>
+          <span>Vector Map</span>
+        </span>
+      </button>
+      <button
+        id="btnDisplayModeGrid"
+        onclick="document.getElementById('mapSvgContainer').classList.add('hidden'); document.getElementById('mapGridContainer').classList.remove('hidden'); window.JalMap.renderGridCards(); this.className='px-2.5 py-1 rounded text-xs font-bold bg-emerald-600 text-white shadow-sm'; document.getElementById('btnDisplayModeMap').className='px-2.5 py-1 rounded text-xs font-medium text-atlas-muted hover:text-atlas-text';"
+        class="px-2.5 py-1 rounded text-xs font-medium text-atlas-muted hover:text-atlas-text"
+      >
+        <span class="flex items-center gap-1">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>District Grid</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Interactive SVG Map Container (Universal for all 36 States & UTs) -->
+  <div id="mapSvgContainer" class="flex-1 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+    <svg
+      id="upAtlasSvgMap"
+      data-map-id="stateAtlasSvgMap"
+      viewBox="0 0 920 760"
+      class="w-full h-full max-h-[78vh] object-contain drop-shadow-md select-none transition-all duration-300"
+    >
+      <!-- Background Basin Watermark -->
+      <text x="460" y="380" font-family="'Playfair Display', Georgia, serif" font-size="44" font-weight="900" text-anchor="middle" fill="currentColor" class="text-atlas-border opacity-20 pointer-events-none uppercase tracking-wider">
+        {{ current_state.name }}
+      </text>
+
+      <!-- District Polygons -->
+      <g id="svgDistrictsGroup">
+        {% for d in districts %}
+          {% if d.svgPath %}
+            <path
+              id="svg-dist-{{ d.id }}"
+              class="district-shape {% if d.id == selected_district.id %}selected{% endif %}"
+              d="{{ d.svgPath }}"
+              fill="#18B6C9"
+              onmousemove="window.JalMap.onDistrictHover(event, '{{ d.id }}')"
+              onmouseleave="window.JalMap.onDistrictLeave()"
+              onclick="window.JalMap.onDistrictClick('{{ d.id }}')"
+            >
+              <title>{{ d.name }} ({{ d.division | default(current_state.name) }})</title>
+            </path>
+          {% endif %}
+        {% endfor %}
+      </g>
+
+      <!-- Rivers Vector Layer -->
+      <g id="svgRiversLayer" class="pointer-events-none">
+        {% for r in rivers %}
+          <path
+            d="{{ r.d }}"
+            fill="none"
+            stroke="{{ r.color | default('#38bdf8') }}"
+            stroke-width="{{ r.width | default(2.6) }}"
+            stroke-linecap="round"
+            stroke-dasharray="8 3"
+            opacity="0.85"
+          />
+          <text x="{{ r.tx }}" y="{{ r.ty }}" fill="{{ r.color | default('#38bdf8') }}" font-size="11" font-weight="bold" font-style="italic" opacity="0.9">{{ r.name }}</text>
+        {% endfor %}
+      </g>
+
+      <!-- Hotspots Critical Stress Layer -->
+      <g id="svgHotspotsLayer" class="pointer-events-none">
+        {% for h in hotspots %}
+          <circle cx="{{ h.cx }}" cy="{{ h.cy }}" r="16" fill="rgba(255, 107, 94, 0.35)" class="ripple-dot" />
+          <circle cx="{{ h.cx }}" cy="{{ h.cy }}" r="5" fill="#FF6B5E" />
+        {% endfor %}
+      </g>
+
+      <!-- Active IoT Piezometers Layer -->
+      <g id="svgIoTLayer" class="pointer-events-none">
+        {% for s in iot_sensors %}
+          <circle cx="{{ s.cx }}" cy="{{ s.cy }}" r="4.5" fill="#2FBF8F" stroke="#ffffff" stroke-width="1.5" />
+        {% endfor %}
+      </g>
+    </svg>
+  </div>
+
+  <!-- Dynamic District Grid Container (Hidden by default for UP, shown on toggle or other states) -->
+  <div id="mapGridContainer" class="flex-1 relative overflow-y-auto p-4 hidden">
+    <div id="panIndiaGridHost" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></div>
+  </div>
+
+  <!-- Dynamic SVG Map Hover Tooltip -->
+  <div
+    id="mapHoverTooltip"
+    class="fixed z-50 pointer-events-none hidden p-3 rounded-xl bg-atlas-card/95 border border-atlas-border shadow-2xl text-atlas-text backdrop-blur-md max-w-xs animate-fade-in"
+    style="transform: translate(0, 0);"
+  >
+    <div class="flex items-start justify-between gap-2 border-b border-atlas-border/60 pb-1.5 mb-2">
+      <div>
+        <div id="ttDistrictName" class="font-serif font-black text-sm text-emerald-400">District</div>
+        <div id="ttDivision" class="text-[10px] text-atlas-muted">Division</div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+      <div>
+        <div class="text-atlas-muted uppercase text-[9px]">Depth</div>
+        <div id="ttDepth" class="font-mono font-bold text-atlas-text mt-0.5">--</div>
+      </div>
+      <div>
+        <div class="text-atlas-muted uppercase text-[9px]">Stress</div>
+        <div id="ttStress" class="font-mono font-bold text-saffron mt-0.5">--</div>
+      </div>
+      <div>
+        <div class="text-atlas-muted uppercase text-[9px]">Recharge</div>
+        <div id="ttRecharge" class="font-mono font-bold text-emerald-400 mt-0.5">--</div>
+      </div>
+    </div>
+  </div>
+</section>
