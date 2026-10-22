@@ -2,8 +2,8 @@
 
 **AI-driven groundwater intelligence and water resource decision support for India.**
 
-[![Tests](https://img.shields.io/badge/tests-69%20passing-248653.svg)](tests/unit)
-[![Next.js](https://img.shields.io/badge/Next.js-15.1.7-12345A.svg)](apps/web)
+[![Tests](https://img.shields.io/badge/tests-101%20passing-248653.svg)](tests/unit)
+[![Flask](https://img.shields.io/badge/Flask-3.0.0-12345A.svg)](apps/flask_app)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.2-245B8F.svg)](apps/api)
 [![Notebooks](https://img.shields.io/badge/Jupyter-16%20notebooks-E88B2A.svg)](ml/notebooks)
 [![Docker](https://img.shields.io/badge/Docker-ready-80B8F0.svg)](docker-compose.yml)
@@ -89,19 +89,20 @@ graph TD
     B --> C[Feature Engineering & Validation]
     C --> D[Model Training]
     D --> E[Serialized Artifacts]
-    E --> F[FastAPI Backend]
-    F --> G[Next.js Frontend]
+    E --> F[FastAPI & Flask Backend]
+    F --> G[Flask Web UI & Super Intelligence Lab]
     H[Edge IoT Telemetry<br>ESP32 sensors] --> F
     I[JSON User Store] --> F
 ```
 
-**Stack:** Next.js 15 (App Router, Tailwind CSS), FastAPI (async), SQLAlchemy, TimescaleDB, scikit-learn, gensim, SHAP.
+**Stack:** Python 3.10+, Flask (Jinja2, Vanilla JS), FastAPI (async), SQLAlchemy, TimescaleDB, scikit-learn, gensim, SHAP, JupyterLab.
 
 ```
 JalSuraksha/
 ├── apps/
 │   ├── api/          # FastAPI backend (endpoints, core, db, models, services)
-│   └── web/          # Next.js frontend (atlas and decision suite components)
+│   ├── flask_app/    # Flask application (blueprints, templates, static JS/CSS)
+│   └── web/          # Frontend assets and configurations
 ├── data/             # raw, processed, and private (user store) data
 ├── docs/             # Research papers and runbooks
 ├── img/              # Application screenshots
@@ -221,17 +222,16 @@ The platform never fabricates piezometer readings, failure rates, or model metri
 
 ## Getting Started
 
-**Prerequisites:** Node.js 18+, npm 9+, Python 3.10+, Git.
+**Prerequisites:** Python 3.10+, Git.
 
 ```bash
 git clone https://github.com/mohdshamii/HydroRaksh.git
 cd HydroRaksh
 ```
 
-**Backend**
+### 1. Python Environment Setup
 
 ```bash
-cd apps/api
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -247,28 +247,29 @@ make dev-flask
 python server.py --host 0.0.0.0 --port 5000
 ```
 
+Open `http://localhost:5000` to access the JalSuraksha Atlas and Super Intelligence Lab.
 API docs are served at `http://127.0.0.1:8000/docs`.
 
-**Frontend** (in a separate terminal)
+### 3. Machine Learning Workspace (JupyterLab)
 
 ```bash
 make jupyter
 # or: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:8888` to explore all 16 ML notebooks.
 
 ### Docker
 
 ```bash
-# API and frontend
+# Application server (Flask & APIs)
 docker compose up -d --build
 
 # JupyterLab research environment
 docker compose --profile research up -d research
 ```
 
-Web app: `http://localhost:3000` · API: `http://localhost:8000` · JupyterLab: `http://localhost:8888`
+Web app: `http://localhost:5000` · JupyterLab: `http://localhost:8888`
 
 The research container ships with `scikit-learn`, `gensim`, `shap`, `pandas`, and `numpy` and gives access to all 16 notebooks.
 
@@ -277,8 +278,7 @@ The research container ships with `scikit-learn`, `gensim`, `shap`, `pandas`, an
 ## Testing
 
 ```bash
-python -m pytest tests/unit ml/tests -v     # unit tests
-cd apps/web && npm run build                # production build check
+pytest tests/unit/ -v     # 101 automated unit tests
 ```
 
 The suite covers backend APIs, authentication, Pan-India endpoints, and ML modules.

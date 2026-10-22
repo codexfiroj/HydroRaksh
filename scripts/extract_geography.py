@@ -1,7 +1,13 @@
 import json
 import re
+import os
 
-with open('apps/web/src/data/india-geography.ts', 'r', encoding='utf-8') as f:
+source_file = 'apps/web/src/data/india-geography.ts'
+if not os.path.exists(source_file):
+    print("Legacy TypeScript file no longer present. Using existing data/indian_states_uts.json.")
+    exit(0)
+
+with open(source_file, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Extract INDIAN_STATES_UTS
